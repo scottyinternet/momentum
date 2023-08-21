@@ -1,0 +1,8 @@
+{
+  "path": "/playlists/O7SFa/songs",
+  "httpMethod": "POST",
+  "pathParameters": {
+    "id": "O7SFa"
+  },
+  "body": "{ \"id\": \"O7SFa\", \"asin\": \"B00000000\", \"trackNumber\": 1, \"queueNext\": false }"
+}

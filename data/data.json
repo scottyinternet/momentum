@@ -1,0 +1,144 @@
+{
+  "album_tracks": [
+    {
+      "PutRequest": {
+        "Item": {
+          "asin": { "S": "B019HKJTCI" },
+          "track_number": { "N": "6" },
+          "album_name": { "S": "Money" },
+          "song_title": { "S": "Dark Side of the Moon" }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "asin": { "S": "B00000000" },
+          "track_number": { "N": "1" },
+          "album_name": { "S": "NSS Smooth Jams" },
+          "song_title": { "S": "firstNameLast" }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "asin": { "S": "B00000000" },
+          "track_number": { "N": "2" },
+          "album_name": { "S": "NSS Smooth Jams" },
+          "song_title": { "S": "spiderman" }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "asin": { "S": "B00000000" },
+          "track_number": { "N": "3" },
+          "album_name": { "S": "NSS Smooth Jams" },
+          "song_title": { "S": "curveballs" }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "asin": { "S": "B00000000" },
+          "track_number": { "N": "4" },
+          "album_name": { "S": "NSS Smooth Jams" },
+          "song_title": { "S": "whereImFrom" }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "asin": { "S": "B00000000" },
+          "track_number": { "N": "5" },
+          "album_name": { "S": "NSS Smooth Jams" },
+          "song_title": { "S": "wahoo" }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "asin": { "S": "B07VSG6V59" },
+          "track_number": { "N": "2" },
+          "album_name": { "S": "All Mirrors" },
+          "song_title": { "S": "All Mirrors" }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "asin": { "S": "B07NJ3H27X" },
+          "track_number": { "N": "1" },
+          "album_name": { "S": "Cuz I Love You" },
+          "song_title": { "S": "Cuz I Love You" }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "asin": { "S": "B07NJ3H27X" },
+          "track_number": { "N": "7" },
+          "album_name": { "S": "Cuz I Love You" },
+          "song_title": { "S": "Tempo" }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "asin": { "S": "B004CAWKXE" },
+          "track_number": { "N": "2" },
+          "album_name": { "S": "Danger Days: The True Lives of the Fabulous Killjoys" },
+          "song_title": { "S": "Na Na Na (Na Na Na Na Na Na Na Na Na)" }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "asin": { "S": "B000LP5FSG" },
+          "track_number": { "N": "2" },
+          "album_name": { "S": "WINCING THE NIGHT AWAY" },
+          "song_title": { "S": "Australia" }
+        }
+      }
+    }
+  ],
+  "playlists": [
+    {
+      "PutRequest": {
+        "Item": {
+          "id": { "S": "O7SFa" },
+          "playlistName": { "S": "NSS Songs" },
+          "songCount": { "N": "2" },
+          "songList": { "S": "[{\"asin\":\"B07NJ3H27X\",\"trackNumber\":1,\"albumName\":\"Cuz I Love You\",\"songTitle\":\"Cuz I Love You\"},{\"asin\":\"B019HKJTCI\",\"trackNumber\":6,\"albumName\":\"Money\",\"songTitle\":\"Dark Side of the Moon\"}]" },
+          "customerId": { "S": "foo@example.com" },
+          "customerName": { "S": "Foo Barrington" },
+          "tags": { "SS": [ "banjo", "triangle", "saw" ]
+          }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "id": { "S": "O8GDb" },
+          "playlistName": { "S": "SE Songs" },
+          "songCount": { "N": "0" },
+          "songList": { "S": "[]" },
+          "customerId": { "S": "bar@example.com" },
+          "customerName": { "S": "Bar Wellington" },
+          "tags": { "SS": [ "guitar", "saw" ]
+          }
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,219 @@
+openapi: 3.0.0
+info:
+  title: Music Playlist Service
+  description: "This is the API definition for the Music Playlist Service."
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:3000
+
+tags:
+  - name: Playlists
+    description: Create, view, and update playlists
+
+  - name: Songs
+    description: View and add songs to playlists
+
+paths:
+
+  /playlists:
+    post:
+      tags:
+        - Playlists
+      summary: Create a new playlist (CreatePlaylistLambda)
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                customerId:
+                  type: string
+                tags:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        "200":
+          description: A playlist object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  name:
+                    type: string
+                  customerId:
+                    type: string
+                  songCount:
+                    type: integer
+                  tags:
+                    type: array
+                    items:
+                      type: string
+
+  /playlists/{id}:
+    get:
+      tags:
+        - Playlists
+      summary: Get an existing playlist (GetPlaylistLambda)
+      parameters:
+        - name: id
+          in: path
+          description: ID of playlist to retrieve
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: PlaylistResponse
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  name:
+                    type: string
+                  customerId:
+                    type: string
+                  songCount:
+                    type: integer
+                  tags:
+                    type: array
+                    items:
+                      type: string
+        "500":
+          description: "Invalid input parameters"
+
+    put:
+      tags:
+        - Playlists
+      summary: Update the name of an existing playlist (UpdatePlaylistLambda)
+      parameters:
+        - name: id
+          in: path
+          description: ID of playlist to retrieve
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                name:
+                  type: string
+                customerId:
+                  type: string
+
+      responses:
+        "200":
+          description: PlaylistResponse
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  name:
+                    type: string
+                  customerId:
+                    type: string
+                  songCount:
+                    type: integer
+                  tags:
+                    type: array
+                    items:
+                      type: string
+        "500":
+          description: "Invalid input parameters"
+
+  /playlists/{id}/songs:
+    get:
+      tags:
+        - Songs
+      summary: Retrieves a list of all songs in a playlist (GetPlaylistSongsLambda)
+      operationId: getSongs
+      parameters:
+        - name: id
+          in: path
+          description: ID of playlist to return
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: A playlist object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  songList:
+                    type: array
+                    items:
+                      properties:
+                        asin:
+                          type: string
+                        title:
+                          type: string
+                        album:
+                          type: string
+                        trackNumber:
+                          type: integer
+
+    post:
+      tags:
+        - Songs
+      summary: Add a song to a playlist (AddSongToPlaylistLambda)
+      operationId: addSong
+      parameters:
+        - name: id
+          in: path
+          description: ID of playlist to return
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                asin:
+                  type: string
+                trackNumber:
+                  type: integer
+                id:
+                  type: string
+
+      responses:
+        "200":
+          description: the song
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  songList:
+                    type: array
+                    items:
+                      properties:
+                        asin:
+                          type: string
+                        title:
+                          type: string
+                        album:
+                          type: string
+                        trackNumber:
+                          type: integer

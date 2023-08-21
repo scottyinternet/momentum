@@ -1,0 +1,5 @@
+{
+  "path": "/playlists/O7SFa",
+  "httpMethod": "PUT",
+  "body": "{ \"id\": \"O7SFa\", \"customerId\": \"nunya-business@example.com\", \"name\": \"new name!\" }"
+}
