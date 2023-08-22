@@ -2,12 +2,12 @@
     /* css variables: https://developer.mozilla.org/en-US/docs/Web/CSS/var */
     --primary-color: #5D5E5E;
     --secondary-color: #ffffff;
-    --tertiary-color: #F5881F;
+    --tertiary-color: #100387;
     --error-color: #EE3A23;
 }
 
 .background {
-    background-color: #8A8C8F;
+    background-color: #c0d2ee;
     margin: 0;
     counter-reset: section;
     font-family: "Helvetica Neue",Helvetica,sans-serif;
