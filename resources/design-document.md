@@ -10,31 +10,40 @@ _You should take a look at the [example design document](example-design-document
 
 ## 1. Problem Statement
 
-_Explain clearly what problem you are trying to solve._
+When tracking goals, many people focus on the number of iterations they have achieved on a weekly basis by the calendar, and may deem themselves to have entered a failure state if they get out of sync with their initial plan.  If they instead focused on building habits measured on a rolling basis, the emphasis moves to what you could do today to move towards the goal rather than what you didn't do yesterday.
 
 ## 2. Top Questions to Resolve in Review
 
 _List the most important questions you have about your design, or things that you are still debating internally that you might like help working through._
 
-1.
-2.
-3.
+1. What information are we displaying to the user, what should be under the hood vs displayed to the user?
+2. What is front end vs back end?
+3. How do we track historical data for the habits?
+4. Do we offer different tracking periodicities, and how do we display them side by side if so?
+5. How are we calculating the ongoing habit status?
 
 ## 3. Use Cases
 
 _This is where we work backwards from the customer and define what our customers would like to do (and why). You may also include use cases for yourselves (as developers), or for the organization providing the product to customers._
 
-U1. _As a [product] customer, I want to `<result>` when I `<action>`_
+U1. As a Momentum user, I want to see my habit-forming momentum when I enter a new Action.
 
-U2. _As a [product] customer, I want to view my grocery list when I log into the grocery list page_
+U2. As a Momentum user, I want to see my prioritized habits when I hit the landing page.
 
-U3. ...
+U3. As a Momentum user, I want to be able to enter a new habit with customizable periodicity and tracking metrics
+
+U4. As a Momentum user, I want to be able to choose between a detailed view of my habit-forming and an overview summary.
 
 ## 4. Project Scope
+
 
 _Clarify which parts of the problem you intend to solve. It helps reviewers know what questions to ask to make sure you are solving for what you say and stops discussions from getting sidetracked by aspects you do not intend to handle in your design._
 
 ### 4.1. In Scope
+
+Create multiple habits and display momentum information within a rolling weekly timeframe
+
+The front end will have a detail page that will display in depth habit information, a main dashboard page showing a priority habit overview
 
 _Which parts of the problem defined in Sections 1 and 2 will you solve with this design? This should include the base functionality of your product. What pieces are required for your product to work?_
 
@@ -42,9 +51,16 @@ _The functionality described above should be what your design is focused on. You
 
 ### 4.2. Out of Scope
 
-_Based on your problem description in Sections 1 and 2, are there any aspects you are not planning to solve? Do potential expansions or related problems occur to you that you want to explicitly say you are not worrying about now? Feel free to put anything here that you think your team can't accomplish in the unit, but would love to do with more time._
+Subcategories and supercategories
 
-_The functionality here does not need to be accounted for in your design._
+Overlaying different goals over historical data
+
+Variable timeframes
+
+Summary of all habits/life status
+
+Choose the number of habits displayed in the detail page
+
 
 # 5. Proposed Architecture Overview
 
