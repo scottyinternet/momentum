@@ -26,63 +26,72 @@ The following guide might be helpful as you work through your teams charter:
 
 ### Team Members
 
-- _Team Member A_
-- _Team Member B_
-- _Team Member C_
-- _Team Member D_
+- Ben Bagwell
+- Mattison Pierce
+- Scott Griffin
+- Yosief Abraham
 
 ### Psychological safety
 
 * **How can we take risks on this team without feeling insecure or embarrassed?**
-  _E.g., Be open to opinions that differ from your own, actively ask for opinions from each member of the team, do not interrupt each other, don’t place blame, all suggestions or questions are encouraged, listened to, considered equally, and never judged_
+  - Support each other in taking risks by being encouraging when someone is facing uncertainty
 
 * **How do we address situations where any team member feels unsafe?**
-  _E.g., communicate when there is a misunderstanding, don’t move forward until the situation is resolved, directly address and resolve negativity, give and receive feedback with a positive, strength-building mindset, if necessary, escalate to an instructor 
+  - If something seems wrong, and they aren't forthcoming, try to ask the affected team member in private (in slack or private messaging). If it seems like something the team can't address, let an instructor know.
 
 ### Dependability, Structure, Clarity
 
 * **How can we count on each other to do high quality work on time?**
-  _E.g., estimate task size, break down large tasks, call out tasks at risk early, ask each other for help, how to ensure timely code reviews, how to share knowledge, help each other hold accountability give frequent, scheduled updates_
+  - Communicate with team members in terms of everyone's progress, how each individual is handling their workload. If someone is overwhelmed, voice that and ask for help so the work can be more evenly distributed
 
 * **How do we address missed deadlines?**
-  _E.g., acknowledge, but don’t punish slipped dates, figure out what went wrong, identify lessons for future_
+  - Talk about why it happened, if it's something that is urgent, redistribute workload. Possibly have a discussion about transparent communication to avoid missing deadlines in the future
 
 * **How can we make goals, roles, and execution plans on our team clear?**
-  _E.g., where to track goals and when to review them, use definitive, quantifiable terminology, include clear background on why this goal is necessary, include “done” criteria for the goal (code is pushed with integration tests, document is reviewed, etc.)_
+  - Daily standup and possibly listing the progress made at certain points throughout the day / brief check-ins in the middle of the day
 
 
 ### Goals
 
 * **Overall: What is our overall objective for the Learn & Be Curious unit?**
-  _E.g., “Apply what we’ve learned throughout this program in a team project to prepare ourselves for internships and full-time SDE roles.”_
+  - Learn how to work as a team, rotate team member roles so that no one is stuck with something they're uncomfortable with but also has the opportunity to work in areas in which they fall short.
+  - Learn how the elements of what we've been learning can combine to make a working product
 
 
 * **Performance: What do we want to prioritize in terms of what we achieve?**
-  _What will be true when you have 'succeeded' on this project? E.g. enjoy ourselves, maintain our energy to the end, ensure all team members participate, create professional connections, exceed instructor expectations, efficiently pace the project so we’re not rushing at the end, etc._
+  - To have a working product that we feel good about presenting
+  - We want to make sure everyone understands each section of the project regardless of who worked on what / make sure everyone would be able to present/demonstrate its functionality in clear terms if needed
+  - Building a supportive professional relationship with teammates in which we feel comfortable both in asking for help and giving feedback/advice
 
 
 * **Learning: What are the things that our team wants to learn?**
-  _E.g., develop SDE knowledge, enhance leadership skills, master project planning, improve testing skills, etc_
+  - High level architecture/how each component communicates with the other
+    - Understanding the full-stack
+  - Understanding http requests, endpoints, curl, how information is transferred from one state to another
+
 
 
 * **Task processes: What processes will our team follow to meet our goals, complete tasks, or to build team relationships?**
-  _E.g., leadership, meeting procedures/length of meetings, expectations for meeting attendance and timeliness, other types of meetings (happy hours, lunch and learns)_
+  - Rotate team roles
+  - Having a concrete, regular meeting time in which we review and reflect on our goals and how they're developing
+  - Keeping tickets updated
+  - Regular code reviews that will help us develop our skills in constructive criticism
 
 ## Meaning & Impact
 
 **What is personally important for each team member about becoming an SDE?**
 
-* _Team Member A_:
-* _Team Member B_:
-* _Team Member C_:
-* _Team Member D_:
+* Ben: I want to be challenged in my work role
+* Mattison: I want to work in a field that keeps my interest through frequent challenges and opportunities for learning
+* Scott: I want stability and fair compensation for effort spent
+* Yosief: I want to always be excited for the work I'm doing, to develop an expertise and be fairly compensated for it
 
 **What each team member wants to achieve: e.g. improve analytical skills, learn project management skills, develop public speaking skills, speak up more, speak up less, etc.**
 
-* _Team Member A_:
-* _Team Member B_:
-* _Team Member C_:
-* _Team Member D_:
+* Ben: I want to learn how to build and implement a full-stack architecture from the ground up
+* Mattison: Develop time management skills, learn to speak up when I need help, and build understanding in API
+* Scott: Build confidence in knowledge of full-stack architecture, how to build a product that non-programmers can understand and use
+* Yosief: Learn communication skills and software development cycle/lifetime
 
 ## Team Member Roles and Responsibilities
 
