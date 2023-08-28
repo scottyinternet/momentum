@@ -1,75 +1,161 @@
 # Design Document
 
-## Instructions
 
-_Replace italicized text (including this text!) with details of the design you are proposing for your team project. (Your replacement text shouldn't be in italics)._
-
-_You should take a look at the [example design document](example-design-document.md) in the same folder as this template for more guidance on the types of information to capture, and the level of detail to aim for._
-
-## _Project Title_ Design
+## Momentum Design
 
 ## 1. Problem Statement
 
-_Explain clearly what problem you are trying to solve._
+When tracking goals, many people focus on the number of iterations they have achieved on a weekly basis by the calendar, and may deem themselves to have entered a failure state if they get out of sync with their initial plan.  If they instead focused on building habits measured on a rolling basis, the emphasis moves to what you could do today to move towards the goal rather than what you didn't do yesterday.
 
 ## 2. Top Questions to Resolve in Review
 
 _List the most important questions you have about your design, or things that you are still debating internally that you might like help working through._
 
-1.
-2.
-3.
+1. What information are we displaying to the user, what should be under the hood vs displayed to the user?
+2. What is front end vs back end?
+3. How do we track historical data for the habits?
+4. Do we offer different tracking periodicities, and how do we display them side by side if so?
+5. How are we calculating the ongoing habit status?
 
 ## 3. Use Cases
 
 _This is where we work backwards from the customer and define what our customers would like to do (and why). You may also include use cases for yourselves (as developers), or for the organization providing the product to customers._
 
-U1. _As a [product] customer, I want to `<result>` when I `<action>`_
+U1. As a Momentum user, I want to see my habit-forming momentum when I enter a new Action.
 
-U2. _As a [product] customer, I want to view my grocery list when I log into the grocery list page_
+U2. As a Momentum user, I want to see my prioritized habits when I hit the landing page.
 
-U3. ...
+U3. As a Momentum user, I want to be able to enter a new habit with customizable periodicity and tracking metrics
+
+U4. As a Momentum user, I want to be able to choose between a detailed view of my habit-forming and an overview summary.
 
 ## 4. Project Scope
 
-_Clarify which parts of the problem you intend to solve. It helps reviewers know what questions to ask to make sure you are solving for what you say and stops discussions from getting sidetracked by aspects you do not intend to handle in your design._
-
 ### 4.1. In Scope
 
-_Which parts of the problem defined in Sections 1 and 2 will you solve with this design? This should include the base functionality of your product. What pieces are required for your product to work?_
+Create multiple habits and display momentum information within a rolling timeframe
 
-_The functionality described above should be what your design is focused on. You do not need to include the design for any out of scope features or expansions._
+The front end will have a detail page that will display in depth habit information, and main dashboard page showing a habit overview that links to the detail page.
+
+The main dashboard page will have a button to create a new goal, this will lead to the create goal page.
+
+New goals can be created from the main dashboard page.
+
+The detail page will have place to enter or remove events
+
+
 
 ### 4.2. Out of Scope
 
-_Based on your problem description in Sections 1 and 2, are there any aspects you are not planning to solve? Do potential expansions or related problems occur to you that you want to explicitly say you are not worrying about now? Feel free to put anything here that you think your team can't accomplish in the unit, but would love to do with more time._
+Subcategories and super-categories
 
-_The functionality here does not need to be accounted for in your design._
+Overlaying different goals over historical data
+
+Variable timeframes
+
+Summary of all habits/life status
+
+Choose the number of habits displayed in the detail page
+
 
 # 5. Proposed Architecture Overview
 
-_Describe broadly how you are proposing to solve for the requirements you described in Section 2. This may include class diagram(s) showing what components you are planning to build. You should argue why this architecture (organization of components) is reasonable. That is, why it represents a good data flow and a good separation of concerns. Where applicable, argue why this architecture satisfies the stated requirements._
+The first iteration of the Momentum app will provide the minimum viable product including creating, retrieving, and updating habit goals, seeing your overall progress at a glance, and the ability to inspect each goal in detail.
+
+We will use API Gateway and Lambda to create eight endpoints (`GetGoal`,
+`CreateGoal`, `UpdateGoal`, `DeleteGoal`, `CreateEvent`, `DeleteEvent`)
+
+We will store the goals and their associated entries in DynamoDB.   The main page will show an overview of your priority goals, as well as a search and selection mechanism that will allow you to go to the detail page of a particular goal.  The detail page will allow you to see in depth information about the goal and its associated events, and will allow you to add or remove new events as necessary.
 
 # 6. API
 
 ## 6.1. Public Models
 
-_Define the data models your service will expose in its responses via your *`-Model`* package. These will be equivalent to the *`PlaylistModel`* and *`SongModel`* from the Unit 3 project._
+// GoalModel
+String userId;
+String goalName;
+Integer timeFrame;
+Double target;
+Enum unit;
+Boolean isFavorite;
 
-## 6.2. _First Endpoint_
 
-_Describe the behavior of the first endpoint you will build into your service API. This should include what data it requires, what data it returns, and how it will handle any known failure cases. You should also include a sequence diagram showing how a user interaction goes from user to website to service to database, and back. This first endpoint can serve as a template for subsequent endpoints. (If there is a significant difference on a subsequent endpoint, review that with your team before building it!)_
+// EventModel
 
-_(You should have a separate section for each of the endpoints you are expecting to build...)_
+String userId;
+String eventId;
+String goalName;
+ZonedDateTime date;
+Double measurement;
 
-## 6.3 _Second Endpoint_
 
-_(repeat, but you can use shorthand here, indicating what is different, likely primarily the data in/out and error conditions. If the sequence diagram is nearly identical, you can say in a few words how it is the same/different from the first endpoint)_
+## 6.2. Get Goal Endpoint
+
+* Accepts GET requests to /goals/:userID::goalName
+
+* Accepts a goal name and returns the corresponding GoalModel
+  * If the given goal is not found, it returns the GoalNotFoundException
+
+## 6.3 Create Goal Endpoint
+
+* Accepts POST requests to /goals/
+
+* Accepts data to create a new goal with a provided goal name, momentum time frame, goal target, and measurement unit. Returns a new goal.
+  * If the goal name contains any invalid characters, we will throw a InvalidAttributeException 
+
+## 6.3 Update Goal Endpoint
+
+* Accepts PUT requests to /goals/:userID::goalName
+
+* Accepts data to update a goal including and updated goal name, momentum time frame, goal target, and measurement unit. Returns an updated goal.
+    * If the given goal is not found, it returns the GoalNotFoundException
+    * If the goal name contains any invalid characters, we will throw a InvalidAttributeException
+
+## 6.4 Delete Goal Endpoint
+
+* Accepts DELETE requests to /goals/:userID::goalName
+
+* Accepts data to delete goal from goals table, returns success status
+  * If the given goal is not found, it returns the GoalNotFoundException
+
+
+## 6.5 Create Event Endpoint
+
+* Accepts Post requests to /events/:userID::eventID
+
+* Accepts data to create an event, including the date and the measurement. Returns the new event, including the unique eventID generated by the application and the goal name and user ID the event is associated with.
+
+## 6.6 Delete Event Endpoint
+* Accepts the DELETE requests to /events/:userID::eventID
 
 # 7. Tables
 
-_Define the DynamoDB tables you will need for the data your service will use. It may be helpful to first think of what objects your service will need, then translate that to a table structure, like with the *`Playlist` POJO* versus the `playlists` table in the Unit 3 project._
+// Goals
+
+S userId - hashkey
+
+S goalName - rangekey
+
+N timeframe
+
+N target
+
+S unit
+
+BOOL isFavorite
+
+// Events
+
+S userId - hashkey
+
+S eventId - rangekey
+
+S timestamp 
+
+S goalName
+
+N measurement
 
 # 8. Pages
 
-_Include mock-ups of the web pages you expect to build. These can be as sophisticated as mockups/wireframes using drawing software, or as simple as hand-drawn pictures that represent the key customer-facing components of the pages. It should be clear what the interactions will be on the page, especially where customers enter and submit data. You may want to accompany the mockups with some description of behaviors of the page (e.g. “When customer submits the submit-dog-photo button, the customer is sent to the doggie detail page”)_
+![Momentum Pages Workup](images/momentum_pages_mockup.jpg) 
