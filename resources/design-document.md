@@ -21,32 +21,14 @@ _List the most important questions you have about your design, or things that yo
 
 _This is where we work backwards from the customer and define what our customers would like to do (and why). You may also include use cases for yourselves (as developers), or for the organization providing the product to customers._
 
-As a User of Momentum, I want to:
-- U0. Login
-- U1. View Summary of All Goals possibly with their current status
-- U2. Create New Goal from main page
-  - Customizable in following ways:
-    - Goal Name
-    - Time Period - rolling number of days that we are factoring in. 
-      - Example: 7 days
-    - Target
-      - Example: 150 minutes, 5 times, etc.
-    - Unit of Measurement associated with "Target"
-      - Minutes , Hours , Miles , Kilometers, , Times (as in, I studied 3 times this week), Units (for custom edge cases)
-- U3. View Goal in Details by clicking on summary link. Details Include: 
-  - Status
-    - ex: "In Momentum", "Building Momentum", "No Momentum", "Losing Momentum"
-  - Sub Status
-    - ex: "hit 30 minutes by tomorrow to stay in momentum"
-  - Goal Target  150
-  - Current Sum of entry data  140 
-  - Current Sum Related to Target (ex: -10, +50)?
-  - Output of days that apply to our rolling period with entries for those days
-- U4. Create Entry that applies to Goal from Goal Detail Page
-- U5. Delete Event from Goal Detail Page
-- U6. Delete Goal from Main Page
-- U7. Modify Goal from Main Page
-  - This allows user to update time period and target
+- U1. As a User of Momentum, I want to view summary of all goals with their current status
+- U2. As a User of Momentum, I want to create new goal from Home Page specifying goalName, timePeriod, target, unit
+- U3. As a User of Momentum, I want to view goal details by clicking on summary link
+- U4. As a User of Momentum, I want to create an entry that applies to goal from goal detail page
+- U5. As a User of Momentum, I want to delete event from goal detail page
+- U6. As a User of Momentum, I want to modify goal from Home Page to update time period and/or target. 
+- U7. As a User of Momentum, I want to delete goal from Home Page
+
 
 ## 4. Project Scope
 
@@ -109,39 +91,45 @@ Boolean isFavorite;    //extension
 ### EventModel
 ```
 String goalId;
-String eventId;
+UUID eventId;
 LocalDate date;
 Double measurement;
 ```
 
-// GET ALL GOALS?
-  // do we make one call to dynamo when we start up or individual calls as needed
-// GET RELEVANT EVENTS?
-// GET ALL EVENTS?
+## 6.2. Get All Goal Endpoint
 
-## 6.2. Get Goal Endpoint
-    // get relevant events for goal
-    // calculate status based on goal
+* Accepts `GET` requests to `/goals`
+
+* Accepts a userId and returns All corresponding Goals for the logged in user
+* Retrieves all events for each goal within specified time period.
+* Calculates Current Status for each goal
+* Display Goal Name and Current Status of each goal for user
+  * If the given goal is not found, it returns the GoalNotFoundException
+
+## 6.3. Get Goal Details Endpoint
 
 * Accepts `GET` requests to `/goals/:goalName`
 
 * Accepts a goal name and returns the corresponding GoalModel for the logged in user
+* Retrieves all events for goal within specified time period
+* Calculates Current Status for goal
+* Displays Details about goal, current status, and relevant events within specified time period
   * If the given goal is not found, it returns the GoalNotFoundException
 
-## 6.3 Create Goal Endpoint
+## 6.4 Create Goal Endpoint
 
 * Accepts `POST` requests to `/goals`
 
 * Accepts data to create a new goal with a provided goal name, time period, goal target, and measurement unit. Returns a new goal.
-  * If the goal name contains any invalid characters, we will throw a InvalidAttributeException (including quotations, slashes, etc.)
+  * If the goal name contains any invalid characters, we will throw a InvalidAttributeException (", \, `, ')
 
 ## 6.3 Update Goal Endpoint
 
 * Accepts `PUT` requests to `/goals/:goalName`
 
 * Accepts data to update a goal including and updated goal name, momentum time frame, goal target, and measurement unit. Returns an updated goal.
-    * If the given goal is not found, it returns the GoalNotFoundException
-    * If the goal name contains any invalid characters, we will throw a InvalidAttributeException (including quotations, slashes, etc.)
+  * If the given goal is not found, it returns the GoalNotFoundException
+  * If the goal name contains any invalid characters, we will throw a InvalidAttributeException (", \, `, ')
 
 ## 6.4 Delete Goal Endpoint
 
@@ -163,34 +151,20 @@ Double measurement;
 ### Goals
 ```
 S userId - hashkey
-
 S goalName - rangekey
-
 S goalId - "userId+goalName"
-
 N timeframe
-
 N target
-
 S unit
-
 BOOL isFavorite
 ```
 
 ### Events
 ```
 S goalId - hashkey  
-
-S eventId - sortkey "yymmddi" (date of event + incrememnter)
-
-S dateOfEvent 
-
+S eventId - UUID
+S dateOfEvent - GSI
 N measurement
-
-//maybe we include
-  //userId ?
-  //goalName ?
-  //unit ?
 ```
 # 8. Pages
 
