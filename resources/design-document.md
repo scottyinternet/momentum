@@ -129,12 +129,14 @@ Double measurement;
 * Accepts the DELETE requests to /events/:userID::eventID
 
 # 7. Tables
-
+```
 // Goals
 
 S userId - hashkey
 
 S goalName - rangekey
+
+S goalId - "userId+goalName"
 
 N timeframe
 
@@ -143,19 +145,23 @@ N target
 S unit
 
 BOOL isFavorite
-
+```
+```
 // Events
 
-S userId - hashkey
+S goalId - hashkey  
 
-S eventId - rangekey
+S eventId - sortkey "yymmddi" (date of event + incrememnter)
 
-S timestamp 
-
-S goalName
+S dateOfEvent 
 
 N measurement
 
+//maybe we include
+  //userId ?
+  //goalName ?
+  //unit ?
+```
 # 8. Pages
 
 ![Momentum Pages Workup](images/momentum_pages_mockup.jpg) 
