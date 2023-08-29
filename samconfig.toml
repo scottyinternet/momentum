@@ -2,7 +2,7 @@ version = 0.1
 [default]
 [default.deploy]
 [default.deploy.parameters]
-stack_name = "music-playlist-service"
+stack_name = "momentum"
 region = "us-east-2"
 confirm_changeset = false
 capabilities = "CAPABILITY_IAM"
