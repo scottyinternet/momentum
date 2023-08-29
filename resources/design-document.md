@@ -84,7 +84,7 @@ Enum unit;
   - Hours 
   - Miles 
   - Kilometers
-  - Times (as in, I studied 3 times this week)
+  - Count
   - Units (for custom edge cases)
 Boolean isFavorite;    //extension
 ```
@@ -103,7 +103,7 @@ Double measurement;
 * Accepts a userId and returns All corresponding Goals for the logged in user
 * Retrieves all events for each goal within specified time period.
 * Calculates Current Status for each goal
-* Display Goal Name and Current Status of each goal for user
+* Returns Goal Name and Current Status of each goal for user
   * If the given goal is not found, it returns the GoalNotFoundException
 
 ## 6.3. Get Goal Details Endpoint
@@ -113,7 +113,7 @@ Double measurement;
 * Accepts a goal name and returns the corresponding GoalModel for the logged in user
 * Retrieves all events for goal within specified time period
 * Calculates Current Status for goal
-* Displays Details about goal, current status, and relevant events within specified time period
+* Returns Details about goal, current status, and relevant events within specified time period
   * If the given goal is not found, it returns the GoalNotFoundException
 
 ## 6.4 Create Goal Endpoint
