@@ -21,13 +21,14 @@ _List the most important questions you have about your design, or things that yo
 
 _This is where we work backwards from the customer and define what our customers would like to do (and why). You may also include use cases for yourselves (as developers), or for the organization providing the product to customers._
 
-U1. As a Momentum user, I want to see my habit-forming momentum when I enter a new Action.
+- U1. As a User of Momentum, I want to view summary of all goals with their current status
+- U2. As a User of Momentum, I want to create new goal from Home Page specifying goalName, timePeriod, target, unit
+- U3. As a User of Momentum, I want to view goal details by clicking on summary link
+- U4. As a User of Momentum, I want to create an entry that applies to goal from goal detail page
+- U5. As a User of Momentum, I want to delete event from goal detail page
+- U6. As a User of Momentum, I want to modify goal from Home Page to update time period and/or target. 
+- U7. As a User of Momentum, I want to delete goal from Home Page
 
-U2. As a Momentum user, I want to see my prioritized habits when I hit the landing page.
-
-U3. As a Momentum user, I want to be able to enter a new habit with customizable periodicity and tracking metrics
-
-U4. As a Momentum user, I want to be able to choose between a detailed view of my habit-forming and an overview summary.
 
 ## 4. Project Scope
 
@@ -62,8 +63,8 @@ Choose the number of habits displayed in the detail page
 
 The first iteration of the Momentum app will provide the minimum viable product including creating, retrieving, and updating habit goals, seeing your overall progress at a glance, and the ability to inspect each goal in detail.
 
-We will use API Gateway and Lambda to create eight endpoints (`GetGoal`,
-`CreateGoal`, `UpdateGoal`, `DeleteGoal`, `CreateEvent`, `DeleteEvent`)
+We will use API Gateway and Lambda to create six endpoints (`GetGoalLambda`,
+`CreateGoalLambda`, `UpdateGoalLambda`, `DeleteGoalLambda`, `CreateEventLambda`, `DeleteEventLambda`)
 
 We will store the goals and their associated entries in DynamoDB.   The main page will show an overview of your priority goals, as well as a search and selection mechanism that will allow you to go to the detail page of a particular goal.  The detail page will allow you to see in depth information about the goal and its associated events, and will allow you to add or remove new events as necessary.
 
@@ -71,91 +72,100 @@ We will store the goals and their associated entries in DynamoDB.   The main pag
 
 ## 6.1. Public Models
 
-// GoalModel
+### GoalModel
+```
 String userId;
 String goalName;
+String goalId;
 Integer timeFrame;
 Double target;
 Enum unit;
-Boolean isFavorite;
-
-
-// EventModel
-
-String userId;
-String eventId;
-String goalName;
-ZonedDateTime date;
+  - Minutes 
+  - Hours 
+  - Miles 
+  - Kilometers
+  - Count
+  - Units (for custom edge cases)
+Boolean isFavorite;    //extension
+```
+### EventModel
+```
+String goalId;
+UUID eventId;
+LocalDate date;
 Double measurement;
+```
 
+## 6.2. Get All Goal Endpoint
 
-## 6.2. Get Goal Endpoint
+* Accepts `GET` requests to `/goals`
 
-* Accepts GET requests to /goals/:userID::goalName
-
-* Accepts a goal name and returns the corresponding GoalModel
+* Accepts a userId and returns All corresponding Goals for the logged in user
+* Retrieves all events for each goal within specified time period.
+* Calculates Current Status for each goal
+* Returns Goal Name and Current Status of each goal for user
   * If the given goal is not found, it returns the GoalNotFoundException
 
-## 6.3 Create Goal Endpoint
+## 6.3. Get Goal Details Endpoint
 
-* Accepts POST requests to /goals/
+* Accepts `GET` requests to `/goals/:goalName`
 
-* Accepts data to create a new goal with a provided goal name, momentum time frame, goal target, and measurement unit. Returns a new goal.
-  * If the goal name contains any invalid characters, we will throw a InvalidAttributeException 
+* Accepts a goal name and returns the corresponding GoalModel for the logged in user
+* Retrieves all events for goal within specified time period
+* Calculates Current Status for goal
+* Returns Details about goal, current status, and relevant events within specified time period
+  * If the given goal is not found, it returns the GoalNotFoundException
+
+## 6.4 Create Goal Endpoint
+
+* Accepts `POST` requests to `/goals`
+
+* Accepts data to create a new goal with a provided goal name, time period, goal target, and measurement unit. Returns a new goal.
+  * If the goal name contains any invalid characters, we will throw a InvalidAttributeException (", \, `, ')
 
 ## 6.3 Update Goal Endpoint
 
-* Accepts PUT requests to /goals/:userID::goalName
+* Accepts `PUT` requests to `/goals/:goalName`
 
 * Accepts data to update a goal including and updated goal name, momentum time frame, goal target, and measurement unit. Returns an updated goal.
-    * If the given goal is not found, it returns the GoalNotFoundException
-    * If the goal name contains any invalid characters, we will throw a InvalidAttributeException
+  * If the given goal is not found, it returns the GoalNotFoundException
+  * If the goal name contains any invalid characters, we will throw a InvalidAttributeException (", \, `, ')
 
 ## 6.4 Delete Goal Endpoint
 
-* Accepts DELETE requests to /goals/:userID::goalName
+* Accepts `DELETE` requests to `/goals/:goalName`
 
 * Accepts data to delete goal from goals table, returns success status
   * If the given goal is not found, it returns the GoalNotFoundException
 
-
 ## 6.5 Create Event Endpoint
 
-* Accepts Post requests to /events/:userID::eventID
+* Accepts `POST` requests to `/events/:goalId:eventID`
 
 * Accepts data to create an event, including the date and the measurement. Returns the new event, including the unique eventID generated by the application and the goal name and user ID the event is associated with.
 
 ## 6.6 Delete Event Endpoint
-* Accepts the DELETE requests to /events/:userID::eventID
+* Accepts the `DELETE` requests to `/events/:goalId:eventID`
 
 # 7. Tables
-
-// Goals
-
+### Goals
+```
 S userId - hashkey
-
 S goalName - rangekey
-
+S goalId - "userId+goalName"
 N timeframe
-
 N target
-
 S unit
-
 BOOL isFavorite
+```
 
-// Events
-
-S userId - hashkey
-
-S eventId - rangekey
-
-S timestamp 
-
-S goalName
-
+### Events
+```
+S goalId - hashkey  
+S eventId - UUID
+S dateOfEvent - GSI
 N measurement
-
+```
 # 8. Pages
 
 ![Momentum Pages Workup](images/momentum_pages_mockup.jpg) 
