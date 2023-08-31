@@ -24,10 +24,6 @@ public interface ServiceComponent {
      */
     AddSongToPlaylistActivity provideAddSongToPlaylistActivity();
 
-    /**
-     * Provides the relevant activity.
-     * @return CreatePlaylistActivity
-     */
     CreatePlaylistActivity provideCreatePlaylistActivity();
 
     /**
