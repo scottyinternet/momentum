@@ -47,7 +47,7 @@ Resources:
   #-----------------------------------------------------
   # Cognito Configuration for user management
   #-----------------------------------------------------
-  
+
   UserPool:
     Type: AWS::Cognito::UserPool
     Properties:
@@ -57,7 +57,7 @@ Resources:
             Priority: 1
       UsernameAttributes:
         - email
-      UsernameConfiguration: 
+      UsernameConfiguration:
         CaseSensitive: false
       AutoVerifiedAttributes:
         - email
@@ -180,8 +180,8 @@ Resources:
         - 'arn:aws:iam::aws:policy/service-role/AWSLambdaRole'
         - 'arn:aws:iam::aws:policy/AWSLambdaExecute'
       AssumeRolePolicyDocument:
-        Version: "2012-10-17" 
-        Statement: 
+        Version: "2012-10-17"
+        Statement:
           - Effect: Allow
             Principal:
               Service:
@@ -200,32 +200,32 @@ Resources:
                 - logs:PutLogEvents
                 - cloudwatch:PutMetricData
               Resource: '*'
-        - PolicyName: 'AccessPlaylistsTable'
+        - PolicyName: 'GoalsTable'
           PolicyDocument:
             Version: '2012-10-17'
             Statement:
             - Effect: Allow
               Action: dynamodb:*
-              Resource: !Sub "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/playlists"
-                
-        - PolicyName: 'AccessAlbumTracksTable'
+              Resource: !Sub "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/goals"
+
+        - PolicyName: 'AccessEventsTable'
           PolicyDocument:
             Version: '2012-10-17'
             Statement:
             - Effect: Allow
               Action: dynamodb:*
-              Resource: !Sub "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/album_tracks"
+              Resource: !Sub "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/events"
 
   #-----------------------------------------------------
   # Lambda Functions Configuration
   #-----------------------------------------------------
 
-  GetPlaylistLambda:
+  GetAllGoalsSummaryLambda:
     Type: AWS::Serverless::Function
     Properties:
       Role: !GetAtt AccessRole.Arn
       CodeUri: MomentumLambda
-      Handler: com.nashss.se.momentum.lambda.GetPlaylistLambda::handleRequest
+      Handler: com.nashss.se.momentum.lambda.GetAllGoalsSummaryLambda::handleRequest
       Runtime: java11
       Architectures:
         - x86_64
@@ -234,20 +234,20 @@ Resources:
         Variables:
           JAVA_TOOL_OPTIONS: -XX:+TieredCompilation -XX:TieredStopAtLevel=1
       Events:
-        MusicPlaylistService:
+        Momentum:
           Type: Api
           Properties:
-            Path: /playlists/{id}
+            Path: /goals/summary
             Method: get
             Auth:
               Authorizer: 'NONE'
 
-  SearchPlaylistsLambda:
+  GetGoalDetailsLambda:
     Type: AWS::Serverless::Function
     Properties:
       Role: !GetAtt AccessRole.Arn
       CodeUri: MomentumLambda
-      Handler: com.nashss.se.momentum.lambda.SearchPlaylistsLambda::handleRequest
+      Handler: com.nashss.se.momentum.lambda.GetGoalDetailsLambda::handleRequest
       Runtime: java11
       Architectures:
         - x86_64
@@ -256,20 +256,20 @@ Resources:
         Variables:
           JAVA_TOOL_OPTIONS: -XX:+TieredCompilation -XX:TieredStopAtLevel=1
       Events:
-        MusicPlaylistService:
+        Momentum:
           Type: Api
           Properties:
-            Path: /playlists/search
+            Path: /goals/{goalId}
             Method: get
             Auth:
               Authorizer: 'NONE'
 
-  GetPlaylistSongsLambda:
+  CreateGoalLambda:
     Type: AWS::Serverless::Function
     Properties:
       Role: !GetAtt AccessRole.Arn
       CodeUri: MomentumLambda
-      Handler: com.nashss.se.momentum.lambda.GetPlaylistSongsLambda::handleRequest
+      Handler: com.nashss.se.momentum.lambda.CreateGoalLambda::handleRequest
       Runtime: java11
       Architectures:
         - x86_64
@@ -278,40 +278,18 @@ Resources:
         Variables:
           JAVA_TOOL_OPTIONS: -XX:+TieredCompilation -XX:TieredStopAtLevel=1
       Events:
-        MusicPlaylistService:
+        Momentum:
           Type: Api
           Properties:
-            Path: /playlists/{id}/songs
-            Method: get
-            Auth:
-              Authorizer: 'NONE'
-
-  CreatePlaylistLambda:
-    Type: AWS::Serverless::Function
-    Properties:
-      Role: !GetAtt AccessRole.Arn
-      CodeUri: MomentumLambda
-      Handler: com.nashss.se.momentum.lambda.CreatePlaylistLambda::handleRequest
-      Runtime: java11
-      Architectures:
-        - x86_64
-      MemorySize: 512
-      Environment:
-        Variables:
-          JAVA_TOOL_OPTIONS: -XX:+TieredCompilation -XX:TieredStopAtLevel=1
-      Events:
-        MusicPlaylistService:
-          Type: Api
-          Properties:
-            Path: /playlists
+            Path: /goals
             Method: post
 
-  UpdatePlaylistLambda:
+  UpdateGoalLambda:
     Type: AWS::Serverless::Function
     Properties:
       Role: !GetAtt AccessRole.Arn
       CodeUri: MomentumLambda
-      Handler: com.nashss.se.momentum.lambda.UpdatePlaylistLambda::handleRequest
+      Handler: com.nashss.se.momentum.lambda.UpdateGoalLambda::handleRequest
       Runtime: java11
       Architectures:
         - x86_64
@@ -320,18 +298,18 @@ Resources:
         Variables:
           JAVA_TOOL_OPTIONS: -XX:+TieredCompilation -XX:TieredStopAtLevel=1
       Events:
-        MusicPlaylistService:
+        Momentum:
           Type: Api
           Properties:
-            Path: /playlists/{id}
+            Path: /goals/{goalId}
             Method: put
 
-  AddSongToPlaylistLambda:
+  DeleteGoalLambda:
     Type: AWS::Serverless::Function
     Properties:
       Role: !GetAtt AccessRole.Arn
       CodeUri: MomentumLambda
-      Handler: com.nashss.se.momentum.lambda.AddSongToPlaylistLambda::handleRequest
+      Handler: com.nashss.se.momentum.lambda.DeleteGoalLambda::handleRequest
       Runtime: java11
       Architectures:
         - x86_64
@@ -340,43 +318,99 @@ Resources:
         Variables:
           JAVA_TOOL_OPTIONS: -XX:+TieredCompilation -XX:TieredStopAtLevel=1
       Events:
-        MusicPlaylistService:
+        Momentum:
           Type: Api
           Properties:
-            Path: /playlists/{id}/songs
+            Path: /goals/{goalId}
+            Method: delete
+
+  AddEventLambda:
+    Type: AWS::Serverless::Function
+    Properties:
+      Role: !GetAtt AccessRole.Arn
+      CodeUri: MomentumLambda
+      Handler: com.nashss.se.momentum.lambda.AddEventLambda::handleRequest
+      Runtime: java11
+      Architectures:
+        - x86_64
+      MemorySize: 512
+      Environment:
+        Variables:
+          JAVA_TOOL_OPTIONS: -XX:+TieredCompilation -XX:TieredStopAtLevel=1
+      Events:
+        Momentum:
+          Type: Api
+          Properties:
+            Path: /events
             Method: post
 
-  #-----------------------------------------------------
-  # DynamoDB Configuration
-  #-----------------------------------------------------
-  
-  PlaylistsTable:
-    Type: AWS::DynamoDB::Table
+  DeleteEventLambda:
+    Type: AWS::Serverless::Function
     Properties:
-      AttributeDefinitions:
-        - AttributeName: "id"
-          AttributeType: "S"
-      KeySchema:
-        - AttributeName: "id"
-          KeyType: "HASH"
-      BillingMode: "PAY_PER_REQUEST"
-      TableName: "playlists"
+      Role: !GetAtt AccessRole.Arn
+      CodeUri: MomentumLambda
+      Handler: com.nashss.se.momentum.lambda.DeleteEventLambda::handleRequest
+      Runtime: java11
+      Architectures:
+        - x86_64
+      MemorySize: 512
+      Environment:
+        Variables:
+          JAVA_TOOL_OPTIONS: -XX:+TieredCompilation -XX:TieredStopAtLevel=1
+      Events:
+        Momentum:
+          Type: Api
+          Properties:
+            Path: /events/{eventId}
+            Method: delete
 
-  AlbumTracksTable:
+  #-----------------------------------------------------
+  # DynamoDB Configuration - Updated
+  #-----------------------------------------------------
+
+  GoalsTable:
     Type: AWS::DynamoDB::Table
     Properties:
       AttributeDefinitions:
-        - AttributeName: "asin"
+        - AttributeName: "userId"
           AttributeType: "S"
-        - AttributeName: "track_number"
-          AttributeType: "N"
+        - AttributeName: "goalName"
+          AttributeType: "S"
       KeySchema:
-        - AttributeName: "asin"
+        - AttributeName: "userId"
           KeyType: "HASH"
-        - AttributeName: "track_number"
+        - AttributeName: "goalName"
           KeyType: "RANGE"
       BillingMode: "PAY_PER_REQUEST"
-      TableName: "album_tracks"
+      TableName: "goals"
+
+  EventsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      AttributeDefinitions:
+        - AttributeName: "goalId"
+          AttributeType: "S"
+        - AttributeName: "eventId"
+          AttributeType: "S"
+        - AttributeName: "dateOfEvent"
+          AttributeType: "S"
+      KeySchema:
+        - AttributeName: "goalId"
+          KeyType: "HASH"
+        - AttributeName: "eventId"
+          KeyType: "RANGE"
+      BillingMode: "PAY_PER_REQUEST"
+      TableName: "events"
+      GlobalSecondaryIndexes:
+        - IndexName: "EventDateIndex"
+          KeySchema:
+            - AttributeName: "goalId"
+              KeyType: "HASH"
+            - AttributeName: "dateOfEvent"
+              KeyType: "RANGE"
+          Projection:
+            ProjectionType: "ALL"
+
 
 #-----------------------------------------------------
 # The outputs defined below will be printed
@@ -407,5 +441,4 @@ Outputs:
     Description: "The URL of the deployed front-end application (COGNITO_REDIRECT_SIGNOUT)."
     Value: !Sub "https://${CloudfrontDistribution.DomainName}"
     Condition: DeployCloudFront
-
 
