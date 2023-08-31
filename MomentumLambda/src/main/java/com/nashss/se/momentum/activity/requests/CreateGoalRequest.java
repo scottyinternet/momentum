@@ -60,8 +60,8 @@ public class CreateGoalRequest {
                 '}';
     }
 
-    public static CreatePlaylistRequest.Builder builder() {
-        return new CreatePlaylistRequest.Builder();
+    public static CreateGoalRequest.Builder builder() {
+        return new CreateGoalRequest.Builder();
     }
 
     @JsonPOJOBuilder
@@ -103,7 +103,7 @@ public class CreateGoalRequest {
         }
 
         public CreateGoalRequest build() {
-            return new CreateGoalRequest(goalId,userId, timePeriod,target,unit,goalName);
+            return new CreateGoalRequest(goalId, userId, timePeriod, target, unit, goalName);
         }
     }
 

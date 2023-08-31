@@ -18,11 +18,11 @@ public class CreateGoalActivity {
     private final GoalDao goalDao;
 
     @Inject
-    public CreateGoalActivity (GoalDao goalDao) {
+    public CreateGoalActivity(GoalDao goalDao) {
         this.goalDao = goalDao;
     }
 
-    public CreateGoalResult handleRequest(final CreateGoalRequest createGoalRequest){
+    public CreateGoalResult handleRequest(final CreateGoalRequest createGoalRequest) {
 
         Goal newGoal = new Goal();
         newGoal.setGoalId(createGoalRequest.getGoalId());
@@ -31,7 +31,7 @@ public class CreateGoalActivity {
         newGoal.setTimePeriod(createGoalRequest.getTimePeriod());
         newGoal.setTarget(createGoalRequest.getTarget());
         newGoal.setUnit(createGoalRequest.getUnit());
-       goalDao.saveGoal(newGoal);
+        goalDao.saveGoal(newGoal);
 
         GoalModel goalModel = new ModelConverter().toGoalModel(newGoal);
         return CreateGoalResult.builder()

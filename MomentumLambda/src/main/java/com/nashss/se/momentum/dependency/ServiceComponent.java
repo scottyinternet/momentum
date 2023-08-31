@@ -1,11 +1,6 @@
 package com.nashss.se.momentum.dependency;
 
-import com.nashss.se.momentum.activity.AddSongToPlaylistActivity;
-import com.nashss.se.momentum.activity.CreatePlaylistActivity;
-import com.nashss.se.momentum.activity.GetPlaylistActivity;
-import com.nashss.se.momentum.activity.GetPlaylistSongsActivity;
-import com.nashss.se.momentum.activity.SearchPlaylistsActivity;
-import com.nashss.se.momentum.activity.UpdatePlaylistActivity;
+import com.nashss.se.momentum.activity.*;
 
 import dagger.Component;
 
@@ -53,5 +48,11 @@ public interface ServiceComponent {
      * @return UpdatePlaylistActivity
      */
     UpdatePlaylistActivity provideUpdatePlaylistActivity();
+
+    /**
+     * Provides the relevant activity
+     * @return CreateGoalActivity
+     */
+    CreateGoalActivity provideCreateGoalActivity();
 
 }
