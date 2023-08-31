@@ -1,7 +1,9 @@
 package com.nashss.se.momentum.converters;
 
 import com.nashss.se.momentum.dynamodb.models.AlbumTrack;
+import com.nashss.se.momentum.dynamodb.models.Goal;
 import com.nashss.se.momentum.dynamodb.models.Playlist;
+import com.nashss.se.momentum.models.GoalModel;
 import com.nashss.se.momentum.models.PlaylistModel;
 import com.nashss.se.momentum.models.SongModel;
 
@@ -31,6 +33,19 @@ public class ModelConverter {
                 .withCustomerName(playlist.getCustomerName())
                 .withSongCount(playlist.getSongCount())
                 .withTags(tags)
+                .build();
+    }
+
+    public GoalModel toGoalModel(Goal goal) {
+
+
+        return GoalModel.builder()
+                .withGoalId(goal.getGoalId())
+                .withGoalName(goal.getGoalName())
+                .withTarget(goal.getTarget())
+                .withUserId(goal.getUserId())
+                .withUnit(goal.getUnit())
+                .withTimePeriod(goal.getTimePeriod())
                 .build();
     }
 
