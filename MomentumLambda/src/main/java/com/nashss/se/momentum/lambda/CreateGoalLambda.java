@@ -18,6 +18,9 @@ public class CreateGoalLambda
                             CreateGoalRequest.builder()
                                     .withUserId(unauthenticatedRequest.getUserId())
                                     .withGoalName(unauthenticatedRequest.getGoalName())
+                                    .withTarget(unauthenticatedRequest.getTarget())
+                                    .withTimePeriod(unauthenticatedRequest.getTimePeriod())
+                                    .withUnit(unauthenticatedRequest.getUnit())
                                     .build());
                 },
                 (request, serviceComponent) ->
