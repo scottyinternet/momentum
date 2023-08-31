@@ -8,14 +8,18 @@ import com.nashss.se.momentum.exceptions.EventNotFoundException;
 import com.nashss.se.momentum.metrics.MetricsConstants;
 import com.nashss.se.momentum.metrics.MetricsPublisher;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.LinkedList;
 import java.util.Queue;
 
+@Singleton
 public class EventDao {
 
     private final DynamoDBMapper dynamoDBMapper;
     private final MetricsPublisher metricsPublisher;
 
+    @Inject
     public EventDao(DynamoDBMapper dynamoDBMapper, MetricsPublisher metricsPublisher) {
         this.dynamoDBMapper = dynamoDBMapper;
         this.metricsPublisher = metricsPublisher;
