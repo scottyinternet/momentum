@@ -16,11 +16,11 @@ public class CreateGoalLambda
                     CreateGoalRequest unauthenticatedRequest = input.fromBody(CreateGoalRequest.class);
                     return input.fromUserClaims(claims ->
                             CreateGoalRequest.builder()
-                                    .withUserId(unauthenticatedRequest.getUserId())
                                     .withGoalName(unauthenticatedRequest.getGoalName())
                                     .withTarget(unauthenticatedRequest.getTarget())
                                     .withTimePeriod(unauthenticatedRequest.getTimePeriod())
                                     .withUnit(unauthenticatedRequest.getUnit())
+                                    .withUserId(claims.get("email"))
                                     .build());
                 },
                 (request, serviceComponent) ->
