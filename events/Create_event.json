@@ -1,0 +1,5 @@
+{
+  "path": "/events",
+  "httpMethod": "POST",
+  "body": "{ \"goalId\": \"testid\", \"dateOfEvent\": \"01012023\", \"measurement\": [ \"37\" ] }"
+}

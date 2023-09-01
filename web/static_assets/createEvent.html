@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script type="text/javascript" src="assets/createEvent.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+
+<body class="background">
+    <header class="header" id="header"></header>
+    <div class="card">
+        <h2>Create Event</h2>
+        <form class="card-content" id="create-event-form">
+            <p class="hidden error" id="error-message"> </p>
+            <p class="form-field">
+                <label>Goal ID</label>
+                <input type="text" required class="validated-field" id="goal-id" placeholder="Test only, to be generated in prod" autofocus>
+            </p>
+            <p class="form-field">
+                <label>Date of Event</label>
+                <input type="text" required class="validated-field" id="date-of-event" placeholder="yyyy-mm-dd" autofocus>
+            </p>
+            <p class="form-field">
+                <label>Measurement</label>
+                <input type="text" required class="validated-field" id="measurement" placeholder="777" autofocus>
+            </p>
+            <p>
+                <a href="#" class="button" id="create">Create Event</a>
+            </p>
+        </form>
+    </div>
+</body>
+</html>

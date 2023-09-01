@@ -1,12 +1,17 @@
 package com.nashss.se.momentum.converters;
 
 import com.nashss.se.momentum.dynamodb.models.AlbumTrack;
+
 import com.nashss.se.momentum.dynamodb.models.Goal;
-import com.nashss.se.momentum.dynamodb.models.Playlist;
 import com.nashss.se.momentum.models.GoalModel;
+import com.nashss.se.momentum.dynamodb.models.Event;
+import com.nashss.se.momentum.models.EventModel;
+
+import com.nashss.se.momentum.dynamodb.models.Playlist;
 import com.nashss.se.momentum.models.PlaylistModel;
 import com.nashss.se.momentum.models.SongModel;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -94,5 +99,21 @@ public class ModelConverter {
         }
 
         return playlistModels;
+    }
+
+    /**
+     * Converts an Event to an EventModel.
+     *
+     * @param event The Event to convert to EventModel
+     * @return The converted EventModel
+     */
+    public EventModel toEventModel(Event event) {
+        EventModel eventModel = EventModel.builder()
+                .withGoalId(event.getGoalId())
+                .withEventId(event.getEventId())
+                .withDateOfEvent(event.getDate())
+                .withMeasurement(event.getMeasurement())
+                .build();
+        return eventModel;
     }
 }

@@ -3,6 +3,7 @@ package com.nashss.se.momentum.dependency;
 import com.nashss.se.momentum.activity.*;
 
 import dagger.Component;
+import dagger.Provides;
 
 import javax.inject.Singleton;
 
@@ -49,10 +50,18 @@ public interface ServiceComponent {
      */
     UpdatePlaylistActivity provideUpdatePlaylistActivity();
 
+
     /**
      * Provides the relevant activity
      * @return CreateGoalActivity
      */
     CreateGoalActivity provideCreateGoalActivity();
+
+    /**
+     * Provides the relevant activity.
+     * @return CreateEventActivity
+     */
+    CreateEventActivity provideCreateEventActivity();
+
 
 }
