@@ -1,5 +1,7 @@
 package com.nashss.se.momentum.converters;
 
+import com.nashss.se.momentum.dynamodb.models.Event;
+import com.nashss.se.momentum.models.EventModel;
 import com.nashss.se.momentum.models.PlaylistModel;
 import com.nashss.se.momentum.models.SongModel;
 import com.nashss.se.momentum.dynamodb.models.AlbumTrack;
@@ -9,6 +11,7 @@ import com.nashss.se.momentum.test.helper.AlbumTrackTestHelper;
 import com.google.common.collect.Sets;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -86,5 +89,20 @@ public class ModelConverterTest {
 
         // THEN
         AlbumTrackTestHelper.assertAlbumTracksEqualSongModels(albumTracks, result);
+    }
+
+    @Test
+    void toEventModel_withEvent_convertsToEventModel() {
+        Event event = new Event();
+        event.setEventId("1234");
+        event.setGoalId("G1234");
+        event.setDate(LocalDate.parse("2023-01-01"));
+        event.setMeasurement(12.0);
+        EventModel eventModel = modelConverter.toEventModel(event);
+
+        assertEquals(event.getEventId(), eventModel.getEventId());
+        assertEquals(event.getGoalId(), eventModel.getGoalId());
+        assertEquals(event.getDate(), eventModel.getDateOfEvent());
+        assertEquals(event.getMeasurement(), eventModel.getMeasurement());
     }
 }
