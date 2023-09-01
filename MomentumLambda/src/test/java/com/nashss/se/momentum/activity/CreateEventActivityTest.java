@@ -35,7 +35,7 @@ class CreateEventActivityTest {
         String dateOfEvent = "2023-01-01";
 
         CreateEventRequest request = CreateEventRequest.builder()
-                .withGoalID(goalId)
+                .withGoalId(goalId)
                 .withMeasurement(measurement)
                 .withDateOfEvent(dateOfEvent)
                 .build();
