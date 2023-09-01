@@ -5,6 +5,9 @@ import com.nashss.se.momentum.converters.LocalDateToStringConverter;
 
 import java.time.LocalDate;
 
+/**
+ * Represents a record in the events table.
+ */
 @DynamoDBTable(tableName = "events")
 public class Event {
 

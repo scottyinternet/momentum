@@ -84,6 +84,12 @@ public class ModelConverter {
         return playlistModels;
     }
 
+    /**
+     * Converts an Event to an EventModel.
+     *
+     * @param event The Event to convert to EventModel
+     * @return The converted EventModel
+     */
     public EventModel toEventModel(Event event) {
         EventModel eventModel = EventModel.builder()
                 .withGoalId(event.getGoalId())

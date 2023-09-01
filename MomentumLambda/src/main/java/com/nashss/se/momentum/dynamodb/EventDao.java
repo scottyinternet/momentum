@@ -4,6 +4,7 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
 import com.amazonaws.services.dynamodbv2.datamodeling.QueryResultPage;
 import com.nashss.se.momentum.dynamodb.models.Event;
+import com.nashss.se.momentum.dynamodb.models.Playlist;
 import com.nashss.se.momentum.exceptions.EventNotFoundException;
 import com.nashss.se.momentum.metrics.MetricsConstants;
 import com.nashss.se.momentum.metrics.MetricsPublisher;
@@ -13,12 +14,21 @@ import javax.inject.Singleton;
 import java.util.LinkedList;
 import java.util.Queue;
 
+/**
+ * Accesses data for a events using {@link Event} to represent the model in DynamoDB.
+ */
 @Singleton
 public class EventDao {
 
     private final DynamoDBMapper dynamoDBMapper;
     private final MetricsPublisher metricsPublisher;
 
+    /**
+     * Instantiates a EventDao object.
+     *
+     * @param dynamoDBMapper   the {@link DynamoDBMapper} used to interact with the events table
+     * @param metricsPublisher the {@link MetricsPublisher} used to record metrics.
+     */
     @Inject
     public EventDao(DynamoDBMapper dynamoDBMapper, MetricsPublisher metricsPublisher) {
         this.dynamoDBMapper = dynamoDBMapper;
@@ -51,6 +61,12 @@ public class EventDao {
         return event;
     }
 
+    /**
+     * Saves the given event.
+     *
+     * @param event The event to save
+     * @return The Event object that was saved
+     */
     public Event saveEvent(Event event) {
         this.dynamoDBMapper.save(event);
         return event;
