@@ -47,6 +47,16 @@ public class EventModel {
         return Objects.hash(eventId);
     }
 
+    @Override
+    public String toString() {
+        return "EventModel{" +
+                "goalId='" + goalId + '\'' +
+                ", eventId='" + eventId + '\'' +
+                ", dateOfEvent=" + dateOfEvent.toString() +
+                ", measurement=" + measurement +
+                '}';
+    }
+
     //CHECKSTYLE:OFF:Builder
     public static Builder builder() {
         return new Builder();
