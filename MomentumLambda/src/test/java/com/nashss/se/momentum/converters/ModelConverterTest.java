@@ -113,6 +113,7 @@ public class ModelConverterTest {
         assertEquals(goal.getTimePeriod(), goalModel.getTimePeriod());
         assertEquals(goal.getTarget(), goalModel.getTarget());
         assertEquals(goal.getUnit(), goalModel.getUnit());
+    }
 
     @Test
     void toEventModel_withEvent_convertsToEventModel() {
