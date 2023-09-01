@@ -11,7 +11,6 @@ public class CreateGoalRequest {
     private final String userId;
     private final Integer timePeriod;
     private final Integer target;
-
     private final String unit;
     private final String goalName;
 

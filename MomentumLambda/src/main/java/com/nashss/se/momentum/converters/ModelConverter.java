@@ -40,12 +40,12 @@ public class ModelConverter {
 
 
         return GoalModel.builder()
-                .withGoalId(goal.getGoalId())
                 .withGoalName(goal.getGoalName())
-                .withTarget(goal.getTarget())
                 .withUserId(goal.getUserId())
-                .withUnit(goal.getUnit())
+                .withGoalId(goal.getGoalId())
                 .withTimePeriod(goal.getTimePeriod())
+                .withTarget(goal.getTarget())
+                .withUnit(goal.getUnit())
                 .build();
     }
 

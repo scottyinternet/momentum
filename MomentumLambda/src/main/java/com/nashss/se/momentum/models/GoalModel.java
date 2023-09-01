@@ -112,7 +112,7 @@ public class GoalModel {
 
 
         public GoalModel build() {
-            return new GoalModel(userId, goalName, goalId, timePeriod, target, unit);
+            return new GoalModel(goalId, userId, goalName, timePeriod, target, unit);
         }
     }
 }

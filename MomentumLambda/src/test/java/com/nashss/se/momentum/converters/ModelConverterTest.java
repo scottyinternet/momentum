@@ -1,5 +1,7 @@
 package com.nashss.se.momentum.converters;
 
+import com.nashss.se.momentum.dynamodb.models.Goal;
+import com.nashss.se.momentum.models.GoalModel;
 import com.nashss.se.momentum.models.PlaylistModel;
 import com.nashss.se.momentum.models.SongModel;
 import com.nashss.se.momentum.dynamodb.models.AlbumTrack;
@@ -7,6 +9,7 @@ import com.nashss.se.momentum.dynamodb.models.Playlist;
 import com.nashss.se.momentum.test.helper.AlbumTrackTestHelper;
 
 import com.google.common.collect.Sets;
+import com.nashss.se.momentum.utils.UnitOfMeasurement;
 import org.junit.jupiter.api.Test;
 
 import java.util.LinkedList;
@@ -86,5 +89,24 @@ public class ModelConverterTest {
 
         // THEN
         AlbumTrackTestHelper.assertAlbumTracksEqualSongModels(albumTracks, result);
+    }
+
+    @Test
+    void toGoalModel_validInput_convertsToModel() {
+        Goal goal = new Goal();
+        goal.setGoalName("name");
+        goal.setUserId("userId");
+        goal.setGoalId(goal.getUserId() + goal.getGoalName());
+        goal.setTimePeriod(0);
+        goal.setTarget(0);
+        goal.setUnit(String.valueOf(UnitOfMeasurement.UNITS));
+
+        GoalModel goalModel = modelConverter.toGoalModel(goal);
+        assertEquals(goal.getGoalName(), goalModel.getGoalName());
+        assertEquals(goal.getUserId(), goalModel.getUserId());
+        assertEquals(goal.getGoalId(), goalModel.getGoalId());
+        assertEquals(goal.getTimePeriod(), goalModel.getTimePeriod());
+        assertEquals(goal.getTarget(), goalModel.getTarget());
+        assertEquals(goal.getUnit(), goalModel.getUnit());
     }
 }
