@@ -8,6 +8,7 @@ import com.nashss.se.momentum.dynamodb.GoalDao;
 import com.nashss.se.momentum.dynamodb.PlaylistDao;
 import com.nashss.se.momentum.dynamodb.models.Goal;
 import com.nashss.se.momentum.dynamodb.models.Playlist;
+import com.nashss.se.momentum.utils.UnitOfMeasurement;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -41,7 +42,7 @@ public class CreateGoalActivityTest {
         String userId ="55555";
         Integer timePeriod = 2;
         Integer target =3;
-        String unit ="hour";
+        UnitOfMeasurement unit =UnitOfMeasurement.HOURS;
 
 
         CreateGoalRequest request = CreateGoalRequest.builder()

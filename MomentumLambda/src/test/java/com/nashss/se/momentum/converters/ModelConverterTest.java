@@ -99,7 +99,7 @@ public class ModelConverterTest {
         goal.setGoalId(goal.getUserId() + goal.getGoalName());
         goal.setTimePeriod(0);
         goal.setTarget(0);
-        goal.setUnit(String.valueOf(UnitOfMeasurement.UNITS));
+        goal.setUnit(UnitOfMeasurement.UNITS);
 
         GoalModel goalModel = modelConverter.toGoalModel(goal);
         assertEquals(goal.getGoalName(), goalModel.getGoalName());

@@ -1,5 +1,7 @@
 package com.nashss.se.momentum.models;
 
+import com.nashss.se.momentum.utils.UnitOfMeasurement;
+
 import java.util.Objects;
 
 public class GoalModel {
@@ -9,10 +11,10 @@ public class GoalModel {
     private final String goalName;
     private final Integer timePeriod;
     private final Integer target;
-    private final String unit;
+    private final UnitOfMeasurement unit;
 
     public GoalModel(String goalId, String userId, String goalName, Integer timePeriod,
-                     Integer target, String unit) {
+                     Integer target, UnitOfMeasurement unit) {
         this.goalId = goalId;
         this.userId = userId;
         this.goalName = goalName;
@@ -41,7 +43,7 @@ public class GoalModel {
         return this.target;
     }
 
-    public String getUnit() {
+    public UnitOfMeasurement getUnit() {
         return this.unit;
     }
 
@@ -78,7 +80,7 @@ public class GoalModel {
         private String goalId;
         private Integer timePeriod;
         private Integer target;
-        private String unit;
+        private UnitOfMeasurement unit;
 
         public GoalModel.Builder withUserId(String userId) {
             this.userId = userId;
@@ -105,7 +107,7 @@ public class GoalModel {
             return this;
         }
 
-        public GoalModel.Builder withUnit(String unit) {
+        public GoalModel.Builder withUnit(UnitOfMeasurement unit) {
             this.unit = unit;
             return this;
         }

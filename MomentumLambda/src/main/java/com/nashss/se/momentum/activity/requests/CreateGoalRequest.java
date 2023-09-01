@@ -2,6 +2,7 @@ package com.nashss.se.momentum.activity.requests;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import com.nashss.se.momentum.utils.UnitOfMeasurement;
 
 import java.time.LocalDate;
 @JsonDeserialize(builder = CreateGoalRequest.Builder.class)
@@ -11,10 +12,10 @@ public class CreateGoalRequest {
     private final String userId;
     private final Integer timePeriod;
     private final Integer target;
-    private final String unit;
+    private final UnitOfMeasurement unit;
     private final String goalName;
 
-    public CreateGoalRequest( String userId, Integer timePeriod, Integer target, String unit, String goalName) {
+    public CreateGoalRequest( String userId, Integer timePeriod, Integer target, UnitOfMeasurement unit, String goalName) {
 
         this.userId = userId;
         this.timePeriod = timePeriod;
@@ -37,7 +38,7 @@ public class CreateGoalRequest {
         return target;
     }
 
-    public String getUnit() {
+    public UnitOfMeasurement getUnit() {
         return unit;
     }
 
@@ -67,7 +68,7 @@ public class CreateGoalRequest {
         private  Integer timePeriod;
         private  Integer target;
 
-        private  String unit;
+        private UnitOfMeasurement unit;
         private  String goalName;
 
 
@@ -86,7 +87,7 @@ public class CreateGoalRequest {
             this.target= target;
             return this;
         }
-        public CreateGoalRequest.Builder withUnit(String unit) {
+        public CreateGoalRequest.Builder withUnit(UnitOfMeasurement unit) {
             this.unit= unit;
             return this;
         }
