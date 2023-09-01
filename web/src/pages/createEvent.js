@@ -38,7 +38,6 @@ class CreateEvent extends BindingClass {
 
         const createButton = document.getElementById('create');
         const origButtonText = createButton.innerText;
-        createButton.innerText = 'Loading...';
 
         const goalId = document.getElementById('goal-id').value;
         const dateOfEvent = document.getElementById('date-of-event').value;
