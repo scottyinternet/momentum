@@ -11,6 +11,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.inject.Inject;
+import java.time.LocalDate;
 import java.util.UUID;
 
 /**
@@ -52,7 +53,7 @@ public class CreateEventActivity {
 
         newEvent.setGoalId(createEventRequest.getGoalId());
         newEvent.setEventId(UUID.randomUUID().toString());
-        newEvent.setDate(createEventRequest.getDateOfEvent());
+        newEvent.setDate(LocalDate.parse(createEventRequest.getDateOfEvent()));
         newEvent.setMeasurement(createEventRequest.getMeasurement());
 
         eventDao.saveEvent(newEvent);

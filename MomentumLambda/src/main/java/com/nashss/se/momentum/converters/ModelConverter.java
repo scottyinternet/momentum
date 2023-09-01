@@ -88,7 +88,7 @@ public class ModelConverter {
         EventModel eventModel = EventModel.builder()
                 .withGoalId(event.getGoalId())
                 .withEventId(event.getEventId())
-                .withDateOfEvent(LocalDate.parse(event.getDate()))
+                .withDateOfEvent(event.getDate())
                 .withMeasurement(event.getMeasurement())
                 .build();
         return eventModel;
