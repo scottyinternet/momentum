@@ -1,9 +1,8 @@
 package com.nashss.se.momentum.dynamodb.models;
 
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBRangeKey;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
+import com.amazonaws.services.dynamodbv2.datamodeling.*;
+import com.nashss.se.momentum.converters.UnitOfMeasurementConverter;
+import com.nashss.se.momentum.utils.UnitOfMeasurement;
 
 @DynamoDBTable(tableName = "goals")
 public class Goal {
@@ -13,7 +12,7 @@ public class Goal {
     private String goalId;
     private Integer timePeriod;
     private Integer target;
-    private String unit;
+    private UnitOfMeasurement unit;
 
     @DynamoDBHashKey(attributeName = "userId")
     public String getUserId() {
@@ -34,6 +33,7 @@ public class Goal {
     }
 
     @DynamoDBAttribute(attributeName = "goalId")
+
     public String getGoalId() {
         return goalId;
     }
@@ -61,11 +61,12 @@ public class Goal {
     }
 
     @DynamoDBAttribute(attributeName = "unit")
-    public String getUnit() {
+    @DynamoDBTypeConverted(converter = UnitOfMeasurementConverter.class)
+    public UnitOfMeasurement getUnit() {
         return unit;
     }
 
-    public void setUnit(String unit) {
+    public void setUnit(UnitOfMeasurement unit) {
         this.unit = unit;
     }
 }

@@ -51,11 +51,17 @@ public interface ServiceComponent {
     UpdatePlaylistActivity provideUpdatePlaylistActivity();
 
 
-    // - - - - - - - - M O M E N T U M   P R O V I D E R S - - - - - - - -
+    /**
+     * Provides the relevant activity
+     * @return CreateGoalActivity
+     */
+    CreateGoalActivity provideCreateGoalActivity();
+
     /**
      * Provides the relevant activity.
      * @return CreateEventActivity
      */
     CreateEventActivity provideCreateEventActivity();
+
 
 }
