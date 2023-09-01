@@ -7,6 +7,7 @@ import com.nashss.se.momentum.models.EventModel;
 import com.nashss.se.momentum.models.PlaylistModel;
 import com.nashss.se.momentum.models.SongModel;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -87,7 +88,7 @@ public class ModelConverter {
         EventModel eventModel = EventModel.builder()
                 .withGoalId(event.getGoalId())
                 .withEventId(event.getEventId())
-                .withDateOfEvent(event.getDate())
+                .withDateOfEvent(LocalDate.parse(event.getDate()))
                 .withMeasurement(event.getMeasurement())
                 .build();
         return eventModel;

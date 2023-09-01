@@ -11,8 +11,8 @@ public class EventModel {
     private LocalDate dateOfEvent;
     private Double measurement;
 
-    private EventModel(String goalID, String eventId, LocalDate dateOfEvent, Double measurement){
-        this.goalId = goalID;
+    private EventModel(String goalId, String eventId, LocalDate dateOfEvent, Double measurement){
+        this.goalId = goalId;
         this.eventId = eventId;
         this.dateOfEvent = dateOfEvent;
         this.measurement = measurement;

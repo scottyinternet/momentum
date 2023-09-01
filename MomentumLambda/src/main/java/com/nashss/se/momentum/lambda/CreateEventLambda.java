@@ -15,7 +15,7 @@ public class CreateEventLambda
                     CreateEventRequest unauthenticatedRequest = input.fromBody(CreateEventRequest.class);
                     return input.fromUserClaims(claims ->
                             CreateEventRequest.builder()
-                                    .withGoalID(unauthenticatedRequest.getGoalId())
+                                    .withGoalId(unauthenticatedRequest.getGoalId())
                                     .withDateOfEvent(unauthenticatedRequest.getDateOfEvent())
                                     .withMeasurement(unauthenticatedRequest.getMeasurement())
                                     .build());

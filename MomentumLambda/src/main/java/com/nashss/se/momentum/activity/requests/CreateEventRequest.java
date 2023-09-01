@@ -3,15 +3,14 @@ package com.nashss.se.momentum.activity.requests;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 
-import java.time.LocalDate;
 
 @JsonDeserialize(builder = CreateEventRequest.Builder.class)
 public class CreateEventRequest {
     private final String goalId;
-    private final LocalDate dateOfEvent;
+    private final String dateOfEvent;
     private final Double measurement;
 
-    private CreateEventRequest(String goalId, LocalDate dateOfEvent, Double measurement) {
+    private CreateEventRequest(String goalId, String dateOfEvent, Double measurement) {
         this.goalId = goalId;
         this.dateOfEvent = dateOfEvent;
         this.measurement = measurement;
@@ -21,7 +20,7 @@ public class CreateEventRequest {
         return goalId;
     }
 
-    public LocalDate getDateOfEvent() {
+    public String getDateOfEvent() {
         return dateOfEvent;
     }
 
@@ -33,7 +32,7 @@ public class CreateEventRequest {
     public String toString() {
         return "CreateEventRequest{" +
                 "goalId='" + goalId + '\'' +
-                ", dateOfEvent='" + dateOfEvent.toString() + '\'' +
+                ", dateOfEvent='" + dateOfEvent + '\'' +
                 ", measurement=" + measurement +
                 '}';
     }
@@ -47,15 +46,15 @@ public class CreateEventRequest {
     public static class Builder {
 
         private String goalId;
-        private LocalDate dateOfEvent;
+        private String dateOfEvent;
         private Double measurement;
 
-        public Builder withGoalID(String goalId) {
+        public Builder withGoalId(String goalId) {
             this.goalId = goalId;
             return this;
         }
 
-        public Builder withDateOfEvent(LocalDate dateOfEvent) {
+        public Builder withDateOfEvent(String dateOfEvent) {
             this.dateOfEvent = dateOfEvent;
             return this;
         }

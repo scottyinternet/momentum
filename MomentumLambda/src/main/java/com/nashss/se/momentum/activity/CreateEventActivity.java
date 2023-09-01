@@ -7,8 +7,6 @@ import com.nashss.se.momentum.converters.ModelConverter;
 import com.nashss.se.momentum.dynamodb.EventDao;
 import com.nashss.se.momentum.dynamodb.models.Event;
 import com.nashss.se.momentum.models.EventModel;
-import com.nashss.se.momentum.utils.MomentumValidator;
-import com.nashss.se.projectresources.music.playlist.servic.util.MusicPlaylistServiceUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -42,7 +40,7 @@ public class CreateEventActivity {
      * It then returns the newly created event.
      * @param createEventRequest request object containing the new event's goal ID,
      *                           Date of Event, and Measurement.
-     * @return createEventResult result object containg the API defined {@link EventModel}
+     * @return createEventResult result object containing the API defined {@link EventModel}
      */
 
     public CreateEventResult handleRequest(final CreateEventRequest createEventRequest) {

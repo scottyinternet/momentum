@@ -324,12 +324,12 @@ Resources:
             Path: /goals/{goalId}
             Method: delete
 
-  AddEventLambda:
+  CreateEventLambda:
     Type: AWS::Serverless::Function
     Properties:
       Role: !GetAtt AccessRole.Arn
       CodeUri: MomentumLambda
-      Handler: com.nashss.se.momentum.lambda.AddEventLambda::handleRequest
+      Handler: com.nashss.se.momentum.lambda.CreateEventLambda::handleRequest
       Runtime: java11
       Architectures:
         - x86_64
