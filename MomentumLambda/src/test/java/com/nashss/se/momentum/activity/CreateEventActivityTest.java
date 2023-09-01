@@ -18,9 +18,9 @@ import static org.mockito.MockitoAnnotations.openMocks;
 
 class CreateEventActivityTest {
     @Mock
-    EventDao eventDao;
+    private EventDao eventDao;
 
-    CreateEventActivity createEventActivity;
+    private CreateEventActivity createEventActivity;
 
     @BeforeEach
     void setUp() {
