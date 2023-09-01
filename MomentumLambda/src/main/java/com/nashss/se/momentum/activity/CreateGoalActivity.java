@@ -27,7 +27,7 @@ public class CreateGoalActivity {
         Goal newGoal = new Goal();
         newGoal.setGoalName(createGoalRequest.getGoalName());
         newGoal.setUserId(createGoalRequest.getUserId());
-        newGoal.setGoalId(createGoalRequest.getGoalId());
+        newGoal.setGoalId(createGoalRequest.getUserId()+createGoalRequest.getGoalName());
         newGoal.setTimePeriod(createGoalRequest.getTimePeriod());
         newGoal.setTarget(createGoalRequest.getTarget());
         newGoal.setUnit(createGoalRequest.getUnit());

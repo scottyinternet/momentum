@@ -45,7 +45,6 @@ public class CreateGoalActivityTest {
 
 
         CreateGoalRequest request = CreateGoalRequest.builder()
-                .withGoalId(goalId)
                 .withGoalName(goalName)
                 .withUserId(userId)
                 .withTimePeriod(timePeriod)
@@ -61,7 +60,7 @@ public class CreateGoalActivityTest {
 
         assertNotNull(result.getGoal().getGoalId());
         assertEquals(goalName, result.getGoal().getGoalName());
-        assertEquals(goalId, result.getGoal().getGoalId());
+        assertEquals(userId+goalName, result.getGoal().getGoalId());
         assertEquals(userId, result.getGoal().getUserId());
         assertEquals(timePeriod, result.getGoal().getTimePeriod());
         assertEquals(target, result.getGoal().getTarget());

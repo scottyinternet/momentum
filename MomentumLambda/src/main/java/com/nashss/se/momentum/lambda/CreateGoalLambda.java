@@ -20,7 +20,6 @@ public class CreateGoalLambda
                                     .withTarget(unauthenticatedRequest.getTarget())
                                     .withTimePeriod(unauthenticatedRequest.getTimePeriod())
                                     .withUnit(unauthenticatedRequest.getUnit())
-                                    .withGoalId(unauthenticatedRequest.getGoalId())
                                     .withUserId(claims.get("email"))
                                     .build());
                 },

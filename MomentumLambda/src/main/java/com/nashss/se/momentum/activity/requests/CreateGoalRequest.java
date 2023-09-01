@@ -7,15 +7,15 @@ import java.time.LocalDate;
 @JsonDeserialize(builder = CreateGoalRequest.Builder.class)
 public class CreateGoalRequest {
 
-    private final String goalId;
+
     private final String userId;
     private final Integer timePeriod;
     private final Integer target;
     private final String unit;
     private final String goalName;
 
-    public CreateGoalRequest(String goalId, String userId, Integer timePeriod, Integer target, String unit, String goalName) {
-        this.goalId = goalId;
+    public CreateGoalRequest( String userId, Integer timePeriod, Integer target, String unit, String goalName) {
+
         this.userId = userId;
         this.timePeriod = timePeriod;
         this.target = target;
@@ -23,9 +23,7 @@ public class CreateGoalRequest {
         this.goalName = goalName;
     }
 
-    public String getGoalId() {
-        return goalId;
-    }
+
 
     public String getUserId() {
         return userId;
@@ -50,7 +48,6 @@ public class CreateGoalRequest {
     @Override
     public String toString() {
         return "CreateGoalRequest{" +
-                "goalId='" + goalId + '\'' +
                 ", userId='" + userId + '\'' +
                 ", timePeriod=" + timePeriod +
                 ", target=" + target +
@@ -65,7 +62,7 @@ public class CreateGoalRequest {
 
     @JsonPOJOBuilder
     public static class Builder {
-        private String goalId;
+
         private String userId;
         private  Integer timePeriod;
         private  Integer target;
@@ -73,10 +70,7 @@ public class CreateGoalRequest {
         private  String unit;
         private  String goalName;
 
-        public CreateGoalRequest.Builder withGoalId(String goalId) {
-            this.goalId = goalId;
-            return this;
-        }
+
 
         public CreateGoalRequest.Builder withUserId(String userId) {
             this.userId  = userId;
@@ -102,7 +96,7 @@ public class CreateGoalRequest {
         }
 
         public CreateGoalRequest build() {
-            return new CreateGoalRequest(goalId, userId, timePeriod, target, unit, goalName);
+            return new CreateGoalRequest( userId, timePeriod, target, unit, goalName);
         }
     }
 
