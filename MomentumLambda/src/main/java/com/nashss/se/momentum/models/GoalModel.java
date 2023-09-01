@@ -22,27 +22,27 @@ public class GoalModel {
     }
 
     public String getGoalId() {
-        return goalId;
+        return this.goalId;
     }
 
     public String getUserId() {
-        return userId;
+        return this.userId;
     }
 
     public String getGoalName() {
-        return goalName;
+        return this.goalName;
     }
 
     public Integer getTimePeriod() {
-        return timePeriod;
+        return this.timePeriod;
     }
 
     public Integer getTarget() {
-        return target;
+        return this.target;
     }
 
     public String getUnit() {
-        return unit;
+        return this.unit;
     }
 
     @Override
@@ -112,7 +112,7 @@ public class GoalModel {
 
 
         public GoalModel build() {
-            return new GoalModel(userId, goalName, goalId, timePeriod, target, unit);
+            return new GoalModel(goalId,userId, goalName,  timePeriod, target, unit);
         }
     }
 }
