@@ -1,142 +1,107 @@
 {
-  "album_tracks": [
+  "events": [
     {
       "PutRequest": {
         "Item": {
-          "asin": { "S": "B019HKJTCI" },
-          "track_number": { "N": "6" },
-          "album_name": { "S": "Money" },
-          "song_title": { "S": "Dark Side of the Moon" }
+          "goalId": { "S": "user1@fakemail.comStudy" },
+          "eventId": { "S": "101" },
+          "dateOfEvent": { "S": "2023-09-05" },
+          "measurement": { "N": "5.0" }
         }
       }
     },
     {
       "PutRequest": {
         "Item": {
-          "asin": { "S": "B00000000" },
-          "track_number": { "N": "1" },
-          "album_name": { "S": "NSS Smooth Jams" },
-          "song_title": { "S": "firstNameLast" }
+          "goalId": { "S": "user1@fakemail.comStudy" },
+          "eventId": { "S": "102" },
+          "dateOfEvent": { "S": "2023-09-05" },
+          "measurement": { "N": "2.0" }
         }
       }
     },
     {
       "PutRequest": {
         "Item": {
-          "asin": { "S": "B00000000" },
-          "track_number": { "N": "2" },
-          "album_name": { "S": "NSS Smooth Jams" },
-          "song_title": { "S": "spiderman" }
+          "goalId": { "S": "user1@fakemail.comStudy" },
+          "eventId": { "S": "103" },
+          "dateOfEvent": { "S": "2023-09-02" },
+          "measurement": { "N": "3.0" }
         }
       }
     },
     {
       "PutRequest": {
         "Item": {
-          "asin": { "S": "B00000000" },
-          "track_number": { "N": "3" },
-          "album_name": { "S": "NSS Smooth Jams" },
-          "song_title": { "S": "curveballs" }
+          "goalId": { "S": "user1@fakemail.comStudy" },
+          "eventId": { "S": "104" },
+          "dateOfEvent": { "S": "2023-08-29" },
+          "measurement": { "N": "1.0" }
         }
       }
     },
     {
       "PutRequest": {
         "Item": {
-          "asin": { "S": "B00000000" },
-          "track_number": { "N": "4" },
-          "album_name": { "S": "NSS Smooth Jams" },
-          "song_title": { "S": "whereImFrom" }
+          "goalId": { "S": "user1@fakemail.comCardio" },
+          "eventId": { "S": "105" },
+          "dateOfEvent": { "S": "2023-09-05" },
+          "measurement": { "N": "60.0" }
         }
       }
     },
     {
       "PutRequest": {
         "Item": {
-          "asin": { "S": "B00000000" },
-          "track_number": { "N": "5" },
-          "album_name": { "S": "NSS Smooth Jams" },
-          "song_title": { "S": "wahoo" }
+          "goalId": { "S": "user2@fakemail.comSteps" },
+          "eventId": { "S": "201" },
+          "dateOfEvent": { "S": "2023-09-05" },
+          "measurement": { "N": "10000" }
         }
       }
     },
     {
       "PutRequest": {
         "Item": {
-          "asin": { "S": "B07VSG6V59" },
-          "track_number": { "N": "2" },
-          "album_name": { "S": "All Mirrors" },
-          "song_title": { "S": "All Mirrors" }
-        }
-      }
-    },
-    {
-      "PutRequest": {
-        "Item": {
-          "asin": { "S": "B07NJ3H27X" },
-          "track_number": { "N": "1" },
-          "album_name": { "S": "Cuz I Love You" },
-          "song_title": { "S": "Cuz I Love You" }
-        }
-      }
-    },
-    {
-      "PutRequest": {
-        "Item": {
-          "asin": { "S": "B07NJ3H27X" },
-          "track_number": { "N": "7" },
-          "album_name": { "S": "Cuz I Love You" },
-          "song_title": { "S": "Tempo" }
-        }
-      }
-    },
-    {
-      "PutRequest": {
-        "Item": {
-          "asin": { "S": "B004CAWKXE" },
-          "track_number": { "N": "2" },
-          "album_name": { "S": "Danger Days: The True Lives of the Fabulous Killjoys" },
-          "song_title": { "S": "Na Na Na (Na Na Na Na Na Na Na Na Na)" }
-        }
-      }
-    },
-    {
-      "PutRequest": {
-        "Item": {
-          "asin": { "S": "B000LP5FSG" },
-          "track_number": { "N": "2" },
-          "album_name": { "S": "WINCING THE NIGHT AWAY" },
-          "song_title": { "S": "Australia" }
+          "goalId": { "S": "user2@fakemail.comSteps" },
+          "eventId": { "S": "202" },
+          "dateOfEvent": { "S": "2023-09-04" },
+          "measurement": { "N": "9000" }
         }
       }
     }
   ],
-  "playlists": [
+  "goals": [
     {
       "PutRequest": {
         "Item": {
-          "id": { "S": "O7SFa" },
-          "playlistName": { "S": "NSS Songs" },
-          "songCount": { "N": "2" },
-          "songList": { "S": "[{\"asin\":\"B07NJ3H27X\",\"trackNumber\":1,\"albumName\":\"Cuz I Love You\",\"songTitle\":\"Cuz I Love You\"},{\"asin\":\"B019HKJTCI\",\"trackNumber\":6,\"albumName\":\"Money\",\"songTitle\":\"Dark Side of the Moon\"}]" },
-          "customerId": { "S": "foo@example.com" },
-          "customerName": { "S": "Foo Barrington" },
-          "tags": { "SS": [ "banjo", "triangle", "saw" ]
-          }
+          "userId": { "S": "user1@fakemail.com" },
+          "goalName": { "S": "Study" },
+          "timePeriod": { "N": "7" },
+          "target": { "N": "15" },
+          "unit": { "S": "hours" }
         }
       }
     },
     {
       "PutRequest": {
         "Item": {
-          "id": { "S": "O8GDb" },
-          "playlistName": { "S": "SE Songs" },
-          "songCount": { "N": "0" },
-          "songList": { "S": "[]" },
-          "customerId": { "S": "bar@example.com" },
-          "customerName": { "S": "Bar Wellington" },
-          "tags": { "SS": [ "guitar", "saw" ]
-          }
+          "userId": { "S": "user1@fakemail.com" },
+          "goalName": { "S": "Cardio" },
+          "timePeriod": { "N": "7" },
+          "target": { "N": "150" },
+          "unit": { "S": "minutes" }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "userId": { "S": "user2@fakemail.com" },
+          "goalName": { "S": "Steps" },
+          "timePeriod": { "N": "3" },
+          "target": { "N": "25000" },
+          "unit": { "S": "count" }
         }
       }
     }
