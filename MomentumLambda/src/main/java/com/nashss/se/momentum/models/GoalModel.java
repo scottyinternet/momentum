@@ -11,10 +11,10 @@ public class GoalModel {
     private final String goalName;
     private final Integer timePeriod;
     private final Integer target;
-    private final UnitOfMeasurement unit;
+    private final String unit;
 
     public GoalModel(String goalId, String userId, String goalName, Integer timePeriod,
-                     Integer target, UnitOfMeasurement unit) {
+                     Integer target, String unit) {
         this.goalId = goalId;
         this.userId = userId;
         this.goalName = goalName;
@@ -43,7 +43,7 @@ public class GoalModel {
         return this.target;
     }
 
-    public UnitOfMeasurement getUnit() {
+    public String getUnit() {
         return this.unit;
     }
 
@@ -80,7 +80,7 @@ public class GoalModel {
         private String goalId;
         private Integer timePeriod;
         private Integer target;
-        private UnitOfMeasurement unit;
+        private String unit;
 
         public GoalModel.Builder withUserId(String userId) {
             this.userId = userId;
@@ -107,7 +107,7 @@ public class GoalModel {
             return this;
         }
 
-        public GoalModel.Builder withUnit(UnitOfMeasurement unit) {
+        public GoalModel.Builder withUnit(String unit) {
             this.unit = unit;
             return this;
         }

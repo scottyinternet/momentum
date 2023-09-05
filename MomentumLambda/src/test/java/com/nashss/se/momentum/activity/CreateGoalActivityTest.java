@@ -37,12 +37,12 @@ public class CreateGoalActivityTest {
     @Test
     public void handleRequest_withFullData_createsAndSavesGoalObject() {
         // GIVEN
-        String goalId = "1234";
+
         String goalName = "StudyBehaviour";
         String userId ="55555";
         Integer timePeriod = 2;
         Integer target =3;
-        UnitOfMeasurement unit =UnitOfMeasurement.HOURS;
+        String unit ="HOURS";
 
 
         CreateGoalRequest request = CreateGoalRequest.builder()
