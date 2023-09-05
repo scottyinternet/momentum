@@ -12,7 +12,7 @@ public class Goal {
     private String goalId;
     private Integer timePeriod;
     private Integer target;
-    private UnitOfMeasurement unit;
+    private String unit;
 
     @DynamoDBHashKey(attributeName = "userId")
     public String getUserId() {
@@ -61,12 +61,12 @@ public class Goal {
     }
 
     @DynamoDBAttribute(attributeName = "unit")
-    @DynamoDBTypeConverted(converter = UnitOfMeasurementConverter.class)
-    public UnitOfMeasurement getUnit() {
+   // @DynamoDBTypeConverted(converter = UnitOfMeasurementConverter.class)
+    public String getUnit() {
         return unit;
     }
 
-    public void setUnit(UnitOfMeasurement unit) {
+    public void setUnit(String unit) {
         this.unit = unit;
     }
 }

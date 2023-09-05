@@ -75,6 +75,8 @@ export default class Header extends BindingClass {
             await clickHandler();
         });
 
+
+
         return button;
     }
 }

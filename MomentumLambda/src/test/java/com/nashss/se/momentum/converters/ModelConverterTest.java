@@ -104,7 +104,7 @@ public class ModelConverterTest {
         goal.setGoalId(goal.getUserId() + goal.getGoalName());
         goal.setTimePeriod(0);
         goal.setTarget(0);
-        goal.setUnit(UnitOfMeasurement.UNITS);
+        goal.setUnit("Hour");
 
         GoalModel goalModel = modelConverter.toGoalModel(goal);
         assertEquals(goal.getGoalName(), goalModel.getGoalName());

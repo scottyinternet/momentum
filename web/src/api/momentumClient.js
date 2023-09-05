@@ -15,7 +15,7 @@ export default class MomentumClient extends BindingClass {
     constructor(props = {}) {
         super();
 
-        const methodsToBind = ['clientLoaded', 'getIdentity', 'login', 'logout', 'createEvent'];
+        const methodsToBind = ['clientLoaded', 'getIdentity', 'login', 'logout', 'createEvent','createGoal'];
         this.bindClassMethods(methodsToBind, this);
 
         this.authenticator = new Authenticator();;
@@ -73,7 +73,7 @@ export default class MomentumClient extends BindingClass {
 
     async createEvent(goalId, dateOfEvent, measurement){
         try {
-            const token = await this.getTokenOrThrow("Only authenticated users can create playlists.");
+            const token = await this.getTokenOrThrow("Only authenticated users can create Events.");
             const response = await this.axiosClient.post(`events`, {
                 goalId: goalId,
                 dateOfEvent: dateOfEvent,
@@ -89,6 +89,26 @@ export default class MomentumClient extends BindingClass {
         }
 
     }
+    async createGoal(userId,unit, goalName,target,timePeriod){
+            try {
+                const token = await this.getTokenOrThrow("Only authenticated users can create Goal.");
+                const response = await this.axiosClient.post(`goals`, {
+                    userId: userId,
+                    unit: unit,
+                    timePeriod: timePeriod,
+                    target: target,
+                    goalName:goalName
+                }, {
+                    headers: {
+                       Authorization: `Bearer ${token}`
+                    }
+                });
+                return response.data.goal;
+            } catch (error) {
+                this.handleError(error, errorCallback)
+            }
+
+        }
 
       /**
        * Helper method to log the error and run any error functions.

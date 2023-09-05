@@ -25,6 +25,7 @@ module.exports = {
   entry: {
     createPlaylist: path.resolve(__dirname, 'src', 'pages', 'createPlaylist.js'),
     createEvent: path.resolve(__dirname, 'src', 'pages', 'createEvent.js'),
+    createGoal: path.resolve(__dirname, 'src', 'pages', 'createGoal.js'),
     viewPlaylist: path.resolve(__dirname, 'src', 'pages', 'viewPlaylist.js'),
     searchPlaylists: path.resolve(__dirname, 'src', 'pages', 'searchPlaylists.js'),
   },
@@ -42,5 +43,6 @@ module.exports = {
       // overlay shows a full-screen overlay in the browser when there are js compiler errors or warnings
       overlay: true,
     },
+
   }
 }

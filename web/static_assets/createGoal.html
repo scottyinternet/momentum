@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script type="text/javascript" src="assets/createGoal.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+
+<body class="background">
+<header class="header" id="header"></header>
+<div class="card">
+    <h2>Create Goal</h2>
+    <form class="card-content" id="create-goal-form">
+        <p class="hidden error" id="error-message"> </p>
+        <p class="form-field">
+            <label for="user-id">User ID</label>
+            <input type="text" required class="validated-field" id="user-id" placeholder="Test only, to be generated in prod" autofocus>
+        </p>
+        <label for="units">Unit of Measurement:</label>
+
+        <select name="units" id="units">
+            <option value="minutes">Minutes</option>
+            <option value="hours">Hours</option>
+            <option value="miles">Miles</option>
+            <option value="kilometers">Kilometers</option>
+            <option value="count">Count</option>
+            <option value="units">Units</option>
+        </select>
+        <p class="form-field">
+            <label for="goalName">Goal Name</label>
+            <input type="text" required class="validated-field" id="goalName" placeholder="name" autofocus>
+        </p>
+        <p class="form-field">
+            <label for="target">Target</label>
+            <input type="number" required class="validated-field" id="target" placeholder="target" autofocus min="1" max="100">
+        </p>
+        <p class="form-field">
+            <label for="timePeriod">Time Period</label>
+            <input type="number" required class="validated-field" id="timePeriod" placeholder="time-period" autofocus min="1" max="100">
+        </p>
+        <p>
+            <a href="#" class="button" id="createGoal">Create Goal</a>
+        </p>
+    </form>
+</div>
+</body>
+</html>

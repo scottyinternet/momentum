@@ -12,10 +12,10 @@ public class CreateGoalRequest {
     private final String userId;
     private final Integer timePeriod;
     private final Integer target;
-    private final UnitOfMeasurement unit;
+    private final String unit;
     private final String goalName;
 
-    public CreateGoalRequest( String userId, Integer timePeriod, Integer target, UnitOfMeasurement unit, String goalName) {
+    public CreateGoalRequest( String userId, Integer timePeriod, Integer target, String unit, String goalName) {
 
         this.userId = userId;
         this.timePeriod = timePeriod;
@@ -38,7 +38,7 @@ public class CreateGoalRequest {
         return target;
     }
 
-    public UnitOfMeasurement getUnit() {
+    public String getUnit() {
         return unit;
     }
 
@@ -68,7 +68,7 @@ public class CreateGoalRequest {
         private  Integer timePeriod;
         private  Integer target;
 
-        private UnitOfMeasurement unit;
+        private String unit;
         private  String goalName;
 
 
@@ -87,7 +87,7 @@ public class CreateGoalRequest {
             this.target= target;
             return this;
         }
-        public CreateGoalRequest.Builder withUnit(UnitOfMeasurement unit) {
+        public CreateGoalRequest.Builder withUnit(String unit) {
             this.unit= unit;
             return this;
         }
