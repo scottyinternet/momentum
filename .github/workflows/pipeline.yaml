@@ -117,7 +117,7 @@ jobs:
 
           echo API_BASE_URL=\"$API_BASE_URL\" >> .env
 
-          echo COGNITO_DOMAIN=\"$COGNITO_DOMAIN\" >> .env
+          echo COGNITO_DOMAIN=\"${COGNITO_DOMAIN}.auth.us-east-2.amazoncognito.com\" >> .env
 
           echo COGNITO_USER_POOL_ID=\"$COGNITO_USER_POOL_ID\" >> .env
           echo COGNITO_USER_POOL_CLIENT_ID=\"$COGNITO_USER_POOL_CLIENT_ID\" >> .env
