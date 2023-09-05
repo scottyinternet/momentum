@@ -24,4 +24,7 @@ public class GoalDao {
         return goal;
     }
 
+    public Goal getGoal(String userId, String goalName) {
+        return this.dynamoDBMapper.load(Goal.class, userId, goalName);
+    }
 }
