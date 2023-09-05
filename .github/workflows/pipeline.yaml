@@ -10,7 +10,7 @@ env:
 
   # STUDENTS: Set these environment variables 
   API_BASE_URL: https://g4oui6vgw9.execute-api.us-east-2.amazonaws.com/Prod/
-  COGNITO_DOMAIN: project-momentum-vanilla
+  COGNITO_DOMAIN:  project-momentum-vanilla.auth.us-east-2.amazoncognito.com
   COGNITO_REDIRECT_SIGNIN: https://d38gpjgk6k5gpe.cloudfront.net
   COGNITO_REDIRECT_SIGNOUT: https://d38gpjgk6k5gpe.cloudfront.net
 
