@@ -3,16 +3,17 @@ package com.nashss.se.momentum.dynamodb;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
 import com.amazonaws.services.dynamodbv2.datamodeling.QueryResultPage;
+import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.nashss.se.momentum.dynamodb.models.Event;
-import com.nashss.se.momentum.dynamodb.models.Playlist;
+import com.nashss.se.momentum.dynamodb.models.Goal;
 import com.nashss.se.momentum.exceptions.EventNotFoundException;
 import com.nashss.se.momentum.metrics.MetricsConstants;
 import com.nashss.se.momentum.metrics.MetricsPublisher;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.time.LocalDate;
+import java.util.*;
 
 /**
  * Accesses data for a events using {@link Event} to represent the model in DynamoDB.
@@ -72,4 +73,22 @@ public class EventDao {
         return event;
     }
 
+    public List<Event> getEventsBetweenDates(Goal goal) {
+        LocalDate today = LocalDate.now();
+        LocalDate startDate = today.minusDays(goal.getTimePeriod()+1);
+
+        //query GSI dates between today and start date... will return a list of Events
+        Map<String, AttributeValue> valueMap = new HashMap<>();
+        valueMap.put(":goalId", new AttributeValue().withS(goal.getGoalId()));
+        valueMap.put(":today", new AttributeValue().withS(today.toString()));
+        valueMap.put(":startDate", new AttributeValue().withS(startDate.toString()));
+
+        DynamoDBQueryExpression<Event> queryExpression = new DynamoDBQueryExpression<Event>()
+                .withIndexName(Event.GSI_TABLE_NAME)
+                .withConsistentRead(false)
+                .withKeyConditionExpression("goaldId = :goalId AND dateOfEvent BETWEEN :startDate AND :today")
+                .withExpressionAttributeValues(valueMap);
+
+        return dynamoDBMapper.query(Event.class, queryExpression);
+    }
 }
