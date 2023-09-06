@@ -9,7 +9,7 @@ public enum StatusEnum {
     IN_MOMENTUM("You are in momentum"),
     IN_MOMENTUM_HIT_TOMORROW("You are in momentum"),
 
-    IN_MOMENTUM_HIT_TODAY("You are in momentum");
+    IN_MOMENTUM_HIT_TODAY("You had momentum yesterday");
 
 
 
