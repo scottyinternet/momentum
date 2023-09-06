@@ -91,6 +91,6 @@ public class StatusCalculator {
                 message = "";
         }
 
-        return new Status(statusEnum, message, eventSummaryList);
+        return new Status(statusEnum, message, eventSummaryList, todaysTotals);
     }
 }
