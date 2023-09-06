@@ -27,7 +27,7 @@ public class GetGoalDetailsActivity {
         eventDao.getEventsBetweenDates(newGoal);
 
         return GetGoalDetailsResult.builder()
-                .build;
+                .build();
     }
 }
 

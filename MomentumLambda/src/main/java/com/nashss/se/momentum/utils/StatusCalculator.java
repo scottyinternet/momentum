@@ -17,6 +17,8 @@ public class StatusCalculator {
 
         int timePeriod = goal.getTimePeriod();
         int target = goal.getTarget();
+
+        // C R E A T E   S U M M A R Y   L I S T
         List<EventSummary> eventSummaryList = new ArrayList<>();
 
         for (int i = 0; i < goal.getTimePeriod()+1; i++) {
@@ -30,6 +32,10 @@ public class StatusCalculator {
             eventSummaryList.add(new EventSummary(date, sum));
         }
 
+        //  C A L C U L A T E   S U M S
+            // todays sum - sum today plus middle sum
+            // yesterdays sum - sum middle sum plus day coming off the board
+            // recent sum - sum most recent half of window
         double middleSum = 0.0;
         double recentSum = eventSummaryList.get(0).getSummedMeasurement();
 
@@ -44,8 +50,7 @@ public class StatusCalculator {
         double todaysTotals = middleSum + eventSummaryList.get(0).getSummedMeasurement();
         double yesterdaysTotals = eventSummaryList.get(timePeriod+1).getSummedMeasurement();
 
-        //calculate status
-        // IN MOMENTUM
+        //  C A L C U L A T E   S T A T U S
         StatusEnum statusEnum;
         if (todaysTotals >= target || yesterdaysTotals >= target) {
             statusEnum = StatusEnum.IN_MOMENTUM;
@@ -57,7 +62,7 @@ public class StatusCalculator {
             statusEnum = StatusEnum.GAINING_MOMENTUM;
         }
 
-        //create status message
+        //  C R E A T E   M E S S A G E
         // variables
         // :TARGET
         // :TODAYSSUM
