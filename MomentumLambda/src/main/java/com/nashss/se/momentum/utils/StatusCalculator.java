@@ -21,7 +21,6 @@ public class StatusCalculator {
         //  C A L C U L A T E   S U M S
         double middleSum = 0.0;
         double recentSum = eventSummaryList.get(0).getSummedMeasurement();
-
         for (int i = 1; i < timePeriod; i++) {
             double measurement = eventSummaryList.get(i).getSummedMeasurement();
             middleSum += measurement;
@@ -29,16 +28,14 @@ public class StatusCalculator {
                 recentSum += measurement;
             }
         }
-
-        double todaysTotals = middleSum + eventSummaryList.get(0).getSummedMeasurement();
+        double todaysTotal = middleSum + eventSummaryList.get(0).getSummedMeasurement();
         double yesterdaysTotals = eventSummaryList.get(timePeriod).getSummedMeasurement() + middleSum;
-        double todaysTotalMinusLast = todaysTotals - eventSummaryList.get(timePeriod-1).getSummedMeasurement();
+        double todaysTotalMinusLast = todaysTotal - eventSummaryList.get(timePeriod-1).getSummedMeasurement();
 
+        StatusEnum statusEnum = calculateStatusEnum(goal.getTarget(), todaysTotal, yesterdaysTotals, recentSum, todaysTotalMinusLast);
+        String message = createStatusMessage(goal, todaysTotal, todaysTotalMinusLast, statusEnum);
 
-        StatusEnum statusEnum = calculateStatusEnum(goal.getTarget(), todaysTotals, yesterdaysTotals, recentSum, todaysTotalMinusLast);
-        String message = createStatusMessage(goal, todaysTotals, todaysTotalMinusLast, statusEnum);
-
-        return new Status(statusEnum, message, eventSummaryList, todaysTotals);
+        return new Status(statusEnum, message, eventSummaryList, todaysTotal);
     }
 
 
@@ -66,15 +63,15 @@ public class StatusCalculator {
 
 
     //  C A L C U L A T E   S T A T U S   E N U M
-    private static StatusEnum calculateStatusEnum(int target, double todaysTotals, double yesterdaysTotals, double recentSum, double todaysTotalMinusLast) {
+    private static StatusEnum calculateStatusEnum(int target, double todaysTotal, double yesterdaysTotal, double recentSum, double todaysTotalMinusLast) {
         StatusEnum statusEnum;
-        if (todaysTotals >= target && todaysTotalMinusLast < target) {
+        if (todaysTotal >= target && todaysTotalMinusLast < target) {
             statusEnum = StatusEnum.IN_MOMENTUM_HIT_TOMORROW;
-        } else if (todaysTotals >= target){
+        } else if (todaysTotal >= target){
             statusEnum = StatusEnum.IN_MOMENTUM;
-        } else if (yesterdaysTotals >= target) {
+        } else if (yesterdaysTotal >= target) {
             statusEnum = StatusEnum.IN_MOMENTUM_HIT_TODAY;
-        } else if (todaysTotals <= 0) {
+        } else if (todaysTotal <= 0) {
             statusEnum = StatusEnum.NO_MOMENTUM;
         } else if (recentSum <= 0 && target > 3) {
             statusEnum = StatusEnum.LOSING_MOMENTUM;
@@ -86,13 +83,13 @@ public class StatusCalculator {
 
 
     //  C R E A T E   M E S S A G E
-    private static String createStatusMessage(Goal goal, double todaysTotals, double todaysTotalMinusLast, StatusEnum statusEnum) {
+    private static String createStatusMessage(Goal goal, double todaysTotal, double todaysTotalMinusLast, StatusEnum statusEnum) {
         String message;
-        int timeperiod = goal.getTimePeriod();
+        int timePeriod = goal.getTimePeriod();
         int target = goal.getTarget();
 
         // diff is difference between target and Todays Total
-        double diff = Math.abs(todaysTotals - target); // positive number represents surplus, negative is building
+        double diff = Math.abs(todaysTotal - target); // positive number represents surplus, negative is building
 
         String units = goal.getUnit();
         // make units singular if necessary
