@@ -59,5 +59,6 @@ public interface ServiceComponent {
      */
     CreateEventActivity provideCreateEventActivity();
 
+    GetGoalDetailsActivity provideGetGoalDetailsActivity();
 
 }
