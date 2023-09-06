@@ -5,7 +5,7 @@ public enum StatusEnum {
 
     GAINING_MOMENTUM("You are gaining momentum"),
     LOSING_MOMENTUM("You are losing momentum"),
-    NO_MOMENTUM("You have lost momentum"),
+    NO_MOMENTUM("You have no momentum"),
     IN_MOMENTUM("You are in momentum"),
     IN_MOMENTUM_HIT_TOMORROW("You are in momentum"),
 

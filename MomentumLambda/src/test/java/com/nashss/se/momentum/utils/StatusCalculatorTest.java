@@ -21,6 +21,7 @@ class StatusCalculatorTest {
     String G2_GOAL_NAME = "Study";
     private Goal goal1;
     private Goal goal2;
+    private Goal shortGoal;
     private List<Event> eventList;
 
     @BeforeEach
@@ -40,6 +41,14 @@ class StatusCalculatorTest {
         goal2.setTarget(40);
         goal2.setUnit("hours");
         goal2.setTimePeriod(30);
+
+        shortGoal = new Goal();
+        shortGoal.setUserId(G2_USERNAME);
+        shortGoal.setGoalName(GOAL_NAME);
+        shortGoal.setGoalId(G2_USERNAME+GOAL_NAME);
+        shortGoal.setTarget(3);
+        shortGoal.setUnit("times");
+        shortGoal.setTimePeriod(3);
 
         eventList = new ArrayList<>();
     }
@@ -145,6 +154,8 @@ class StatusCalculatorTest {
         eventList.add(event2);
 
         Status status = StatusCalculator.calculateStatus(goal1, eventList);
+
+        printer(status, goal1);
 
         assertEquals(StatusEnum.IN_MOMENTUM_HIT_TODAY, status.getStatusEnum());
         assertEquals("Hit 50 minutes today to stay in momentum.", status.getStatusMessage());
@@ -313,6 +324,7 @@ class StatusCalculatorTest {
     }
 
     //  EDGE CASES
+    //  D A T E S   N O T   I N   R A N G E
     @Test
     void calculateStatus_dateNotInRange_eventsNotFactoredIn() {
         Event event1 = new Event();
@@ -331,6 +343,89 @@ class StatusCalculatorTest {
         assertEquals(goal1.getTimePeriod()+1, status.getEventSummaryList().size());
     }
 
+    //  IN MOMENTUM Equal to target
+    @Test
+    void calculateStatus_goal1InMomentumEqualToTarget_returnInMomentumStatus() {
+        Event event1 = new Event();
+        event1.setGoalId(goal1.getGoalId());
+        event1.setDate(LocalDate.now());
+        event1.setMeasurement(75.0);
+        event1.setEventId("1234");
+
+        Event event2 = new Event();
+        event2.setGoalId(goal1.getGoalId());
+        event2.setDate(LocalDate.now().minusDays(1));
+        event2.setMeasurement(75.0);
+        event2.setEventId("2234");
+
+        eventList.add(event1);
+        eventList.add(event2);
+
+        Status status = StatusCalculator.calculateStatus(goal1, eventList);
+
+        assertEquals(StatusEnum.IN_MOMENTUM, status.getStatusEnum());
+        assertEquals("You have hit your target of 150 minutes exactly. Great work!", status.getStatusMessage());
+        assertEquals(150.0, status.getSum());
+        assertEquals(goal1.getTimePeriod()+1, status.getEventSummaryList().size());
+    }
+
+    // IN MOMENTUM singular unit drops s
+    @Test
+    void calculateStatus_goal1InMomentumSingularUnit_returnInMomentumStatus() {
+        Event event1 = new Event();
+        event1.setGoalId(goal1.getGoalId());
+        event1.setDate(LocalDate.now());
+        event1.setMeasurement(75.0);
+        event1.setEventId("1234");
+
+        Event event2 = new Event();
+        event2.setGoalId(goal1.getGoalId());
+        event2.setDate(LocalDate.now().minusDays(1));
+        event2.setMeasurement(76.0);
+        event2.setEventId("2234");
+
+        eventList.add(event1);
+        eventList.add(event2);
+
+        Status status = StatusCalculator.calculateStatus(goal1, eventList);
+
+        assertEquals(StatusEnum.IN_MOMENTUM, status.getStatusEnum());
+        assertEquals("You have a surplus of 1 minute. Keep it up!", status.getStatusMessage());
+        assertEquals(151.0, status.getSum());
+        assertEquals(goal1.getTimePeriod()+1, status.getEventSummaryList().size());
+    }
+
+    // G A I N I N G   M O M E N T U M :   S H O R T   G O A L
+    // verifies Losing Momentum is skipped for goals with time periods of 3 days or less
+    @Test
+    void calculateStatus_goal3_skipsLosingMomentum() {
+        Event event1 = new Event();
+        event1.setGoalId(shortGoal.getGoalId());
+        event1.setDate(LocalDate.now().minusDays(2));
+        event1.setMeasurement(1.0);
+        event1.setEventId("1234");
+
+        eventList.add(event1);
+
+        Status status = StatusCalculator.calculateStatus(shortGoal, eventList);
+
+        assertEquals(StatusEnum.GAINING_MOMENTUM, status.getStatusEnum());
+        assertEquals("Add 2 more times to be in momentum.", status.getStatusMessage());
+        assertEquals(1, status.getSum());
+        assertEquals(shortGoal.getTimePeriod()+1, status.getEventSummaryList().size());
+    }
+
+    @Test
+    void calculateStatus_goal3_NoMomentumShortGoalMessage() {
+        shortGoal.setTimePeriod(2);
+        Status status = StatusCalculator.calculateStatus(shortGoal, eventList);
+
+        assertEquals(StatusEnum.NO_MOMENTUM, status.getStatusEnum());
+        assertEquals("The best time to plant a tree was yesterday. The second best time is today!", status.getStatusMessage());
+        assertEquals(0, status.getSum());
+        assertEquals(shortGoal.getTimePeriod()+1, status.getEventSummaryList().size());
+    }
+
     private void printer(Status status, Goal goal) {
         System.out.println(" - - - - -  S T A T U S   P R I N T E R  - - - - -  ");
         System.out.println("Status: " + status.getStatusEnum());
@@ -347,6 +442,5 @@ class StatusCalculatorTest {
         EventSummary lastEventSummary = status.getEventSummaryList().get(goal.getTimePeriod());
         System.out.println("   - | " + lastEventSummary.getDate() + " | " + lastEventSummary.getSummedMeasurement() + " | dropping off board today");
         System.out.println("");
-
     }
 }
