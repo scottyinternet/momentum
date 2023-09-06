@@ -1,6 +1,5 @@
 package com.nashss.se.momentum.utils;
 
-import com.amazonaws.services.dynamodbv2.xspec.S;
 import com.nashss.se.momentum.dynamodb.models.Event;
 import com.nashss.se.momentum.dynamodb.models.Goal;
 import com.nashss.se.momentum.models.EventSummary;
@@ -9,7 +8,6 @@ import com.nashss.se.momentum.models.Status;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.SimpleTimeZone;
 
 public class StatusCalculator {
 
@@ -33,9 +31,6 @@ public class StatusCalculator {
         }
 
         //  C A L C U L A T E   S U M S
-            // todays sum - sum today plus middle sum
-            // yesterdays sum - sum middle sum plus day coming off the board
-            // recent sum - sum most recent half of window
         double middleSum = 0.0;
         double recentSum = eventSummaryList.get(0).getSummedMeasurement();
 
@@ -49,11 +44,17 @@ public class StatusCalculator {
 
         double todaysTotals = middleSum + eventSummaryList.get(0).getSummedMeasurement();
         double yesterdaysTotals = eventSummaryList.get(timePeriod+1).getSummedMeasurement();
+        EventSummary lastDaySummary = eventSummaryList.get(timePeriod-1);
+        double todaysTotalMinusLast = todaysTotals - lastDaySummary.getSummedMeasurement();
 
         //  C A L C U L A T E   S T A T U S
         StatusEnum statusEnum;
-        if (todaysTotals >= target || yesterdaysTotals >= target) {
+        if (todaysTotals >= target && todaysTotalMinusLast < target) {
+            statusEnum = StatusEnum.IN_MOMENTUM_HIT_TOMORROW;
+        } else if (todaysTotals >= target){
             statusEnum = StatusEnum.IN_MOMENTUM;
+        } else if (yesterdaysTotals >= target) {
+            statusEnum = StatusEnum.IN_MOMENTUM_HIT_TODAY;
         } else if (todaysTotals <= 0) {
             statusEnum = StatusEnum.NO_MOMENTUM;
         } else if (recentSum <= 0) {
@@ -62,21 +63,34 @@ public class StatusCalculator {
             statusEnum = StatusEnum.GAINING_MOMENTUM;
         }
 
+
         //  C R E A T E   M E S S A G E
-        // variables
-        // :TARGET
-        // :TODAYSSUM
-        // :DIFF = TARGET - TODAYSSUM
+        double diff = todaysTotals - target; // positive number represents surplus, negative is building
+        String message;
+        String units = goal.getUnit();
+        switch (statusEnum) {
+            case IN_MOMENTUM_HIT_TOMORROW:
+                message = String.format("Hit %f %s tomorrow to stay in momentum.", todaysTotalMinusLast-target, units);
+                break;
+            case IN_MOMENTUM:
+                message = String.format("You have a surplus of %f %s. Keep it up!", diff, units);
+                break;
+            case IN_MOMENTUM_HIT_TODAY:
+                message = String.format("Hit %f %s today to stay in momentum.", diff, units);
+                break;
+            case NO_MOMENTUM:
+                message = String.format("The best time to plant a tree was %d days ago. The second best time is today!", target);
+                break;
+            case LOSING_MOMENTUM:
+                message = String.format("You haven't had an entry in the last %d days. Get back to it!", target/2);
+                break;
+            case GAINING_MOMENTUM:
+                message = String.format("Add %f more %s to be in momentum.", diff*1, units);
+                break;
+            default:
+                message = "";
+        }
 
-        // 1.  IN MOMENTUM - "Keep it up! You have a surplus of :DIFF :UNITS"
-        // 2.  IN MOMENTUM AND IN DANGER OF LOSING IT TOMORROW - "Hit (:DIFF minus last relevant day) tomorrow to stay in momentum"
-        // 3.  IN MOMENTUM AND IN DANGER OF LOSING IT TODAY - "Hit :DIFF today to stay in momentum"
-        // 4.  BUILDING MOMENTUM "Keep it up, :DIFF more minutes until you are In Momentum!"
-        // 5.  LOSING MOMENTUM "You haven't had an entry in the last :TIMEPERIOD / 2 days"
-        // 6.  NO MOMENTUM "The best time to plan a tree was "TIMEPERIOD days ago... the second best time is today" //(jk on this message, but yeah something like that)
-
-        // perhaps we want to add two IN_MOMENTUM statuses to the enum to represent 2. and 3... the string can still be "In Momentum"
-
-        return new Status(statusEnum, "a very helpful status message", eventSummaryList);
+        return new Status(statusEnum, message, eventSummaryList);
     }
 }
