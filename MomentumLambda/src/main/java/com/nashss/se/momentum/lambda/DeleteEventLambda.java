@@ -14,8 +14,8 @@ public class DeleteEventLambda
         return super.runActivity(
                 () -> {
                     DeleteEventRequest unauthenticatedRequest = input.fromPath(path -> DeleteEventRequest.builder()
-                            .withGoalId("goalId")
-                            .withEventId("eventId")
+                            .withGoalId(path.get("goalId"))
+                            .withEventId(path.get("eventId"))
                             .build());
 
                     return input.fromUserClaims(claims ->
