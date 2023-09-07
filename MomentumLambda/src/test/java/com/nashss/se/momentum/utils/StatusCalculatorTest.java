@@ -7,7 +7,6 @@ import com.nashss.se.momentum.models.Status;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.sql.SQLOutput;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -137,7 +136,7 @@ class StatusCalculatorTest {
 
     //  I N   M O M E N T U M   H I T   T O D A Y :   G O A L   1
     @Test
-    void calculateStatus_goal1MomentumHitToday_returnInMomomentumHitToday() {
+    void calculateStatus_goal1MomentumHitToday_returnInMomentumHitToday() {
         Event event1 = new Event();
         event1.setGoalId(goal1.getGoalId());
         event1.setDate(LocalDate.now().minusDays(1));
@@ -165,7 +164,7 @@ class StatusCalculatorTest {
 
     //  I N   M O M E N T U M   H I T   T O D A Y :   G O A L   2
     @Test
-    void calculateStatus_goal2MomentumHitToday_returnInMomomentumHitToday() {
+    void calculateStatus_goal2MomentumHitToday_returnInMomentumHitToday() {
         Event event1 = new Event();
         event1.setGoalId(goal2.getGoalId());
         event1.setDate(LocalDate.now().minusDays(1));
@@ -217,7 +216,7 @@ class StatusCalculatorTest {
 
     //  I N   M O M E N T U M   H I T   T O M O R R O W :   G O A L   2
     @Test
-    void calculateStatus_goal2MomentumHitTomorrow_returnInMomentumHitTomrrow() {
+    void calculateStatus_goal2MomentumHitTomorrow_returnInMomentumHitTomorrow() {
         Event event1 = new Event();
         event1.setGoalId(goal2.getGoalId());
         event1.setDate(LocalDate.now());
