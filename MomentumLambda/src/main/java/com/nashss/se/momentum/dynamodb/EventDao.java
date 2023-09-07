@@ -2,17 +2,19 @@ package com.nashss.se.momentum.dynamodb;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
+import com.amazonaws.services.dynamodbv2.datamodeling.PaginatedQueryList;
 import com.amazonaws.services.dynamodbv2.datamodeling.QueryResultPage;
+import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.nashss.se.momentum.dynamodb.models.Event;
-import com.nashss.se.momentum.dynamodb.models.Playlist;
+import com.nashss.se.momentum.dynamodb.models.Goal;
 import com.nashss.se.momentum.exceptions.EventNotFoundException;
 import com.nashss.se.momentum.metrics.MetricsConstants;
 import com.nashss.se.momentum.metrics.MetricsPublisher;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.time.LocalDate;
+import java.util.*;
 
 /**
  * Accesses data for a events using {@link Event} to represent the model in DynamoDB.
@@ -39,10 +41,10 @@ public class EventDao {
         Event event = new Event();
         event.setEventId(goalId);
 
-        DynamoDBQueryExpression<Event> dynamoDBQueryExpression= new DynamoDBQueryExpression<Event>()
+        DynamoDBQueryExpression<Event> dynamoDBQueryExpression = new DynamoDBQueryExpression<Event>()
                 .withHashKeyValues(event);
 
-        QueryResultPage<Event> eventQueryResultPage =  this.dynamoDBMapper.queryPage(Event.class,dynamoDBQueryExpression);
+        QueryResultPage<Event> eventQueryResultPage = this.dynamoDBMapper.queryPage(Event.class, dynamoDBQueryExpression);
 
         Queue<Event> eventList = new LinkedList<>(eventQueryResultPage.getResults());
 
@@ -51,13 +53,13 @@ public class EventDao {
 
     public Event getEvent(String goalId, String eventId) {
 
-        Event event = dynamoDBMapper.load(Event.class,goalId,eventId);
+        Event event = dynamoDBMapper.load(Event.class, goalId, eventId);
 
-        if(event==null){
+        if (event == null) {
             metricsPublisher.addCount(MetricsConstants.GETEVENT_EVENTNOTFOUND_COUNT, 1);
             throw new EventNotFoundException("Could not find event with hash " + goalId + "sort " + eventId);
         }
-        metricsPublisher.addCount(MetricsConstants.GETEVENT_EVENTNOTFOUND_COUNT,0);
+        metricsPublisher.addCount(MetricsConstants.GETEVENT_EVENTNOTFOUND_COUNT, 0);
         return event;
     }
 
@@ -72,4 +74,27 @@ public class EventDao {
         return event;
     }
 
+    /**
+     * @param goal
+     * @return List<Events>, if no data found, returns null
+     */
+    public List<Event> getEventsBetweenDates(Goal goal) {
+        LocalDate today = LocalDate.now();
+        LocalDate startDate = today.minusDays(goal.getTimePeriod() + 1);
+
+        //query GSI dates between today and start date... will return a list of Events
+        Map<String, AttributeValue> valueMap = new HashMap<>();
+        valueMap.put(":goalId", new AttributeValue().withS(goal.getGoalId()));
+        valueMap.put(":today", new AttributeValue().withS(today.toString()));
+        valueMap.put(":startDate", new AttributeValue().withS(startDate.toString()));
+
+        DynamoDBQueryExpression<Event> queryExpression = new DynamoDBQueryExpression<Event>()
+                .withIndexName(Event.GSI_TABLE_NAME)
+                .withConsistentRead(false)
+                .withKeyConditionExpression("goalId = :goalId AND dateOfEvent BETWEEN :startDate AND :today")
+                .withExpressionAttributeValues(valueMap);
+
+        PaginatedQueryList<Event> events = dynamoDBMapper.query(Event.class, queryExpression);
+        return events == null ? new ArrayList<>() : events;
+    }
 }
