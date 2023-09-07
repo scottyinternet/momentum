@@ -87,8 +87,22 @@ export default class MomentumClient extends BindingClass {
         } catch (error) {
             this.handleError(error, errorCallback)
         }
-
     }
+
+    async deleteEvent(goalId,eventId,errorCallback) {
+        try {
+            const token = await this.getTokenOrThrow("Only authenticated users can delete Events.");
+            const response = await this.axiosClient.delete(`events/${goalId}&${eventId}`, {
+                headers: {
+                   Authorization: `Bearer ${token}`
+            }}
+            );
+            return response.data.event;
+        } catch (error) {
+            this.handleError(error, errorCallback)
+        }
+    }
+
     async createGoal(userId,unit, goalName,target,timePeriod){
             try {
                 const token = await this.getTokenOrThrow("Only authenticated users can create Goal.");

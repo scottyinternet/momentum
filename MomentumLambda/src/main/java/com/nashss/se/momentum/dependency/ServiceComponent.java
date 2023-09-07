@@ -59,5 +59,10 @@ public interface ServiceComponent {
      */
     CreateEventActivity provideCreateEventActivity();
 
+    /**
+     * Provides the relevant activity.
+     * @return DeleteEventActivity
+     */
+    DeleteEventActivity provideDeleteEventActivity();
 
 }

@@ -72,4 +72,13 @@ public class EventDao {
         return event;
     }
 
+    /**
+     * Deletes the given event.
+     *
+     * @param event The event to delete
+     */
+    public void deleteEvent(Event event) {
+       dynamoDBMapper.delete(event);
+    }
+
 }
