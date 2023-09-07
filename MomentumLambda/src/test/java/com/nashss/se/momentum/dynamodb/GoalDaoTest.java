@@ -8,7 +8,9 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.openMocks;
 
 class GoalDaoTest {
@@ -37,5 +39,17 @@ class GoalDaoTest {
         //THEN
         verify(mapper).save(goal);
         assertEquals(goal, result);
+    }
+
+    @Test
+    public void getGoal_goalFound_returnsGoalModel() {
+        String userId = "userId";
+        String goalName = "goalName";
+        when(mapper.load(Goal.class, userId, goalName)).thenReturn(new Goal());
+
+        Goal goal = goalDao.getGoal(userId, goalName);
+
+        assertNotNull(goal);
+        verify(mapper).load(Goal.class, userId, goalName);
     }
 }

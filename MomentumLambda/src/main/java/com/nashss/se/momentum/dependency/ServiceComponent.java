@@ -64,5 +64,10 @@ public interface ServiceComponent {
      * @return DeleteEventActivity
      */
     DeleteEventActivity provideDeleteEventActivity();
+  
+     * @return GetGoalDetailsActivity
+     */
+    GetGoalDetailsActivity provideGetGoalDetailsActivity();
+
 
 }
