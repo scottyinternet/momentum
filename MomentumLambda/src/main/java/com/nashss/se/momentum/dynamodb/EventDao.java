@@ -83,6 +83,7 @@ public class EventDao {
        dynamoDBMapper.delete(event);
     }
 
+    /**
      * @param goal
      * @return List<Events>, if no data found, returns null
      */
