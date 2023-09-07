@@ -30,24 +30,31 @@ class EventDaoTest {
     private PaginatedQueryList<Event> queryList;
     private EventDao eventDao;
 
+    private Event event;
+
     @BeforeEach
     void setUp() {
         openMocks(this);
         eventDao = new EventDao(dynamoDBMapper, metricsPublisher);
-    }
-
-    @Test
-    void saveEvent() {
-        Event event = new Event();
+        event = new Event();
         event.setGoalId("gid1234");
         event.setEventId("eid1234");
         event.setMeasurement(12.0);
         event.setDate(LocalDate.parse("2023-01-01"));
+    }
+
+    @Test
+    void saveEvent() {
         eventDao.saveEvent(event);
         verify(dynamoDBMapper).save(event);
     }
 
     @Test
+    void deleteEvent(){
+         eventDao.deleteEvent(event);
+         verify(dynamoDBMapper).delete(event);
+    }
+
     public void getEventsBetweenDates_validInput_returnsListOfEvents() {
         Goal goal = new Goal();
         goal.setUserId("userId");

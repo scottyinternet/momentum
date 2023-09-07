@@ -361,7 +361,7 @@ Resources:
         Momentum:
           Type: Api
           Properties:
-            Path: /events/{eventId}
+            Path: /events/{goalId}&{eventId}
             Method: delete
 
   #-----------------------------------------------------
