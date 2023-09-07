@@ -12,11 +12,18 @@ public class DeleteEventLambda
     @Override
     public LambdaResponse handleRequest(AuthenticatedLambdaRequest<DeleteEventRequest> input, Context context) {
         return super.runActivity(
-                () -> input.fromPath(path ->
-                        DeleteEventRequest.builder()
-                                .withGoalId(path.get("goalId"))
-                                .withEventId(path.get("eventId"))
-                                .build()),
+                () -> {
+                    DeleteEventRequest unauthenticatedRequest = input.fromPath(path -> DeleteEventRequest.builder()
+                            .withGoalId("goalId")
+                            .withEventId("eventId")
+                            .build());
+
+                    return input.fromUserClaims(claims ->
+                            DeleteEventRequest.builder()
+                                    .withGoalId(unauthenticatedRequest.getGoalId())
+                                    .withEventId(unauthenticatedRequest.getEventId())
+                                    .build());
+                },
                 (request, serviceComponent) ->
                         serviceComponent.provideDeleteEventActivity().handleRequest(request)
         );
