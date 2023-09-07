@@ -9,17 +9,14 @@ public class GetGoalDetailsResult {
 
     private final Status status;
     private final List<EventModel> eventList;
-    private Integer target;
-    private String unit;
-    private String goalName;
+    private final String message;
+    private final String goalName;
 
-
-    private GetGoalDetailsResult(Status status, Integer target, String unit, String goalName, List<EventModel> eventList){
+    private GetGoalDetailsResult(Status status, List<EventModel> eventList, String message, String goalName){
         this.status = status;
-        this.goalName = goalName;
-        this.target = target;
-        this.unit = unit;
+        this.message = message;
         this.eventList = eventList;
+        this.goalName = goalName;
     }
 
     public Status getStatus() {
@@ -30,12 +27,8 @@ public class GetGoalDetailsResult {
         return eventList;
     }
 
-    public Integer getTarget() {
-        return target;
-    }
-
-    public String getUnit() {
-        return unit;
+    public String getMessage() {
+        return message;
     }
 
     public String getGoalName() {
@@ -49,8 +42,7 @@ public class GetGoalDetailsResult {
     public static class Builder {
         private Status status;
         private List<EventModel> eventList;
-        private Integer target;
-        private String unit;
+        private String message;
         private String goalName;
 
 
@@ -59,13 +51,13 @@ public class GetGoalDetailsResult {
             return this;
         }
 
-        public Builder withTarget(Integer target) {
-            this.target = target;
+        public Builder withEventList(List<EventModel> eventList) {
+            this.eventList = eventList;
             return this;
         }
 
-        public Builder withUnit(String unit) {
-            this.unit = unit;
+        public Builder withMessage(String message) {
+            this.eventList = eventList;
             return this;
         }
 
@@ -74,13 +66,8 @@ public class GetGoalDetailsResult {
             return this;
         }
 
-        public Builder withEventList(List<EventModel> eventList) {
-            this.eventList = eventList;
-            return this;
-        }
-
         public GetGoalDetailsResult build() {
-            return new GetGoalDetailsResult(status, target, unit, goalName, eventList);
+            return new GetGoalDetailsResult(status, eventList, message, goalName);
         }
     }
 }

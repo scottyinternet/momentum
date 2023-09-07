@@ -10,6 +10,7 @@ import com.nashss.se.momentum.dynamodb.models.Goal;
 import com.nashss.se.momentum.models.EventModel;
 import com.nashss.se.momentum.models.GoalModel;
 import com.nashss.se.momentum.models.Status;
+import com.nashss.se.momentum.utils.StatusCalculator;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -29,22 +30,23 @@ public class GetGoalDetailsActivity {
     public GetGoalDetailsResult handleRequest(final GetGoalDetailsRequest getGoalDetailsRequest) {
         String requestedUserId = getGoalDetailsRequest.getUserId();
         String requestedGoalName = getGoalDetailsRequest.getGoalName();
-        Goal newGoal = goalDao.getGoal(requestedUserId, requestedGoalName);
+        Goal goal = goalDao.getGoal(requestedUserId, requestedGoalName);
 
-        List<Event> eventList = eventDao.getEventsBetweenDates(newGoal);
+        List<Event> eventList = eventDao.getEventsBetweenDates(goal);
 
         ModelConverter modelConverter = new ModelConverter();
         List<EventModel> eventModels = new ArrayList<>();
-        for(Event event : eventList) {
+        for (Event event : eventList) {
             eventModels.add(modelConverter.toEventModel(event));
         }
 
+        String message = "Target: " + goal.getTarget() + " " + goal.getUnit() + " within a rolling " + goal.getTimePeriod() + " day period.";
+
         return GetGoalDetailsResult.builder()
-                .withStatus()
-                .withTarget(newGoal.getTarget())
-                .withUnit(newGoal.getUnit())
-                .withGoalName(newGoal.getGoalName())
+                .withStatus(StatusCalculator.calculateStatus(goal, eventList))
+                .withMessage(message)
                 .withEventList(eventModels)
+                .withGoalName(goal.getGoalName())
                 .build();
     }
 }

@@ -2,6 +2,7 @@ package com.nashss.se.momentum.dynamodb;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
+import com.amazonaws.services.dynamodbv2.datamodeling.PaginatedQueryList;
 import com.amazonaws.services.dynamodbv2.datamodeling.QueryResultPage;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.nashss.se.momentum.dynamodb.models.Event;
@@ -40,10 +41,10 @@ public class EventDao {
         Event event = new Event();
         event.setEventId(goalId);
 
-        DynamoDBQueryExpression<Event> dynamoDBQueryExpression= new DynamoDBQueryExpression<Event>()
+        DynamoDBQueryExpression<Event> dynamoDBQueryExpression = new DynamoDBQueryExpression<Event>()
                 .withHashKeyValues(event);
 
-        QueryResultPage<Event> eventQueryResultPage =  this.dynamoDBMapper.queryPage(Event.class,dynamoDBQueryExpression);
+        QueryResultPage<Event> eventQueryResultPage = this.dynamoDBMapper.queryPage(Event.class, dynamoDBQueryExpression);
 
         Queue<Event> eventList = new LinkedList<>(eventQueryResultPage.getResults());
 
@@ -52,13 +53,13 @@ public class EventDao {
 
     public Event getEvent(String goalId, String eventId) {
 
-        Event event = dynamoDBMapper.load(Event.class,goalId,eventId);
+        Event event = dynamoDBMapper.load(Event.class, goalId, eventId);
 
-        if(event==null){
+        if (event == null) {
             metricsPublisher.addCount(MetricsConstants.GETEVENT_EVENTNOTFOUND_COUNT, 1);
             throw new EventNotFoundException("Could not find event with hash " + goalId + "sort " + eventId);
         }
-        metricsPublisher.addCount(MetricsConstants.GETEVENT_EVENTNOTFOUND_COUNT,0);
+        metricsPublisher.addCount(MetricsConstants.GETEVENT_EVENTNOTFOUND_COUNT, 0);
         return event;
     }
 
@@ -73,9 +74,13 @@ public class EventDao {
         return event;
     }
 
+    /**
+     * @param goal
+     * @return List<Events>, if no data found, returns null
+     */
     public List<Event> getEventsBetweenDates(Goal goal) {
         LocalDate today = LocalDate.now();
-        LocalDate startDate = today.minusDays(goal.getTimePeriod()+1);
+        LocalDate startDate = today.minusDays(goal.getTimePeriod() + 1);
 
         //query GSI dates between today and start date... will return a list of Events
         Map<String, AttributeValue> valueMap = new HashMap<>();
@@ -89,6 +94,7 @@ public class EventDao {
                 .withKeyConditionExpression("goaldId = :goalId AND dateOfEvent BETWEEN :startDate AND :today")
                 .withExpressionAttributeValues(valueMap);
 
-        return dynamoDBMapper.query(Event.class, queryExpression);
+        PaginatedQueryList<Event> events = dynamoDBMapper.query(Event.class, queryExpression);
+        return events == null ? new ArrayList<>() : events;
     }
 }
