@@ -6,8 +6,9 @@ const Dotenv = require('dotenv-webpack');
 const dotenvFile = process.env.API_LOCATION ? `.env.${process.env.API_LOCATION}` : '.env';
 
 module.exports = {
-  plugins: [
+ plugins: [
     new CopyPlugin({
+
       patterns: [
         {
           from: "static_assets", to: "../",
@@ -26,6 +27,7 @@ module.exports = {
     createPlaylist: path.resolve(__dirname, 'src', 'pages', 'createPlaylist.js'),
     createEvent: path.resolve(__dirname, 'src', 'pages', 'createEvent.js'),
     createGoal: path.resolve(__dirname, 'src', 'pages', 'createGoal.js'),
+    getGoalDetails: path.resolve(__dirname, 'src', 'pages', 'getGoalDetails.js'),
     viewPlaylist: path.resolve(__dirname, 'src', 'pages', 'viewPlaylist.js'),
     searchPlaylists: path.resolve(__dirname, 'src', 'pages', 'searchPlaylists.js'),
   },
