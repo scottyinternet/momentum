@@ -8,6 +8,7 @@ import com.nashss.se.momentum.dynamodb.GoalDao;
 import com.nashss.se.momentum.dynamodb.models.Event;
 import com.nashss.se.momentum.dynamodb.models.Goal;
 import com.nashss.se.momentum.models.EventModel;
+import com.nashss.se.momentum.models.GoalDetailsModel;
 import com.nashss.se.momentum.models.GoalModel;
 import com.nashss.se.momentum.models.Status;
 import com.nashss.se.momentum.utils.StatusCalculator;
@@ -40,13 +41,12 @@ public class GetGoalDetailsActivity {
             eventModels.add(modelConverter.toEventModel(event));
         }
 
-        String message = "Target: " + goal.getTarget() + " " + goal.getUnit() + " within a rolling " + goal.getTimePeriod() + " day period.";
+        String goalSummaryMessage = "Target: " + goal.getTarget() + " " + goal.getUnit() + " within a rolling " + goal.getTimePeriod() + " day period.";
+        Status status = StatusCalculator.calculateStatus(goal, eventList);
+        GoalDetailsModel goalDetailsModel = new GoalDetailsModel(status, eventModels, goalSummaryMessage, requestedGoalName);
 
         return GetGoalDetailsResult.builder()
-                .withStatus(StatusCalculator.calculateStatus(goal, eventList))
-                .withMessage(message)
-                .withEventList(eventModels)
-                .withGoalName(goal.getGoalName())
+                .withGoalDetailModel(goalDetailsModel)
                 .build();
     }
 }
