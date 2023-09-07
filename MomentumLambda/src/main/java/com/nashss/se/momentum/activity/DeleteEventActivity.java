@@ -36,18 +36,18 @@ public class DeleteEventActivity {
      * This method handles the incoming request by deleting the event
      * <p>
      * It then builds the result with an EventModel.
-     * @param DeleteEventRequest request object containing the event's goal ID,
+     * @param deleteEventRequest request object containing the event's goal ID,
      *                           and event ID.
      * @return DeleteEventResult result object containing the API defined {@link EventModel}
      */
 
-    public DeleteEventResult handleRequest(final DeleteEventRequest DeleteEventRequest) {
-        log.info("Received DeleteEventRequest {}", DeleteEventRequest);
+    public DeleteEventResult handleRequest(final DeleteEventRequest deleteEventRequest) {
+        log.info("Received DeleteEventRequest {}", deleteEventRequest);
 
         Event newEvent = new Event();
 
-        newEvent.setGoalId(DeleteEventRequest.getGoalId());
-        newEvent.setEventId(DeleteEventRequest.getEventId());
+        newEvent.setGoalId(deleteEventRequest.getGoalId());
+        newEvent.setEventId(deleteEventRequest.getEventId());
 
         eventDao.deleteEvent(newEvent);
 

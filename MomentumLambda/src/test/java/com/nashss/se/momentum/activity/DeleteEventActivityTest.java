@@ -32,7 +32,6 @@ class DeleteEventActivityTest {
 
     @Test
     void handleRequest_validRequest_deletesEvent() {
-        String goalId = "1234";
         String eventId = "1234";
 
         DeleteEventRequest request = DeleteEventRequest.builder()
