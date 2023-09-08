@@ -47,7 +47,7 @@ class GoalDetails extends BindingClass {
      * @param evt The "event" object representing the user-initiated event that triggered this method.
      */
     async getGoalDetails(evt) {
-        alert("get goal details button clicked");
+        alert("search button clicked");
         // Prevent submitting the from from reloading the page.
         evt.preventDefault();
 
