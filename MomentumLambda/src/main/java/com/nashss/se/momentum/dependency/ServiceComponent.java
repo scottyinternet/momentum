@@ -61,8 +61,14 @@ public interface ServiceComponent {
 
     /**
      * Provides the relevant activity.
+     * @return DeleteEventActivity
+     */
+    DeleteEventActivity provideDeleteEventActivity();
+
+    /**
      * @return GetGoalDetailsActivity
      */
     GetGoalDetailsActivity provideGetGoalDetailsActivity();
+
 
 }

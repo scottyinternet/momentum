@@ -64,11 +64,9 @@ class GetGoalDetailsActivityTest {
 
         GetGoalDetailsResult result = getGoalDetailsActivity.handleRequest(request);
 
-        assertEquals(expectedGoalName, result.getGoalName());
-        assertEquals(eventList, result.getEventList());
-        assertEquals(status.getStatusEnum(), result.getStatus().getStatusEnum());
-        assertEquals(sum, result.getStatus().getSum());
-        assertEquals(expectedSize, result.getStatus().getEventSummaryList().size());
+        assertEquals(expectedGoalName, result.getGoalDetailsModel().getGoalName());
+        assertEquals(status.getStatusEnum(), result.getGoalDetailsModel().getStatus().getStatusEnum());
+        assertEquals(sum, result.getGoalDetailsModel().getStatus().getSum());
+        assertEquals(expectedSize, result.getGoalDetailsModel().getStatus().getEventSummaryList().size());
     }
-
 }

@@ -237,10 +237,8 @@ Resources:
         Momentum:
           Type: Api
           Properties:
-            Path: /goals/summary
+            Path: /goals
             Method: get
-            Auth:
-              Authorizer: 'NONE'
 
   GetGoalDetailsLambda:
     Type: AWS::Serverless::Function
@@ -259,10 +257,9 @@ Resources:
         Momentum:
           Type: Api
           Properties:
-            Path: /goals/{goalId}
+            Path: /goals/{goalName}
             Method: get
-            Auth:
-              Authorizer: 'NONE'
+
 
   CreateGoalLambda:
     Type: AWS::Serverless::Function
@@ -301,7 +298,7 @@ Resources:
         Momentum:
           Type: Api
           Properties:
-            Path: /goals/{goalId}
+            Path: /goals/{goalName}
             Method: put
 
   DeleteGoalLambda:
@@ -321,7 +318,7 @@ Resources:
         Momentum:
           Type: Api
           Properties:
-            Path: /goals/{goalId}
+            Path: /goals/{goalName}
             Method: delete
 
   CreateEventLambda:
@@ -361,7 +358,7 @@ Resources:
         Momentum:
           Type: Api
           Properties:
-            Path: /events/{eventId}
+            Path: /events/{goalId}/{eventId}
             Method: delete
 
   #-----------------------------------------------------

@@ -15,7 +15,7 @@ export default class MomentumClient extends BindingClass {
     constructor(props = {}) {
         super();
 
-        const methodsToBind = ['clientLoaded', 'getIdentity', 'login', 'logout', 'createEvent','createGoal'];
+        const methodsToBind = ['clientLoaded', 'getIdentity', 'login', 'logout', 'createEvent','createGoal','deleteEvent'];
         this.bindClassMethods(methodsToBind, this);
 
         this.authenticator = new Authenticator();;
@@ -87,8 +87,43 @@ export default class MomentumClient extends BindingClass {
         } catch (error) {
             this.handleError(error, errorCallback)
         }
-
     }
+<<<<<<< HEAD
+=======
+
+    async deleteEvent(goalId,eventId,errorCallback) {
+        try {
+            const token = await this.getTokenOrThrow("Only authenticated users can delete Events.");
+            const response = await this.axiosClient.delete(`events/${goalId}/${eventId}`, {
+                headers: {
+                   Authorization: `Bearer ${token}`
+            }}
+            );
+            return response.data.event;
+        } catch (error) {
+            this.handleError(error, errorCallback)
+        }
+    }
+
+    async createGoal(userId,unit, goalName,target,timePeriod){
+            try {
+                const token = await this.getTokenOrThrow("Only authenticated users can create Goal.");
+                const response = await this.axiosClient.post(`goals`, {
+                    userId: userId,
+                    unit: unit,
+                    timePeriod: timePeriod,
+                    target: target,
+                    goalName:goalName
+                }, {
+                    headers: {
+                       Authorization: `Bearer ${token}`
+                    }
+                });
+                return response.data.goal;
+            } catch (error) {
+                this.handleError(error, errorCallback)
+            }
+>>>>>>> main
 
     async createGoal(userId,unit, goalName,target,timePeriod){
         try {

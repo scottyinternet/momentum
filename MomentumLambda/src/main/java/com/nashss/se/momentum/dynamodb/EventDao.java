@@ -75,6 +75,15 @@ public class EventDao {
     }
 
     /**
+     * Deletes the given event.
+     *
+     * @param event The event to delete
+     */
+    public void deleteEvent(Event event) {
+       dynamoDBMapper.delete(event);
+    }
+
+    /**
      * @param goal
      * @return List<Events>, if no data found, returns null
      */
