@@ -88,8 +88,6 @@ export default class MomentumClient extends BindingClass {
             this.handleError(error, errorCallback)
         }
     }
-<<<<<<< HEAD
-=======
 
     async deleteEvent(goalId,eventId,errorCallback) {
         try {
@@ -123,27 +121,6 @@ export default class MomentumClient extends BindingClass {
             } catch (error) {
                 this.handleError(error, errorCallback)
             }
->>>>>>> main
-
-    async createGoal(userId,unit, goalName,target,timePeriod){
-        try {
-            const token = await this.getTokenOrThrow("Only authenticated users can create Goal.");
-            const response = await this.axiosClient.post(`goals`, {
-                userId: userId,
-                unit: unit,
-                timePeriod: timePeriod,
-                target: target,
-                goalName:goalName
-            }, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            });
-            return response.data.goal;
-        } catch (error) {
-            this.handleError(error, errorCallback)
-        }
-
     }
 
     async addSongToPlaylist(id, asin, trackNumber, errorCallback) {
@@ -167,7 +144,12 @@ export default class MomentumClient extends BindingClass {
     async getGoalDetails(goalName) {
         alert(goalName);
         try {
-            const response = await this.axiosClient.get(`goals/${goalName}`);
+            const token = await this.getTokenOrThrow("Only authenticated users can delete Events.");
+            const response = await this.axiosClient.get(`goals/${goalName}`, {
+                headers: {
+                   Authorization: `Bearer ${token}`
+            }}
+            );
             return response.data.goalDetailsModel;
         } catch (error) {
             this.handleError(error, errorCallback)

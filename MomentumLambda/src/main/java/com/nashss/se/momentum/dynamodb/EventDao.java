@@ -100,7 +100,7 @@ public class EventDao {
         DynamoDBQueryExpression<Event> queryExpression = new DynamoDBQueryExpression<Event>()
                 .withIndexName(Event.GSI_TABLE_NAME)
                 .withConsistentRead(false)
-                .withKeyConditionExpression("goaldId = :goalId AND dateOfEvent BETWEEN :startDate AND :today")
+                .withKeyConditionExpression("goalId = :goalId AND dateOfEvent BETWEEN :startDate AND :today")
                 .withExpressionAttributeValues(valueMap);
 
         PaginatedQueryList<Event> events = dynamoDBMapper.query(Event.class, queryExpression);
