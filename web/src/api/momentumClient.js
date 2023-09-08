@@ -89,52 +89,55 @@ export default class MomentumClient extends BindingClass {
         }
 
     }
+
     async createGoal(userId,unit, goalName,target,timePeriod){
-            try {
-                const token = await this.getTokenOrThrow("Only authenticated users can create Goal.");
-                const response = await this.axiosClient.post(`goals`, {
-                    userId: userId,
-                    unit: unit,
-                    timePeriod: timePeriod,
-                    target: target,
-                    goalName:goalName
-                }, {
-                    headers: {
-                       Authorization: `Bearer ${token}`
-                    }
-                });
-                return response.data.goal;
-            } catch (error) {
-                this.handleError(error, errorCallback)
-            }
-
-        }
-         async addSongToPlaylist(id, asin, trackNumber, errorCallback) {
-                try {
-                    const token = await this.getTokenOrThrow("Only authenticated users can add a song to a playlist.");
-                    const response = await this.axiosClient.post(`playlists/${id}/songs`, {
-                        id: id,
-                        asin: asin,
-                        trackNumber: trackNumber
-                    }, {
-                        headers: {
-                            Authorization: `Bearer ${token}`
-                        }
-                    });
-                    return response.data.songList;
-                } catch (error) {
-                    this.handleError(error, errorCallback)
+        try {
+            const token = await this.getTokenOrThrow("Only authenticated users can create Goal.");
+            const response = await this.axiosClient.post(`goals`, {
+                userId: userId,
+                unit: unit,
+                timePeriod: timePeriod,
+                target: target,
+                goalName:goalName
+            }, {
+                headers: {
+                    Authorization: `Bearer ${token}`
                 }
-            }
+            });
+            return response.data.goal;
+        } catch (error) {
+            this.handleError(error, errorCallback)
+        }
 
-//         async getGoalDetails(String userId, String goalName) {
-//
-//              let myObject = {"goal":goalName,"status":"in momentum","target":5,"actual_units": 2,"event":[{"2023-09-06",0.5},{"2023-09-06",0.5},{"2023-09-05",0.5},{"2023-09-05",0.5}]};
-//                      return JSON.stringify( myObject);
-//
-//
-//
-//            }
+    }
+
+    async addSongToPlaylist(id, asin, trackNumber, errorCallback) {
+        try {
+            const token = await this.getTokenOrThrow("Only authenticated users can add a song to a playlist.");
+            const response = await this.axiosClient.post(`playlists/${id}/songs`, {
+                id: id,
+                asin: asin,
+                trackNumber: trackNumber
+            }, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            return response.data.songList;
+        } catch (error) {
+            this.handleError(error, errorCallback)
+        }
+    }
+
+    async getGoalDetails(goalName) {
+        alert(goalName);
+        try {
+            const response = await this.axiosClient.get(`goals/${goalName}`);
+            return response.data.goalDetailsModel;
+        } catch (error) {
+            this.handleError(error, errorCallback)
+        }
+    }
 
       /**
        * Helper method to log the error and run any error functions.

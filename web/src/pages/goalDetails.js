@@ -19,7 +19,7 @@ class GoalDetails extends BindingClass {
     constructor() {
         super();
 
-        this.bindClassMethods(['mount', 'search', 'displaySearchResults', 'getHTMLForSearchResults'], this);
+        this.bindClassMethods(['mount', 'getGoalDetails', 'displaySearchResults', 'getHTMLForSearchResults'], this);
 
         // Create a enw datastore with an initial "empty" state.
         this.dataStore = new DataStore(EMPTY_DATASTORE_STATE);
@@ -33,12 +33,12 @@ class GoalDetails extends BindingClass {
      */
     mount() {
         // Wire up the form's 'submit' event and the button's 'click' event to the search method.
-        document.getElementById('goalDetails-form').addEventListener('submit', this.search);
-        document.getElementById('goalDetails-btn').addEventListener('click', this.search);
+        document.getElementById('goalDetails-form').addEventListener('submit', this.getGoalDetails);
+        document.getElementById('goalDetails-btn').addEventListener('click', this.getGoalDetails);
 
         this.header.addHeaderToPage();
 
-        this.client = new MusicPlaylistClient();
+        this.client = new MomentumClient();
     }
 
     /**
@@ -46,7 +46,7 @@ class GoalDetails extends BindingClass {
      * then updates the datastore with the criteria and results.
      * @param evt The "event" object representing the user-initiated event that triggered this method.
      */
-    async search(evt) {
+    async getGoalDetails(evt) {
         alert("search button clicked");
         // Prevent submitting the from from reloading the page.
         evt.preventDefault();
@@ -60,7 +60,7 @@ class GoalDetails extends BindingClass {
         }
 
         if (searchCriteria) {
-            const results = await this.client.search(searchCriteria);
+            const results = await this.client.getGoalDetails(searchCriteria);
 
             this.dataStore.setState({
                 [SEARCH_CRITERIA_KEY]: searchCriteria,
@@ -127,8 +127,8 @@ class GoalDetails extends BindingClass {
  * Main method to run when the page contents have loaded.
  */
 const main = async () => {
-    const searchPlaylists = new SearchPlaylists();
-    searchPlaylists.mount();
+    const goalDetails = new GoalDetails();
+    goalDetails.mount();
 };
 
 window.addEventListener('DOMContentLoaded', main);
