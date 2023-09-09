@@ -82,15 +82,15 @@ class GoalDetails extends BindingClass {
         const searchCriteriaDisplay = document.getElementById('search-criteria-display');
         const searchResultsDisplay = document.getElementById('search-results-display');
 
-        if (searchCriteria === '') {
-            searchResultsContainer.classList.add('hidden');
-            searchCriteriaDisplay.innerHTML = '';
-            searchResultsDisplay.innerHTML = '';
-        } else {
+        // if (searchCriteria === '') {
+        //     searchResultsContainer.classList.add('hidden');
+        //     searchCriteriaDisplay.innerHTML = '';
+        //     searchResultsDisplay.innerHTML = '';
+        // } else {
             searchResultsContainer.classList.remove('hidden');
             searchCriteriaDisplay.innerHTML = `"${searchCriteria}"`;
             searchResultsDisplay.innerHTML = this.getHTMLForSearchResults(searchResults);
-        }
+        // }
     }
 
     /**
@@ -99,26 +99,41 @@ class GoalDetails extends BindingClass {
      * @returns A string of HTML suitable for being dropped on the page.
      */
     getHTMLForSearchResults(searchResults) {
+        const eventSummaryList = searchResults.status.eventSummaryList;
 
-
-        if (searchResults.length === 0) {
-            return '<h4>No results found</h4>';
-        }
-
-        let html = '<table><tr><th>Name</th><th>Song Count</th><th>Tags</th></tr>';
-        for (const res of searchResults) {
-            html += `
-            <tr>
-                <td>
-                    <a href="playlist.html?id=${res.id}">${res.name}</a>
-                </td>
-                <td>${res.songCount}</td>
-                <td>${res.tags?.join(', ')}</td>
-            </tr>`;
-        }
-        html += '</table>';
-
-        return html;
+        // Create a table element
+        const table = document.createElement('table');
+    
+        // Create the table header row
+        const tableHeader = table.createTHead();
+        const headerRow = tableHeader.insertRow();
+        const headers = ['Date', 'Summed Measurement'];
+    
+        // Populate the table header row with headers
+        headers.forEach((headerText) => {
+            const th = document.createElement('th');
+            th.textContent = headerText;
+            headerRow.appendChild(th);
+        });
+    
+        // Create the table body
+        const tableBody = table.createTBody();
+    
+        // Populate the table rows with event summary data
+        eventSummaryList.forEach((eventSummary) => {
+            const row = tableBody.insertRow();
+            const dateCell = row.insertCell(0);
+            const measurementCell = row.insertCell(1);
+    
+            // Extract the date and measurement from the event summary object
+            const dateArray = eventSummary.date;
+            const formattedDate = `${dateArray[0]}-${dateArray[1]}-${dateArray[2]}`;
+    
+            dateCell.textContent = formattedDate;
+            measurementCell.textContent = eventSummary.summedMeasurement;
+        });
+    
+        return table.outerHTML; // Return the table element
     }
 
 }
