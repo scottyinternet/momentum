@@ -70,5 +70,6 @@ public interface ServiceComponent {
      */
     GetGoalDetailsActivity provideGetGoalDetailsActivity();
 
+    GetAllGoalsSummaryActivity provideGetAllGoalsSummaryActivity();
 
 }

@@ -1,21 +1,19 @@
 package com.nashss.se.momentum.activity.results;
 
-import com.nashss.se.momentum.models.EventModel;
-import com.nashss.se.momentum.models.GoalDetailsModel;
-import com.nashss.se.momentum.models.Status;
+import com.nashss.se.momentum.models.GoalSummary;
 
 import java.util.List;
 
 public class GetAllGoalsSummaryResult {
 
-    private final GoalDetailsModel goalDetailsModel;
+    private final List<GoalSummary> goalSummaryList;
 
-    private GetAllGoalsSummaryResult(GoalDetailsModel goalDetailsModel){
-        this.goalDetailsModel = goalDetailsModel;
+    private GetAllGoalsSummaryResult( List<GoalSummary> goalSummaryList){
+        this.goalSummaryList = goalSummaryList;
     }
 
-    public GoalDetailsModel getGoalDetailsModel() {
-        return goalDetailsModel;
+    public List<GoalSummary> getGoalSummary() {
+        return goalSummaryList;
     }
 
     public static Builder builder() {
@@ -23,15 +21,15 @@ public class GetAllGoalsSummaryResult {
     }
 
     public static class Builder {
-        private GoalDetailsModel goalDetailsModel;
+        private List<GoalSummary> goalSummaryList;
 
-        public Builder withGoalDetailModel(GoalDetailsModel goalDetailsModel) {
-            this.goalDetailsModel = goalDetailsModel;
+        public Builder withGoalSummaryList(List<GoalSummary> goalSummaryList) {
+            this.goalSummaryList = goalSummaryList;
             return this;
         }
 
         public GetAllGoalsSummaryResult build() {
-            return new GetAllGoalsSummaryResult(goalDetailsModel);
+            return new GetAllGoalsSummaryResult(goalSummaryList);
         }
     }
 }

@@ -67,11 +67,9 @@ public class EventDao {
      * Saves the given event.
      *
      * @param event The event to save
-     * @return The Event object that was saved
      */
-    public Event saveEvent(Event event) {
+    public void saveEvent(Event event) {
         this.dynamoDBMapper.save(event);
-        return event;
     }
 
     /**

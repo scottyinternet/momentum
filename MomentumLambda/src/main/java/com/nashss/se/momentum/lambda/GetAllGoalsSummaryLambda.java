@@ -12,16 +12,14 @@ public class GetAllGoalsSummaryLambda
         implements RequestHandler<AuthenticatedLambdaRequest<GetAllGoalsSummaryRequest>, LambdaResponse> {
 
     @Override
-    public LambdaResponse handleRequest(AuthenticatedLambdaRequest<GetGoalDetailsRequest> input, Context context) {
+    public LambdaResponse handleRequest(AuthenticatedLambdaRequest<GetAllGoalsSummaryRequest> input, Context context) {
         return super.runActivity(
-                () -> {
-                    return input.fromUserClaims(claims ->
-                            GetAllGoalsSummaryRequest.builder()
-                                    .withUserId(claims.get("email"))
-                                    .build());
-                },
+                () -> input.fromUserClaims(claims ->
+                        GetAllGoalsSummaryRequest.builder()
+                                .withUserId(claims.get("email"))
+                                .build()),
                 (request, serviceComponent) ->
-                        serviceComponent.provideGetAllGoalsSummary().handleRequest(request)
+                        serviceComponent.provideGetAllGoalsSummaryActivity().handleRequest(request)
         );
     }
 }
