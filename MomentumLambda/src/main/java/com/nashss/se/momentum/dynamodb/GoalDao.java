@@ -2,6 +2,7 @@ package com.nashss.se.momentum.dynamodb;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
+import com.amazonaws.services.dynamodbv2.datamodeling.PaginatedQueryList;
 import com.amazonaws.services.dynamodbv2.datamodeling.QueryResultPage;
 import com.nashss.se.momentum.dynamodb.models.Event;
 import com.nashss.se.momentum.dynamodb.models.Goal;
@@ -37,13 +38,12 @@ public class GoalDao {
 
     public List<Goal> getGoals(String userId) {
         Goal goalPartition = new Goal();
-        goalPartition.setGoalId(userId);
+        goalPartition.setUserId(userId);
 
         DynamoDBQueryExpression<Goal> dynamoDBQueryExpression = new DynamoDBQueryExpression<Goal>()
                 .withHashKeyValues(goalPartition);
 
-        QueryResultPage<Goal> goalQueryResultPage = this.dynamoDBMapper.queryPage(Goal.class, dynamoDBQueryExpression);
+        return this.dynamoDBMapper.query(Goal.class, dynamoDBQueryExpression);
 
-        return new ArrayList<>(goalQueryResultPage.getResults());
     }
 }
