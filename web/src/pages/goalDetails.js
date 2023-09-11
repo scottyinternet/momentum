@@ -100,7 +100,7 @@ class GoalDetails extends BindingClass {
     getHTMLForSearchResults(searchResults) {
         const goalName = searchResults.goalName;
         const goalSummaryMessage = searchResults.goalSummaryMessage;
-        const statusEnum = searchResults.status.statusEnum;
+        const statusString = searchResults.statusString;
         const sum = searchResults.status.sum;
         const statusMessage = searchResults.status.statusMessage;
         const eventSummaryList = searchResults.status.eventSummaryList;
@@ -110,14 +110,17 @@ class GoalDetails extends BindingClass {
        const container = document.createElement('div');
 
        const statusEnumElement = document.createElement('h5');
-       statusEnumElement.textContent = `Status: ${statusEnum}`;
+       statusEnumElement.textContent = `Status: ${statusString}`;
        container.appendChild(statusEnumElement);
-   
+
        const summaryMessageElement = document.createElement('p');
        summaryMessageElement.textContent = `${goalSummaryMessage}`;
        container.appendChild(summaryMessageElement);
+
+       const sumElement = document.createElement('p');
+       sumElement.textContent = `Total Sum: ${sum}`;
+       container.appendChild(sumElement);
    
-       // Create and populate the additional details element
        const statusMessageElement = document.createElement('p');
        statusMessageElement.textContent = `${statusMessage}`;
        container.appendChild(statusMessageElement);
@@ -128,7 +131,7 @@ class GoalDetails extends BindingClass {
        // Create the table header row
        const tableHeader = table.createTHead();
        const headerRow = tableHeader.insertRow();
-       const headers = ['Date', `Sum: ${sum}`]; // Changed the header
+       const headers = ['Date', `Daily Sum`]; // Changed the header
    
        // Populate the table header row with headers
        headers.forEach((headerText) => {
