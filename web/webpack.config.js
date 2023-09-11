@@ -29,6 +29,7 @@ module.exports = {
     deleteEvent: path.resolve(__dirname, 'src', 'pages', 'deleteEvent.js'),
     createGoal: path.resolve(__dirname, 'src', 'pages', 'createGoal.js'),
     goalDetails: path.resolve(__dirname, 'src', 'pages', 'goalDetails.js'),
+    getGoalDetails: path.resolve(__dirname, 'src', 'pages', 'getGoalDetails.js'),
     viewPlaylist: path.resolve(__dirname, 'src', 'pages', 'viewPlaylist.js'),
     searchPlaylists: path.resolve(__dirname, 'src', 'pages', 'searchPlaylists.js'),
   },
