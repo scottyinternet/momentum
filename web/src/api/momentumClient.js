@@ -142,7 +142,6 @@ export default class MomentumClient extends BindingClass {
     }
 
     async getGoalDetails(goalName) {
-        alert(goalName);
         try {
             const token = await this.getTokenOrThrow("Only authenticated users can delete Events.");
             const response = await this.axiosClient.get(`goals/${goalName}`, {

@@ -9,21 +9,20 @@
 <body class="background">
 <header class="header" id="header"></header>
 <div class="card">
-    <h2>Goal Index</h2>
+    <h2>Goal Details</h2>
     <form class="card-content" id="goalDetails-form">
         <p class="form-field">
-            <label>Search by name or tag</label>
-            <input type="text" class="validated-field" id="search-criteria" placeholder="enter goal name" autofocus>
-            <sub>Search for your goal</sub>
+            <label>Enter Goal Name</label>
+            <input type="text" class="validated-field" id="search-criteria" placeholder="testing purposes only`" autofocus>
         </p>
     </form>
     <p class="button-group">
         <a href="#" class="button" id="goalDetails-btn">Search</a>
-        <a href="createGoal.html" class="button">New Goal</a>
+        <a href="createEvent.html" class="button">add entry</a>
     </p>
 </div>
 <div class="card hidden" id='search-results-container'>
-    <h3>Results for <span id="search-criteria-display"></span></h3>
+    <h3>Goal: <span id="search-criteria-display"></span></h3>
     <div id="search-results-display">
     </div>
 </div>

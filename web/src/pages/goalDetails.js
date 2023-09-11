@@ -47,7 +47,6 @@ class GoalDetails extends BindingClass {
      * @param evt The "event" object representing the user-initiated event that triggered this method.
      */
     async getGoalDetails(evt) {
-        alert("search button clicked");
         // Prevent submitting the from from reloading the page.
         evt.preventDefault();
 
@@ -82,15 +81,15 @@ class GoalDetails extends BindingClass {
         const searchCriteriaDisplay = document.getElementById('search-criteria-display');
         const searchResultsDisplay = document.getElementById('search-results-display');
 
-        // if (searchCriteria === '') {
-        //     searchResultsContainer.classList.add('hidden');
-        //     searchCriteriaDisplay.innerHTML = '';
-        //     searchResultsDisplay.innerHTML = '';
-        // } else {
+        if (searchCriteria === '') {
+            searchResultsContainer.classList.add('hidden');
+            searchCriteriaDisplay.innerHTML = '';
+            searchResultsDisplay.innerHTML = '';
+        } else {
             searchResultsContainer.classList.remove('hidden');
             searchCriteriaDisplay.innerHTML = `"${searchCriteria}"`;
             searchResultsDisplay.innerHTML = this.getHTMLForSearchResults(searchResults);
-        // }
+        }
     }
 
     /**
@@ -99,41 +98,75 @@ class GoalDetails extends BindingClass {
      * @returns A string of HTML suitable for being dropped on the page.
      */
     getHTMLForSearchResults(searchResults) {
+        const goalName = searchResults.goalName;
+        const goalSummaryMessage = searchResults.goalSummaryMessage;
+        const statusEnum = searchResults.status.statusEnum;
+        const sum = searchResults.status.sum;
+        const statusMessage = searchResults.status.statusMessage;
         const eventSummaryList = searchResults.status.eventSummaryList;
+        const eventModelList = searchResults.eventModelList;
 
-        // Create a table element
-        const table = document.createElement('table');
-    
-        // Create the table header row
-        const tableHeader = table.createTHead();
-        const headerRow = tableHeader.insertRow();
-        const headers = ['Date', 'Summed Measurement'];
-    
-        // Populate the table header row with headers
-        headers.forEach((headerText) => {
-            const th = document.createElement('th');
-            th.textContent = headerText;
-            headerRow.appendChild(th);
-        });
-    
-        // Create the table body
-        const tableBody = table.createTBody();
-    
-        // Populate the table rows with event summary data
-        eventSummaryList.forEach((eventSummary) => {
-            const row = tableBody.insertRow();
-            const dateCell = row.insertCell(0);
-            const measurementCell = row.insertCell(1);
-    
-            // Extract the date and measurement from the event summary object
-            const dateArray = eventSummary.date;
-            const formattedDate = `${dateArray[0]}-${dateArray[1]}-${dateArray[2]}`;
-    
-            dateCell.textContent = formattedDate;
-            measurementCell.textContent = eventSummary.summedMeasurement;
-        });
-    
-        return table.outerHTML; // Return the table element
+       // Create a container element to hold additional details and the table
+       const container = document.createElement('div');
+
+       const statusEnumElement = document.createElement('h5');
+       statusEnumElement.textContent = `Status: ${statusEnum}`;
+       container.appendChild(statusEnumElement);
+   
+       const summaryMessageElement = document.createElement('p');
+       summaryMessageElement.textContent = `${goalSummaryMessage}`;
+       container.appendChild(summaryMessageElement);
+   
+       // Create and populate the additional details element
+       const statusMessageElement = document.createElement('p');
+       statusMessageElement.textContent = `${statusMessage}`;
+       container.appendChild(statusMessageElement);
+   
+       // Create a table element
+       const table = document.createElement('table');
+   
+       // Create the table header row
+       const tableHeader = table.createTHead();
+       const headerRow = tableHeader.insertRow();
+       const headers = ['Date', `${sum}`]; // Changed the header
+   
+       // Populate the table header row with headers
+       headers.forEach((headerText) => {
+           const th = document.createElement('th');
+           th.textContent = headerText;
+           headerRow.appendChild(th);
+       });
+   
+       // Create the table body
+       const tableBody = table.createTBody();
+   
+       // Populate the table rows with event summary data
+       eventSummaryList.forEach((eventSummary, index) => {
+           const row = tableBody.insertRow();
+           const dateCell = row.insertCell(0);
+           const measurementCell = row.insertCell(1);
+   
+           // Extract the date and measurement from the event summary object
+           const dateArray = eventSummary.date;
+           const formattedDate = `${dateArray[0]}-${dateArray[1]}-${dateArray[2]}`;
+   
+           dateCell.textContent = formattedDate;
+           measurementCell.textContent = eventSummary.summedMeasurement;
+           if (eventSummary.summedMeasurement === 0) {
+            // Apply the "hide-zero" class to hide cells with a measurement of 0
+                measurementCell.classList.add('hide-zero');
+            }
+   
+           // Add a CSS class to the last row to change its text color
+           if (index === eventSummaryList.length - 1) {
+               row.classList.add('last-row');
+           }
+       });
+   
+       // Append the table to the container
+       container.appendChild(table);
+   
+       return container.outerHTML; // Return the container element
     }
 
 }
@@ -149,3 +182,115 @@ const main = async () => {
 window.addEventListener('DOMContentLoaded', main);
 
 
+
+//   R E S P O N S E
+//
+// {
+//     "goalDetailsModel": {
+//         "status": {
+//             "statusEnum": "IN_MOMENTUM",
+//             "statusMessage": "You have a surplus of 90 minutes. Keep it up!",
+//             "eventSummaryList": [
+//                 {
+//                     "date": [
+//                         2023,
+//                         9,
+//                         9
+//                     ],
+//                     "summedMeasurement": 0.0
+//                 },
+//                 {
+//                     "date": [
+//                         2023,
+//                         9,
+//                         8
+//                     ],
+//                     "summedMeasurement": 140.0
+//                 },
+//                 {
+//                     "date": [
+//                         2023,
+//                         9,
+//                         7
+//                     ],
+//                     "summedMeasurement": 0.0
+//                 },
+//                 {
+//                     "date": [
+//                         2023,
+//                         9,
+//                         6
+//                     ],
+//                     "summedMeasurement": 35.0
+//                 },
+//                 {
+//                     "date": [
+//                         2023,
+//                         9,
+//                         5
+//                     ],
+//                     "summedMeasurement": 65.0
+//                 },
+//                 {
+//                     "date": [
+//                         2023,
+//                         9,
+//                         4
+//                     ],
+//                     "summedMeasurement": 0.0
+//                 },
+//                 {
+//                     "date": [
+//                         2023,
+//                         9,
+//                         3
+//                     ],
+//                     "summedMeasurement": 0.0
+//                 },
+//                 {
+//                     "date": [
+//                         2023,
+//                         9,
+//                         2
+//                     ],
+//                     "summedMeasurement": 0.0
+//                 }
+//             ],
+//             "sum": 240.0
+//         },
+//         "eventModelList": [
+//             {
+//                 "goalId": "griffin.scott88@gmail.comRun",
+//                 "eventId": "ace7dde3-6a10-4ce1-beca-e4c2fcbfa044",
+//                 "dateOfEvent": [
+//                     2023,
+//                     9,
+//                     5
+//                 ],
+//                 "measurement": 65.0
+//             },
+//             {
+//                 "goalId": "griffin.scott88@gmail.comRun",
+//                 "eventId": "47abf438-204c-4b7a-8be4-13f262680f3d",
+//                 "dateOfEvent": [
+//                     2023,
+//                     9,
+//                     6
+//                 ],
+//                 "measurement": 35.0
+//             },
+//             {
+//                 "goalId": "griffin.scott88@gmail.comRun",
+//                 "eventId": "d57af852-fdde-4931-9a7b-437c3c233ede",
+//                 "dateOfEvent": [
+//                     2023,
+//                     9,
+//                     8
+//                 ],
+//                 "measurement": 140.0
+//             }
+//         ],
+//         "goalSummaryMessage": "Target: 150 minutes within a rolling 7 day period.",
+//         "goalName": "Run"
+//     }
+// }
