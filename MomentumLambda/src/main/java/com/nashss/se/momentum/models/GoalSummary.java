@@ -6,18 +6,18 @@ public class GoalSummary {
 
     private String goalName;
 
-    private StatusEnum goalStatus;
+    private String goalStatus;
 
     public String getGoalName() {
         return goalName;
     }
 
-    public StatusEnum getGoalStatus() {
-        return goalStatus;
+    public String getGoalStatus() {
+        return goalStatus.toString();
     }
 
     public GoalSummary(String goalName, StatusEnum goalStatus) {
         this.goalName = goalName;
-        this.goalStatus = goalStatus;
+        this.goalStatus = goalStatus.toString();
     }
 }
