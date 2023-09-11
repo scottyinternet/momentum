@@ -36,4 +36,12 @@ public class GoalDetailsModel {
     public String getGoalName() {
         return goalName;
     }
+
+    public String getStatusString() {
+        return statusString;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
 }
