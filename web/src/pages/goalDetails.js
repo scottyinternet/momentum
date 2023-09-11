@@ -105,45 +105,50 @@ class GoalDetails extends BindingClass {
         const statusMessage = searchResults.status.statusMessage;
         const eventSummaryList = searchResults.status.eventSummaryList;
         const eventModelList = searchResults.eventModelList;
+        const unit = searchResults.unit;
 
-       // Create a container element to hold additional details and the table
+       // DIV
        const container = document.createElement('div');
 
-       const statusEnumElement = document.createElement('h5');
+       // STATUS
+       const statusEnumElement = document.createElement('h4');
        statusEnumElement.textContent = `Status: ${statusString}`;
        container.appendChild(statusEnumElement);
 
+       // GOAL SUMMARY MESSAGE
        const summaryMessageElement = document.createElement('p');
        summaryMessageElement.textContent = `${goalSummaryMessage}`;
        container.appendChild(summaryMessageElement);
 
+       // CURRENT SUM
        const sumElement = document.createElement('p');
-       sumElement.textContent = `Total Sum: ${sum}`;
+       sumElement.textContent = `Sum: ${sum} ${unit}`;
        container.appendChild(sumElement);
-   
+
+       // STATUS MESSAGE
        const statusMessageElement = document.createElement('p');
        statusMessageElement.textContent = `${statusMessage}`;
        container.appendChild(statusMessageElement);
    
-       // Create a table element
+       // TABLE
        const table = document.createElement('table');
    
-       // Create the table header row
+       // TABLE - HEADER
        const tableHeader = table.createTHead();
        const headerRow = tableHeader.insertRow();
        const headers = ['Date', `Daily Sum`]; // Changed the header
    
-       // Populate the table header row with headers
+       // TABLE HEADER DATA
        headers.forEach((headerText) => {
            const th = document.createElement('th');
            th.textContent = headerText;
            headerRow.appendChild(th);
        });
    
-       // Create the table body
+       // TABLE BODY
        const tableBody = table.createTBody();
    
-       // Populate the table rows with event summary data
+       // TABLE BODY DATA
        eventSummaryList.forEach((eventSummary, index) => {
            const row = tableBody.insertRow();
            const dateCell = row.insertCell(0);
@@ -165,11 +170,10 @@ class GoalDetails extends BindingClass {
                row.classList.add('last-row');
            }
        });
-   
-       // Append the table to the container
+
        container.appendChild(table);
    
-       return container.outerHTML; // Return the container element
+       return container.outerHTML; // Return the container element html string
     }
 
 }
@@ -187,113 +191,104 @@ window.addEventListener('DOMContentLoaded', main);
 
 
 //   R E S P O N S E
-//
-// {
-//     "goalDetailsModel": {
-//         "status": {
-//             "statusEnum": "IN_MOMENTUM",
-//             "statusMessage": "You have a surplus of 90 minutes. Keep it up!",
-//             "eventSummaryList": [
-//                 {
-//                     "date": [
-//                         2023,
-//                         9,
-//                         9
-//                     ],
-//                     "summedMeasurement": 0.0
-//                 },
-//                 {
-//                     "date": [
-//                         2023,
-//                         9,
-//                         8
-//                     ],
-//                     "summedMeasurement": 140.0
-//                 },
-//                 {
-//                     "date": [
-//                         2023,
-//                         9,
-//                         7
-//                     ],
-//                     "summedMeasurement": 0.0
-//                 },
-//                 {
-//                     "date": [
-//                         2023,
-//                         9,
-//                         6
-//                     ],
-//                     "summedMeasurement": 35.0
-//                 },
-//                 {
-//                     "date": [
-//                         2023,
-//                         9,
-//                         5
-//                     ],
-//                     "summedMeasurement": 65.0
-//                 },
-//                 {
-//                     "date": [
-//                         2023,
-//                         9,
-//                         4
-//                     ],
-//                     "summedMeasurement": 0.0
-//                 },
-//                 {
-//                     "date": [
-//                         2023,
-//                         9,
-//                         3
-//                     ],
-//                     "summedMeasurement": 0.0
-//                 },
-//                 {
-//                     "date": [
-//                         2023,
-//                         9,
-//                         2
-//                     ],
-//                     "summedMeasurement": 0.0
-//                 }
-//             ],
-//             "sum": 240.0
-//         },
-//         "eventModelList": [
-//             {
-//                 "goalId": "griffin.scott88@gmail.comRun",
-//                 "eventId": "ace7dde3-6a10-4ce1-beca-e4c2fcbfa044",
-//                 "dateOfEvent": [
-//                     2023,
-//                     9,
-//                     5
-//                 ],
-//                 "measurement": 65.0
-//             },
-//             {
-//                 "goalId": "griffin.scott88@gmail.comRun",
-//                 "eventId": "47abf438-204c-4b7a-8be4-13f262680f3d",
-//                 "dateOfEvent": [
-//                     2023,
-//                     9,
-//                     6
-//                 ],
-//                 "measurement": 35.0
-//             },
-//             {
-//                 "goalId": "griffin.scott88@gmail.comRun",
-//                 "eventId": "d57af852-fdde-4931-9a7b-437c3c233ede",
-//                 "dateOfEvent": [
-//                     2023,
-//                     9,
-//                     8
-//                 ],
-//                 "measurement": 140.0
-//             }
-//         ],
-//         "goalSummaryMessage": "Target: 150 minutes within a rolling 7 day period.",
-//         "goalName": "Run"
-//     }
-// }
+//{
+//    "goalDetailsModel": {
+//        "status": {
+//            "statusEnum": "LOSING_MOMENTUM",
+//            "statusMessage": "You haven't had an entry in the last 3 days. Get back to it!",
+//            "eventSummaryList": [
+//                {
+//                    "date": [
+//                        2023,
+//                        9,
+//                        11
+//                    ],
+//                    "summedMeasurement": 0.0
+//                },
+//                {
+//                    "date": [
+//                        2023,
+//                        9,
+//                        10
+//                    ],
+//                    "summedMeasurement": 0.0
+//                },
+//                {
+//                    "date": [
+//                        2023,
+//                        9,
+//                        9
+//                    ],
+//                    "summedMeasurement": 0.0
+//                },
+//                {
+//                    "date": [
+//                        2023,
+//                        9,
+//                        8
+//                    ],
+//                    "summedMeasurement": 0.0
+//                },
+//                {
+//                    "date": [
+//                        2023,
+//                        9,
+//                        7
+//                    ],
+//                    "summedMeasurement": 0.0
+//                },
+//                {
+//                    "date": [
+//                        2023,
+//                        9,
+//                        6
+//                    ],
+//                    "summedMeasurement": 0.0
+//                },
+//                {
+//                    "date": [
+//                        2023,
+//                        9,
+//                        5
+//                    ],
+//                    "summedMeasurement": 100.0
+//                },
+//                {
+//                    "date": [
+//                        2023,
+//                        9,
+//                        4
+//                    ],
+//                    "summedMeasurement": 0.0
+//                }
+//            ],
+//            "sum": 100.0
+//        },
+//        "statusString": "You are losing momentum",
+//        "eventModelList": [
+//            {
+//                "goalId": "griffin.scott88@gmail.comRun",
+//                "eventId": "47abf438-204c-4b7a-8be4-13f262680f3d",
+//                "dateOfEvent": [
+//                    2023,
+//                    9,
+//                    5
+//                ],
+//                "measurement": 35.0
+//            },
+//            {
+//                "goalId": "griffin.scott88@gmail.comRun",
+//                "eventId": "ace7dde3-6a10-4ce1-beca-e4c2fcbfa044",
+//                "dateOfEvent": [
+//                    2023,
+//                    9,
+//                    5
+//                ],
+//                "measurement": 65.0
+//            }
+//        ],
+//        "goalSummaryMessage": "Target: 150 minutes within a rolling 7 day period.",
+//        "goalName": "Run",
+//        "unit": "minutes"
+//    }
+//}
