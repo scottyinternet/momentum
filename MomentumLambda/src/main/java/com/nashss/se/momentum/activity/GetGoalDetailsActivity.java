@@ -42,7 +42,7 @@ public class GetGoalDetailsActivity {
         }
 
         String goalSummaryMessage = "Target: " + goal.getTarget() + " " + goal.getUnit() + " within a rolling " + goal.getTimePeriod() + " day period.";
-        Status status = StatusCalculator.calculateStatus(goal, eventList);
+        Status status = StatusCalculator.calculateStatus(goal, eventModels);
         GoalDetailsModel goalDetailsModel = new GoalDetailsModel(status, eventModels, goalSummaryMessage, requestedGoalName);
 
         return GetGoalDetailsResult.builder()
