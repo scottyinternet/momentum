@@ -14,7 +14,7 @@ public class GoalDetailsModel {
 
     public GoalDetailsModel(Status status, List<EventModel> eventModelList, String goalSummaryMessage, String goalName, String unit) {
         this.status = status;
-        this.statusString = status.toString();
+        this.statusString = status.getStatusEnum().toString();
         this.eventModelList = new ArrayList<>(eventModelList);
         this.goalSummaryMessage = goalSummaryMessage;
         this.goalName = goalName;
