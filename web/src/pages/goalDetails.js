@@ -128,7 +128,7 @@ class GoalDetails extends BindingClass {
        // Create the table header row
        const tableHeader = table.createTHead();
        const headerRow = tableHeader.insertRow();
-       const headers = ['Date', `${sum}`]; // Changed the header
+       const headers = ['Date', `Sum: ${sum}`]; // Changed the header
    
        // Populate the table header row with headers
        headers.forEach((headerText) => {
