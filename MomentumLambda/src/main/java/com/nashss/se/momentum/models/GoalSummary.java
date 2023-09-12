@@ -10,6 +10,7 @@ public class GoalSummary {
 
     private String goalStatus;
 
+
     public String getGoalName() {
         return goalName;
     }

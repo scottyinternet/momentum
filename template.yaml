@@ -260,7 +260,6 @@ Resources:
             Path: /goals/{goalName}
             Method: get
 
-
   CreateGoalLambda:
     Type: AWS::Serverless::Function
     Properties:
@@ -298,7 +297,7 @@ Resources:
         Momentum:
           Type: Api
           Properties:
-            Path: /goals/{goalName}
+            Path: /goals/{goalId}
             Method: put
 
   DeleteGoalLambda:
@@ -318,7 +317,7 @@ Resources:
         Momentum:
           Type: Api
           Properties:
-            Path: /goals/{goalName}
+            Path: /goals/{goalId}
             Method: delete
 
   CreateEventLambda:

@@ -15,7 +15,7 @@ export default class MomentumClient extends BindingClass {
     constructor(props = {}) {
         super();
 
-        const methodsToBind = ['clientLoaded', 'getIdentity', 'login', 'logout', 'createEvent','createGoal','deleteEvent'];
+        const methodsToBind = ['clientLoaded', 'getIdentity', 'login', 'logout', 'createEvent','createGoal','deleteEvent', 'getAllGoalsSummary'];
         this.bindClassMethods(methodsToBind, this);
 
         this.authenticator = new Authenticator();;
@@ -139,6 +139,20 @@ export default class MomentumClient extends BindingClass {
         }
     }
 
+        async getAllGoalsSummary(){
+                try {
+                    const token = await this.getTokenOrThrow("Only authenticated users can get Goal summaries.");
+                    const response = await this.axiosClient.get(`goals`, {
+                        headers: {
+                           Authorization: `Bearer ${token}`
+                        }}
+                        );
+                    return response.data.goalSummary;
+                } catch (error) {
+                    this.handleError(error, errorCallback)
+                }
+
+            }
       /**
        * Helper method to log the error and run any error functions.
        * @param error The error received from the server.
