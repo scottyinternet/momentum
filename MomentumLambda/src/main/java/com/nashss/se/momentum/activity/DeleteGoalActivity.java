@@ -35,8 +35,8 @@ public class DeleteGoalActivity {
 
 
         List<Event> events = eventDao.getEvents(deleteGoalRequest.getUserId()+deleteGoalRequest.getGoalName());
-
         events.forEach(eventDao::deleteEvent);
+        goalDao.deleteGoal(goal);
 
         GoalModel goalModel = new ModelConverter().toGoalModel(goal);
         return DeleteGoalResult.builder()

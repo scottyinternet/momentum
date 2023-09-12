@@ -39,7 +39,7 @@ public class EventDao {
 
     public List<Event> getEvents(String goalId) {
         Event event = new Event();
-        event.setEventId(goalId);
+        event.setGoalId(goalId);
 
         DynamoDBQueryExpression<Event> dynamoDBQueryExpression = new DynamoDBQueryExpression<Event>()
                 .withHashKeyValues(event);

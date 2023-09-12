@@ -47,7 +47,7 @@ public class GoalDao {
 
     }
 
-    public void DeleteGoal(Goal goal){
+    public void deleteGoal(Goal goal){
         dynamoDBMapper.delete(goal);
     }
 }
