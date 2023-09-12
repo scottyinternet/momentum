@@ -36,12 +36,10 @@ class GetGoalDetails extends BindingClass {
 
         this.client = new MomentumClient();
 
-        const newEventButton = document.getElementById("create-event-button");
-        newEventButton.addEventListener('click', function() {
-            newEventButton.href = `index.html?goalName=${goalName}`;
-        });
+        const urlParams = new URLSearchParams(window.location.search);
+        const goalName = urlParams.get('goalName');
 
-        this.getGoalDetails();
+        this.getGoalDetails(goalName);
     }
 
     /**
@@ -49,9 +47,8 @@ class GetGoalDetails extends BindingClass {
      * then updates the datastore with the criteria and results.
      * @param evt The "event" object representing the user-initiated event that triggered this method.
      */
-    async getGoalDetails() {
-        const urlParams = new URLSearchParams(window.location.search);
-        const goalName = urlParams.get('goalName');
+    async getGoalDetails(goalName) {
+
 
         if (goalName) {
             const results = await this.client.getGoalDetails(goalName);
@@ -106,6 +103,11 @@ class GetGoalDetails extends BindingClass {
             col2.innerHTML =  this.getListOfEventsToDisplay(searchResults);
 
         }
+
+        const newEventButton = document.getElementById("create-event-button");
+        newEventButton.addEventListener('click', function() {
+            newEventButton.href = `createEvent.html?goalName=${goalName}&unit=${searchResults.unit}`;
+        });
     }
 
     /**
@@ -122,6 +124,7 @@ class GetGoalDetails extends BindingClass {
         const eventSummaryList = searchResults.status.eventSummaryList;
         const eventModelList = searchResults.eventModelList;
         const unit = searchResults.unit;
+        unitConst = unit;
 
        // DIV
        const container = document.createElement('div');
