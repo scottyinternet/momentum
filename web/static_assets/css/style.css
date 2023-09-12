@@ -135,3 +135,14 @@ a {
     color: var(--tertiary-color);
     text-decoration: none;
 }
+
+.last-row {
+    text-decoration: line-through; 
+    color: #999; 
+    text-indent: 30px; 
+}
+
+.hide-zero {
+    color: #ccc; /* Light gray color */
+    font-weight: 300; /* Thin font weight */
+}

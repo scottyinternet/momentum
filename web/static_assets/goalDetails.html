@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script type="text/javascript" src="assets/goalDetails.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+
+<body class="background">
+<header class="header" id="header"></header>
+<div class="card">
+    <h2>Goal Details</h2>
+    <form class="card-content" id="goalDetails-form">
+        <p class="form-field">
+            <label>Enter Goal Name</label>
+            <input type="text" class="validated-field" id="search-criteria" placeholder="testing purposes only`" autofocus>
+        </p>
+    </form>
+    <p class="button-group">
+        <a href="#" class="button" id="goalDetails-btn">Search</a>
+        <a href="createEvent.html" class="button">add entry</a>
+    </p>
+</div>
+<div class="card hidden" id='search-results-container'>
+    <h3>Goal: <span id="search-criteria-display"></span></h3>
+    <div id="search-results-display">
+    </div>
+</div>
+</body>
+
+</html>
