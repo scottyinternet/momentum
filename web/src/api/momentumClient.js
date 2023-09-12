@@ -50,7 +50,7 @@ export default class MomentumClient extends BindingClass {
 
              return await this.authenticator.getCurrentUserInfo();
         } catch (error) {
-            this.handleError(error, errorCallback)
+            this.handleError(error)
         }
     }
 
@@ -85,7 +85,7 @@ export default class MomentumClient extends BindingClass {
             });
             return response.data.event;
         } catch (error) {
-            this.handleError(error, errorCallback)
+            this.handleError(error)
         }
     }
 
@@ -99,7 +99,7 @@ export default class MomentumClient extends BindingClass {
             );
             return response.data.event;
         } catch (error) {
-            this.handleError(error, errorCallback)
+            this.handleError(error)
         }
     }
 
@@ -119,7 +119,7 @@ export default class MomentumClient extends BindingClass {
                 });
                 return response.data.goal;
             } catch (error) {
-                this.handleError(error, errorCallback)
+                this.handleError(error,)
             }
     }
 
@@ -135,7 +135,7 @@ export default class MomentumClient extends BindingClass {
             );
             return response.data.goalDetailsModel;
         } catch (error) {
-            this.handleError(error, errorCallback)
+            this.handleError(error)
         }
     }
 
