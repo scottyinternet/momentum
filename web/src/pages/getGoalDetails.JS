@@ -35,7 +35,11 @@ class GetGoalDetails extends BindingClass {
         this.header.addHeaderToPage();
 
         this.client = new MomentumClient();
-        console.log("line 38 pre GetGoalDetails");
+
+        const newEventButton = document.getElementById("create-event-button");
+        newEventButton.addEventListener('click', function() {
+            newEventButton.href = `index.html?goalName=${goalName}`;
+        });
 
         this.getGoalDetails();
     }
@@ -46,11 +50,8 @@ class GetGoalDetails extends BindingClass {
      * @param evt The "event" object representing the user-initiated event that triggered this method.
      */
     async getGoalDetails() {
-        console.log("getGoalDetailsMethod");
         const urlParams = new URLSearchParams(window.location.search);
         const goalName = urlParams.get('goalName');
-        console.log("GOAL NAME FRO URL PARAMS");
-        console.log(goalName); // This will log 'someValue' to the console
 
         if (goalName) {
             const results = await this.client.getGoalDetails(goalName);
