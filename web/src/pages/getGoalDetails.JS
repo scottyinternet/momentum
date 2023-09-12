@@ -25,7 +25,7 @@ class GetGoalDetails extends BindingClass {
         this.dataStore = new DataStore(EMPTY_DATASTORE_STATE);
         this.header = new Header(this.dataStore);
         this.dataStore.addChangeListener(this.displaySearchResults);
-        console.log("goalIndex constructor!!!");
+        console.log("goalIndex what the FUCKKKK!!!");
     }
 
     /**
