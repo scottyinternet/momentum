@@ -46,4 +46,8 @@ public class GoalDao {
         return this.dynamoDBMapper.query(Goal.class, dynamoDBQueryExpression);
 
     }
+
+    public void DeleteGoal(Goal goal){
+        dynamoDBMapper.delete(goal);
+    }
 }

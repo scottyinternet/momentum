@@ -37,7 +37,7 @@ public class EventDao {
         this.metricsPublisher = metricsPublisher;
     }
 
-    public Queue<Event> getEvents(String goalId) {
+    public List<Event> getEvents(String goalId) {
         Event event = new Event();
         event.setEventId(goalId);
 
@@ -46,7 +46,7 @@ public class EventDao {
 
         QueryResultPage<Event> eventQueryResultPage = this.dynamoDBMapper.queryPage(Event.class, dynamoDBQueryExpression);
 
-        Queue<Event> eventList = new LinkedList<>(eventQueryResultPage.getResults());
+        List<Event> eventList = new ArrayList<>(eventQueryResultPage.getResults());
 
         return eventList;
     }
