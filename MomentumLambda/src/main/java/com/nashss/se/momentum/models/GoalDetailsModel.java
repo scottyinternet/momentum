@@ -6,11 +6,6 @@ import java.util.List;
 public class GoalDetailsModel {
 
     private final Status status;
-    private final String statusString;
-    private final List<EventModel> eventModelList;
-    private final String goalSummaryMessage;
-    private final String goalName;
-    private final String unit;
 
     public GoalDetailsModel(Status status, List<EventModel> eventModelList, String goalSummaryMessage, String goalName, String unit) {
         this.status = status;
