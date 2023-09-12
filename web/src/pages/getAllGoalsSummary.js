@@ -16,7 +16,7 @@
     class GetAllGoalsSummary extends BindingClass {
         constructor() {
             super();
-            this.bindClassMethods(['mount', 'loadGoals', 'displayGoalSummary', 'getHTMLForAllGoalsSummary'], this);
+            this.bindClassMethods(['mount', 'loadGoals', 'displayGoalSummary', 'addHTMLRowsToTable'], this);
             this.dataStore = new DataStore(EMPTY_DATASTORE_STATE);
             this.header = new Header(this.dataStore);
             this.displayGoalSummary = this.displayGoalSummary.bind(this);
@@ -54,17 +54,19 @@
             const allGoalsContainer = document.getElementById('all-goals-container');
             const allGoalsDisplay = document.getElementById('all-goals-display');
 
-            allGoalsDisplay.innerHTML = this.getHTMLForAllGoalsSummary(goalList);
+            const goalSummaryTableHTML = document.getElementById('goalSummaryTable');
+
+            this.addHTMLRowsToTable(goalList, goalSummaryTableHTML);
         }
 
-        getHTMLForAllGoalsSummary(goalList) {
-            const summaryTable = document.createElement('table');
+        addHTMLRowsToTable(goalList, goalSummaryTableHTML) {
 
             for (const goal of goalList) {
                 const row = document.createElement('tr');
 
                 const goalNameCell = document.createElement('td');
-                goalNameCell.textContent = `${goal.goalName}`;
+                const goalName = `${goal.goalName}`;
+                goalNameCell.textContent = goalName;
                 row.appendChild(goalNameCell);
 
                 const goalStatusCell = document.createElement('td');
@@ -78,7 +80,6 @@
                 detailsButton.textContent = 'Details';
                 detailsButton.addEventListener('click', () => {
                     console.log("details button clicked !!!!!!");
-                    window.location.href = '/getGoalDetails.html';
                 });
                 detailButtonCell.appendChild(detailsButton);
                 row.appendChild(detailButtonCell);
@@ -88,7 +89,7 @@
                 editButton.textContent = 'Edit';
                 editButton.addEventListener('click', () => {
                     console.log("edit button clicked !!!!!!");
-                    window.location.href = '/createGoal.html';
+                    window.location.href = '/editGoal.html?goalName=' + goalName;
                 });
                 editButtonCell.appendChild(editButton);
                 row.appendChild(editButtonCell);
@@ -98,14 +99,13 @@
                 deleteButton.textContent = 'Delete';
                 deleteButton.addEventListener('click', () => {
                     console.log("delete button clicked !!!!!!");
-                    window.location.href = '/createEvent.html';
+                    window.location.href = '/deleteGoal.html?goalName=' + goalName;
                 });
                 deleteButtonCell.appendChild(deleteButton);
                 row.appendChild(deleteButtonCell);
 
-                summaryTable.appendChild(row);
+                goalSummaryTableHTML.appendChild(row);
             }
-            return summaryTable.outerHTML;
         }
     }
 
