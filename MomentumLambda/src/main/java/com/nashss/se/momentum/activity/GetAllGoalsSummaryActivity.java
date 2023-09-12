@@ -70,7 +70,7 @@ public class GetAllGoalsSummaryActivity {
             for (Event event : eventList) {
                 eventModels.add(modelConverter.toEventModel(event));
             }
-            Status status = StatusCalculator.calculateStatus(goal, eventList);
+            Status status = StatusCalculator.calculateStatus(goal, eventModels);
             goalSummaryList.add(new GoalSummary(goal.getGoalName(),status.getStatusEnum()));
         }
 
