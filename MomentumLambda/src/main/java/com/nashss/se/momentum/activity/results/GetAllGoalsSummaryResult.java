@@ -5,6 +5,7 @@ import com.nashss.se.momentum.models.GoalSummary;
 import java.util.List;
 import java.util.Objects;
 
+
 public class GetAllGoalsSummaryResult {
 
     private final List<GoalSummary> goalSummaryList;

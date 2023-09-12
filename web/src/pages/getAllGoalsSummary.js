@@ -54,6 +54,7 @@
             const allGoalsContainer = document.getElementById('all-goals-container');
             const allGoalsDisplay = document.getElementById('all-goals-display');
 
+
             const goalSummaryTableHTML = document.getElementById('goal-summaries-table');
 
             this.addHTMLRowsToTable(goalList, goalSummaryTableHTML);
@@ -87,6 +88,7 @@
                 const editButtonCell = document.createElement('td');
                 const editButton = document.createElement('button');
                 editButton.textContent = 'Edit';
+
                 editButton.className = 'button';
                 editButton.addEventListener('click', () => {
                     window.location.href = '/editGoal.html?goalName=' + goalName;
@@ -97,8 +99,10 @@
                 const deleteButtonCell = document.createElement('td');
                 const deleteButton = document.createElement('button');
                 deleteButton.textContent = 'Delete';
+
                 deleteButton.className = 'button';
                 deleteButton.addEventListener('click', () => {
+
                     window.location.href = '/deleteGoal.html?goalName=' + goalName;
                 });
                 deleteButtonCell.appendChild(deleteButton);
