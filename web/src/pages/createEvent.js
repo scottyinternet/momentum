@@ -28,7 +28,9 @@ class CreateEvent extends BindingClass {
         const goalName = urlParams.get('goalName');
         const unit = urlParams.get('unit');
         const titleHTML = document.getElementById('title');
-        titleHTML.innerHTML = `Create Event: ${goalName} in ${unit}`;
+        titleHTML.innerHTML = `Create Event: ${goalName}`;
+        const measurementLabel = document.getElementById("measurement-label");
+        measurementLabel.innerHTML = `Measurement in ${unit}`;
     }
 
      /**

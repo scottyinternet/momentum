@@ -103,11 +103,6 @@ class GetGoalDetails extends BindingClass {
             col2.innerHTML =  this.getListOfEventsToDisplay(searchResults);
 
         }
-
-        const newEventButton = document.getElementById("create-event-button");
-        newEventButton.addEventListener('click', function() {
-            newEventButton.href = `createEvent.html?goalName=${goalName}&unit=${searchResults.unit}`;
-        });
     }
 
     /**
@@ -124,7 +119,14 @@ class GetGoalDetails extends BindingClass {
         const eventSummaryList = searchResults.status.eventSummaryList;
         const eventModelList = searchResults.eventModelList;
         const unit = searchResults.unit;
-        unitConst = unit;
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const goalName2 = urlParams.get('goalName');
+        console.log("STUFF!");
+        console.log(unit);
+        console.log(goalName2);
+        const newEventButton = document.getElementById("create-event-button");
+        newEventButton.href = `createEvent.html?goalName=${goalName2}&unit=${unit}`;
 
        // DIV
        const container = document.createElement('div');
