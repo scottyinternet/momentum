@@ -3,6 +3,7 @@ package com.nashss.se.momentum.activity.results;
 import com.nashss.se.momentum.models.GoalSummary;
 
 import java.util.List;
+import java.util.Objects;
 
 public class GetAllGoalsSummaryResult {
 
@@ -31,5 +32,18 @@ public class GetAllGoalsSummaryResult {
         public GetAllGoalsSummaryResult build() {
             return new GetAllGoalsSummaryResult(goalSummaryList);
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof GetAllGoalsSummaryResult)) return false;
+        GetAllGoalsSummaryResult that = (GetAllGoalsSummaryResult) o;
+        return Objects.equals(this.goalSummaryList, that.goalSummaryList);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(goalSummaryList);
     }
 }
