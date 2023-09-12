@@ -58,14 +58,54 @@
         }
 
         getHTMLForAllGoalsSummary(goalList) {
-            const summaryList = document.createElement('ul');
+            const summaryTable = document.createElement('table');
 
             for (const goal of goalList) {
-                const listItem = document.createElement('li');
-                listItem.textContent = `${goal.goalName} | ${goal.goalStatus}`;
-                summaryList.appendChild(listItem);
+                const row = document.createElement('tr');
+
+                const goalNameCell = document.createElement('td');
+                goalNameCell.textContent = `${goal.goalName}`;
+                row.appendChild(goalNameCell);
+
+                const goalStatusCell = document.createElement('td');
+                goalStatusCell.textContent = `${goal.goalStatus}`;
+                row.appendChild(goalStatusCell);
+
+                const detailButtonCell = document.createElement('td');
+                const detailsButton = document.createElement('button');
+                console.log("details button clicked !!!!!!");
+
+                detailsButton.textContent = 'Details';
+                detailsButton.addEventListener('click', () => {
+                    console.log("details button clicked !!!!!!");
+                    window.location.href = '/getGoalDetails.html';
+                });
+                detailButtonCell.appendChild(detailsButton);
+                row.appendChild(detailButtonCell);
+
+                const editButtonCell = document.createElement('td');
+                const editButton = document.createElement('button');
+                editButton.textContent = 'Edit';
+                editButton.addEventListener('click', () => {
+                    console.log("edit button clicked !!!!!!");
+                    window.location.href = '/createGoal.html';
+                });
+                editButtonCell.appendChild(editButton);
+                row.appendChild(editButtonCell);
+
+                const deleteButtonCell = document.createElement('td');
+                const deleteButton = document.createElement('button');
+                deleteButton.textContent = 'Delete';
+                deleteButton.addEventListener('click', () => {
+                    console.log("delete button clicked !!!!!!");
+                    window.location.href = '/createEvent.html';
+                });
+                deleteButtonCell.appendChild(deleteButton);
+                row.appendChild(deleteButtonCell);
+
+                summaryTable.appendChild(row);
             }
-            return summaryList.outerHTML;
+            return summaryTable.outerHTML;
         }
     }
 
