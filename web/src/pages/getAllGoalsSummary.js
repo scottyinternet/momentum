@@ -80,6 +80,7 @@
                 detailsButton.textContent = 'Details';
                 detailsButton.addEventListener('click', () => {
                     console.log("details button clicked !!!!!!");
+                    window.location.href = '/getGoalDetails.html?goalName=' + goalName;
                 });
                 detailButtonCell.appendChild(detailsButton);
                 row.appendChild(detailButtonCell);
