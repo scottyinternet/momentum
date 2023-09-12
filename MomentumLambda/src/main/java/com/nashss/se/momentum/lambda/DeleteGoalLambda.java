@@ -5,7 +5,6 @@ import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.nashss.se.momentum.activity.requests.DeleteGoalRequest;
 import com.nashss.se.momentum.activity.results.DeleteGoalResult;
 
-
 public class DeleteGoalLambda
         extends LambdaActivityRunner<DeleteGoalRequest, DeleteGoalResult>
         implements RequestHandler<AuthenticatedLambdaRequest<DeleteGoalRequest>, LambdaResponse> {

@@ -2,13 +2,10 @@ package com.nashss.se.momentum.activity.requests;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
-import com.nashss.se.momentum.utils.UnitOfMeasurement;
 
-import java.time.LocalDate;
 
 @JsonDeserialize(builder = CreateGoalRequest.Builder.class)
 public class DeleteGoalRequest {
-
 
     private final String userId;
     private final String goalName;
@@ -50,7 +47,6 @@ public class DeleteGoalRequest {
             this.userId = userId;
             return this;
         }
-
 
         public DeleteGoalRequest.Builder withGoalName(String goalName) {
             this.goalName = goalName;

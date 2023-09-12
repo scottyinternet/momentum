@@ -8,9 +8,7 @@ import com.nashss.se.momentum.dynamodb.EventDao;
 import com.nashss.se.momentum.dynamodb.GoalDao;
 import com.nashss.se.momentum.dynamodb.models.Goal;
 import com.nashss.se.momentum.dynamodb.models.Event;
-
 import com.nashss.se.momentum.models.GoalModel;
-
 
 import javax.inject.Inject;
 import java.util.List;
@@ -32,7 +30,6 @@ public class DeleteGoalActivity {
         Goal goal = new Goal();
         goal.setUserId(deleteGoalRequest.getUserId());
         goal.setGoalName(deleteGoalRequest.getGoalName());
-
 
         List<Event> events = eventDao.getEvents(deleteGoalRequest.getUserId()+deleteGoalRequest.getGoalName());
         events.forEach(eventDao::deleteEvent);
