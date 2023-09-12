@@ -21,7 +21,7 @@ class GetGoalDetails extends BindingClass {
 
         this.bindClassMethods(['mount', 'getGoalDetails', 'displaySearchResults', 'getHTMLForSearchResults'], this);
 
-        // Create a enw datastore with an initial "empty" state.
+
         this.dataStore = new DataStore(EMPTY_DATASTORE_STATE);
         this.header = new Header(this.dataStore);
         this.dataStore.addChangeListener(this.displaySearchResults);
@@ -137,7 +137,7 @@ class GetGoalDetails extends BindingClass {
        const statusEnumElement = document.createElement('h4');
        statusEnumElement.textContent = `Status: ${statusString}`;
        container.appendChild(statusEnumElement);
-      // cont.innerHTML=statusEnumElement;
+
 
        // GOAL SUMMARY MESSAGE
        const summaryMessageElement = document.createElement('p');
@@ -169,9 +169,9 @@ class GetGoalDetails extends BindingClass {
             const eventModelList = searchResults.eventModelList;
             const unit = searchResults.unit;
 
-//           // DIV
+          // DIV
           const container = document.createElement('div');
- //         const cont=document.getElementById('col1');
+
 
            // TABLE
            const table = document.createElement('table');
