@@ -1,11 +1,19 @@
 package com.nashss.se.momentum.dynamodb;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
+import com.amazonaws.services.dynamodbv2.datamodeling.PaginatedQueryList;
+import com.amazonaws.services.dynamodbv2.datamodeling.QueryResultPage;
+import com.nashss.se.momentum.dynamodb.models.Event;
 import com.nashss.se.momentum.dynamodb.models.Goal;
 import com.nashss.se.momentum.metrics.MetricsPublisher;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
 
 @Singleton
 public class GoalDao {
@@ -26,5 +34,16 @@ public class GoalDao {
 
     public Goal getGoal(String userId, String goalName) {
         return this.dynamoDBMapper.load(Goal.class, userId, goalName);
+    }
+
+    public List<Goal> getGoals(String userId) {
+        Goal goalPartition = new Goal();
+        goalPartition.setUserId(userId);
+
+        DynamoDBQueryExpression<Goal> dynamoDBQueryExpression = new DynamoDBQueryExpression<Goal>()
+                .withHashKeyValues(goalPartition);
+
+        return this.dynamoDBMapper.query(Goal.class, dynamoDBQueryExpression);
+
     }
 }
