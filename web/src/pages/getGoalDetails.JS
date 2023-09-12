@@ -25,7 +25,7 @@ class GetGoalDetails extends BindingClass {
         this.dataStore = new DataStore(EMPTY_DATASTORE_STATE);
         this.header = new Header(this.dataStore);
         this.dataStore.addChangeListener(this.displaySearchResults);
-        console.log("goalIndex constructor");
+        console.log("goalIndex constructor!!!");
     }
 
     /**
@@ -35,8 +35,6 @@ class GetGoalDetails extends BindingClass {
         // Wire up the form's 'submit' event and the button's 'click' event to the search method.
         document.getElementById('goalDetails-form').addEventListener('submit', this.getGoalDetails);
         document.getElementById('goalDetails-btn').addEventListener('click', this.getGoalDetails);
-
-
 
         this.header.addHeaderToPage();
 
