@@ -27,4 +27,9 @@ public class GoalDao {
     public Goal getGoal(String userId, String goalName) {
         return this.dynamoDBMapper.load(Goal.class, userId, goalName);
     }
+    public Goal updateGoal(Goal goal){
+        this.dynamoDBMapper.save(goal);
+        return goal;
+
+    }
 }

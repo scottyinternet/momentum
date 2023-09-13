@@ -40,8 +40,8 @@ public class UpdateGoalRequest {
         return goalName;
     }
 
-    public static UpdatePlaylistRequest.Builder builder() {
-        return new UpdatePlaylistRequest.Builder();
+    public static UpdateGoalRequest.Builder builder() {
+        return new UpdateGoalRequest.Builder();
     }
 
     @JsonPOJOBuilder
