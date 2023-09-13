@@ -2,6 +2,7 @@ package com.nashss.se.momentum.utils;
 
 import com.nashss.se.momentum.dynamodb.models.Event;
 import com.nashss.se.momentum.dynamodb.models.Goal;
+import com.nashss.se.momentum.models.EventModel;
 import com.nashss.se.momentum.models.EventSummary;
 import com.nashss.se.momentum.models.Status;
 
@@ -12,7 +13,7 @@ import java.util.List;
 
 public class StatusCalculator {
 
-    public static Status calculateStatus(Goal goal, List<Event> eventList) {
+    public static Status calculateStatus(Goal goal, List<EventModel> eventList) {
 
         int timePeriod = goal.getTimePeriod();
 
@@ -44,15 +45,15 @@ public class StatusCalculator {
     //  - - - - -  H E L P E R S  - - - - -
 
     //  C R E A T E   E V E N T   S U M M A R Y   L I S T
-    private static List<EventSummary> createEventSummaryList(List<Event> eventList, int timePeriod) {
+    private static List<EventSummary> createEventSummaryList(List<EventModel> eventList, int timePeriod) {
         List<EventSummary> eventSummaryList = new ArrayList<>();
         LocalDate today = LocalDate.now();
 
         for (int i = 0; i < timePeriod +1; i++) {
             LocalDate date = today.minusDays(i);
             Double sum = 0.0;
-            for (Event event : eventList) {
-                if (date.equals(event.getDate())) {
+            for (EventModel event : eventList) {
+                if (date.equals(event.getDateOfEvent())) {
                     sum += event.getMeasurement();
                 }
             }

@@ -1,7 +1,9 @@
 package com.nashss.se.momentum.utils;
 
+import com.nashss.se.momentum.converters.ModelConverter;
 import com.nashss.se.momentum.dynamodb.models.Event;
 import com.nashss.se.momentum.dynamodb.models.Goal;
+import com.nashss.se.momentum.models.EventModel;
 import com.nashss.se.momentum.models.EventSummary;
 import com.nashss.se.momentum.models.Status;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,7 +23,8 @@ class StatusCalculatorTest {
     private Goal goal1;
     private Goal goal2;
     private Goal shortGoal;
-    private List<Event> eventList;
+    private List<EventModel> eventList;
+    private ModelConverter converter = new ModelConverter();
 
     @BeforeEach
     void setUp() {
@@ -89,8 +92,8 @@ class StatusCalculatorTest {
         event2.setMeasurement(80.0);
         event2.setEventId("2234");
 
-        eventList.add(event1);
-        eventList.add(event2);
+        eventList.add(converter.toEventModel(event1));
+        eventList.add(converter.toEventModel(event2));
 
         Status status = StatusCalculator.calculateStatus(goal1, eventList);
 
@@ -122,9 +125,9 @@ class StatusCalculatorTest {
         event3.setEventId("1234");
 
 
-        eventList.add(event1);
-        eventList.add(event2);
-        eventList.add(event3);
+        eventList.add(converter.toEventModel(event1));
+        eventList.add(converter.toEventModel(event2));
+        eventList.add(converter.toEventModel(event3));
 
         Status status = StatusCalculator.calculateStatus(goal2, eventList);
 
@@ -149,8 +152,8 @@ class StatusCalculatorTest {
         event2.setMeasurement(80.0);
         event2.setEventId("2234");
 
-        eventList.add(event1);
-        eventList.add(event2);
+        eventList.add(converter.toEventModel(event1));
+        eventList.add(converter.toEventModel(event2));
 
         Status status = StatusCalculator.calculateStatus(goal1, eventList);
 
@@ -177,8 +180,8 @@ class StatusCalculatorTest {
         event2.setMeasurement(15.0);
         event2.setEventId("2234");
 
-        eventList.add(event1);
-        eventList.add(event2);
+        eventList.add(converter.toEventModel(event1));
+        eventList.add(converter.toEventModel(event2));
 
         Status status = StatusCalculator.calculateStatus(goal2, eventList);
 
@@ -203,8 +206,8 @@ class StatusCalculatorTest {
         event2.setMeasurement(80.0);
         event2.setEventId("2234");
 
-        eventList.add(event1);
-        eventList.add(event2);
+        eventList.add(converter.toEventModel(event1));
+        eventList.add(converter.toEventModel(event2));
 
         Status status = StatusCalculator.calculateStatus(goal1, eventList);
 
@@ -229,8 +232,8 @@ class StatusCalculatorTest {
         event2.setMeasurement(4.0);
         event2.setEventId("2234");
 
-        eventList.add(event1);
-        eventList.add(event2);
+        eventList.add(converter.toEventModel(event1));
+        eventList.add(converter.toEventModel(event2));
 
         Status status = StatusCalculator.calculateStatus(goal2, eventList);
 
@@ -249,7 +252,7 @@ class StatusCalculatorTest {
         event1.setMeasurement(75.0);
         event1.setEventId("1234");
 
-        eventList.add(event1);
+        eventList.add(converter.toEventModel(event1));
 
         Status status = StatusCalculator.calculateStatus(goal1, eventList);
 
@@ -268,7 +271,7 @@ class StatusCalculatorTest {
         event1.setMeasurement(10.0);
         event1.setEventId("2234");
 
-        eventList.add(event1);
+        eventList.add(converter.toEventModel(event1));
 
         Status status = StatusCalculator.calculateStatus(goal2, eventList);
 
@@ -287,7 +290,7 @@ class StatusCalculatorTest {
         event1.setMeasurement(75.0);
         event1.setEventId("1234");
 
-        eventList.add(event1);
+        eventList.add(converter.toEventModel(event1));
 
         Status status = StatusCalculator.calculateStatus(goal1, eventList);
 
@@ -306,7 +309,7 @@ class StatusCalculatorTest {
         event1.setMeasurement(10.0);
         event1.setEventId("2234");
 
-        eventList.add(event1);
+        eventList.add(converter.toEventModel(event1));
 
         Status status = StatusCalculator.calculateStatus(goal2, eventList);
 
@@ -326,7 +329,7 @@ class StatusCalculatorTest {
         event1.setMeasurement(10.0);
         event1.setEventId("2234");
 
-        eventList.add(event1);
+        eventList.add(converter.toEventModel(event1));
 
         Status status = StatusCalculator.calculateStatus(goal1, eventList);
 
@@ -351,8 +354,8 @@ class StatusCalculatorTest {
         event2.setMeasurement(75.0);
         event2.setEventId("2234");
 
-        eventList.add(event1);
-        eventList.add(event2);
+        eventList.add(converter.toEventModel(event1));
+        eventList.add(converter.toEventModel(event2));
 
         Status status = StatusCalculator.calculateStatus(goal1, eventList);
 
@@ -377,8 +380,8 @@ class StatusCalculatorTest {
         event2.setMeasurement(76.0);
         event2.setEventId("2234");
 
-        eventList.add(event1);
-        eventList.add(event2);
+        eventList.add(converter.toEventModel(event1));
+        eventList.add(converter.toEventModel(event2));
 
         Status status = StatusCalculator.calculateStatus(goal1, eventList);
 
@@ -398,7 +401,7 @@ class StatusCalculatorTest {
         event1.setMeasurement(1.0);
         event1.setEventId("1234");
 
-        eventList.add(event1);
+        eventList.add(converter.toEventModel(event1));
 
         Status status = StatusCalculator.calculateStatus(shortGoal, eventList);
 
