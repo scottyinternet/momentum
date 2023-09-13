@@ -65,5 +65,7 @@ public class UpdatePlaylistRequest {
         public UpdatePlaylistRequest build() {
             return new UpdatePlaylistRequest(id, name, customerId);
         }
+
+
     }
 }
