@@ -14,6 +14,8 @@ public class UpdateGoalLambda extends LambdaActivityRunner<UpdateGoalRequest, Up
                     return input.fromUserClaims(claims ->
                             UpdateGoalRequest.builder()
                                     .withGoalName(unauthenticatedRequest.getGoalName())
+                                    .withTarget(unauthenticatedRequest.getTarget())
+                                    .withTimePeriod(unauthenticatedRequest.getTimePeriod())
                                     .withUserId(claims.get("email"))
                                     .build());
     },(request, serviceComponent) ->
