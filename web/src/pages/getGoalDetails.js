@@ -122,9 +122,6 @@ class GetGoalDetails extends BindingClass {
 
         const urlParams = new URLSearchParams(window.location.search);
         const goalName2 = urlParams.get('goalName');
-        console.log("STUFF!");
-        console.log(unit);
-        console.log(goalName2);
         const newEventButton = document.getElementById("create-event-button");
         newEventButton.href = `createEvent.html?goalName=${goalName2}&unit=${unit}`;
 

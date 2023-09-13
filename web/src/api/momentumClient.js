@@ -71,7 +71,7 @@ export default class MomentumClient extends BindingClass {
         return await this.authenticator.getUserToken();
     }
 
-    async createEvent(goalId, dateOfEvent, measurement){
+    async createEvent(goalId, dateOfEvent, measurement, errorCallback){
         try {
             const token = await this.getTokenOrThrow("Only authenticated users can create Events.");
             const response = await this.axiosClient.post(`events`, {
@@ -85,11 +85,11 @@ export default class MomentumClient extends BindingClass {
             });
             return response.data.event;
         } catch (error) {
-            this.handleError(error)
+            this.handleError(error, errorCallback)
         }
     }
 
-    async deleteEvent(goalId,eventId,errorCallback) {
+    async deleteEvent(goalId, eventId, errorCallback) {
         try {
             const token = await this.getTokenOrThrow("Only authenticated users can delete Events.");
             const response = await this.axiosClient.delete(`events/${goalId}/${eventId}`, {
@@ -99,11 +99,11 @@ export default class MomentumClient extends BindingClass {
             );
             return response.data.event;
         } catch (error) {
-            this.handleError(error)
+            this.handleError(error, errorCallback)
         }
     }
 
-    async createGoal(userId,unit, goalName,target,timePeriod){
+    async createGoal(userId, unit, goalName, target, timePeriod, errorCallback){
             try {
                 const token = await this.getTokenOrThrow("Only authenticated users can create Goal.");
                 const response = await this.axiosClient.post(`goals`, {
@@ -119,7 +119,7 @@ export default class MomentumClient extends BindingClass {
                 });
                 return response.data.goal;
             } catch (error) {
-                this.handleError(error,)
+                this.handleError(error, errorCallback)
             }
     }
 
@@ -149,7 +149,7 @@ export default class MomentumClient extends BindingClass {
                         );
                     return response.data.goalSummary;
                 } catch (error) {
-                    this.handleError(error, errorCallback)
+                    this.handleError(error)
                 }
 
             }
