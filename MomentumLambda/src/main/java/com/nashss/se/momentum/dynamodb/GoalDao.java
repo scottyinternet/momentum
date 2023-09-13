@@ -43,6 +43,9 @@ public class GoalDao {
     public Goal updateGoal(Goal goal){
         this.dynamoDBMapper.save(goal);
         return goal;
+    }
 
+    public void deleteGoal(Goal goal){
+        dynamoDBMapper.delete(goal);
     }
 }
