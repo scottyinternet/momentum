@@ -54,7 +54,8 @@
             const allGoalsContainer = document.getElementById('all-goals-container');
             const allGoalsDisplay = document.getElementById('all-goals-display');
 
-            const goalSummaryTableHTML = document.getElementById('goalSummaryTable');
+
+            const goalSummaryTableHTML = document.getElementById('goal-summaries-table');
 
             this.addHTMLRowsToTable(goalList, goalSummaryTableHTML);
         }
@@ -75,11 +76,11 @@
 
                 const detailButtonCell = document.createElement('td');
                 const detailsButton = document.createElement('button');
-                console.log("details button clicked !!!!!!");
 
                 detailsButton.textContent = 'Details';
+                detailsButton.className = 'button';
                 detailsButton.addEventListener('click', () => {
-                    console.log("details button clicked !!!!!!");
+                    window.location.href = '/getGoalDetails.html?goalName=' + goalName;
                 });
                 detailButtonCell.appendChild(detailsButton);
                 row.appendChild(detailButtonCell);
@@ -87,8 +88,9 @@
                 const editButtonCell = document.createElement('td');
                 const editButton = document.createElement('button');
                 editButton.textContent = 'Edit';
+
+                editButton.className = 'button';
                 editButton.addEventListener('click', () => {
-                    console.log("edit button clicked !!!!!!");
                     window.location.href = '/editGoal.html?goalName=' + goalName;
                 });
                 editButtonCell.appendChild(editButton);
@@ -97,8 +99,10 @@
                 const deleteButtonCell = document.createElement('td');
                 const deleteButton = document.createElement('button');
                 deleteButton.textContent = 'Delete';
+
+                deleteButton.className = 'button';
                 deleteButton.addEventListener('click', () => {
-                    console.log("delete button clicked !!!!!!");
+
                     window.location.href = '/deleteGoal.html?goalName=' + goalName;
                 });
                 deleteButtonCell.appendChild(deleteButton);

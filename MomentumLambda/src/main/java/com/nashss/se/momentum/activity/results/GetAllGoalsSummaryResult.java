@@ -47,5 +47,4 @@ public class GetAllGoalsSummaryResult {
     public int hashCode() {
         return Objects.hash(goalSummaryList);
     }
-
 }
