@@ -72,4 +72,6 @@ public interface ServiceComponent {
 
     GetAllGoalsSummaryActivity provideGetAllGoalsSummaryActivity();
 
+    DeleteGoalActivity provideDeleteGoalActivity();
+
 }

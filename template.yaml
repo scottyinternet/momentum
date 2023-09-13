@@ -317,7 +317,7 @@ Resources:
         Momentum:
           Type: Api
           Properties:
-            Path: /goals/{goalId}
+            Path: /goals/{goalName}
             Method: delete
 
   CreateEventLambda:
