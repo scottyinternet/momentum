@@ -195,8 +195,11 @@ class GetGoalDetails extends BindingClass {
                // Extract the date and measurement from the event summary object
                const dateArray = eventSummary.date;
                const formattedDate = `${dateArray[0]}-${dateArray[1]}-${dateArray[2]}`;
+               const dateObject = new Date(formattedDate);
+               const dayOfWeekNum = dateObject.getDay();
+               const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat'];
 
-               dateCell.textContent = formattedDate;
+               dateCell.textContent = daysOfWeek[dayOfWeekNum] + ', ' + formattedDate;
                measurementCell.textContent = eventSummary.summedMeasurement;
                if (eventSummary.summedMeasurement === 0) {
                 // Apply the "hide-zero" class to hide cells with a measurement of 0

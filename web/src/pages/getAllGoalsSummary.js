@@ -16,7 +16,7 @@
     class GetAllGoalsSummary extends BindingClass {
         constructor() {
             super();
-            this.bindClassMethods(['mount', 'loadGoals', 'displayGoalSummary', 'addHTMLRowsToTable'], this);
+            this.bindClassMethods(['mount', 'loadGoals', 'displayGoalSummary', 'addHTMLRowsToTable', 'toggleHide', 'submit'], this);
             this.dataStore = new DataStore(EMPTY_DATASTORE_STATE);
             this.header = new Header(this.dataStore);
             this.displayGoalSummary = this.displayGoalSummary.bind(this);
@@ -28,6 +28,10 @@
          * Add the header to the page and load the MomentumClient.
          */
         mount() {
+            document.getElementById('createGoalForm').addEventListener('click', this.toggleHide);
+
+            document.getElementById('createGoal').addEventListener('click', this.submit);
+
             this.header.addHeaderToPage();
 
             this.client = new MomentumClient();
@@ -111,7 +115,33 @@
                 goalSummaryTableHTML.appendChild(row);
             }
         }
+
+        async submit(evt) {
+            evt.preventDefault();
+    
+            const createButton = document.getElementById('createGoal');
+            const origButtonText = createButton.innerText;
+    
+            const unit = document.getElementById('units').value;
+            const goalName = document.getElementById('goalName').value;
+            const target = document.getElementById('target').value;
+            const timePeriod = document.getElementById('timePeriod').value;
+    
+            const goal = await this.client.createGoal(unit,goalName,target,timePeriod)
+
+            window.location.href='getAllGoalsSummary.html';
+        }
+
+        toggleHide() {
+            const form = document.getElementById("create-goal-form");
+            if (form.style.display === "none") {
+                form.style.display = "block";
+            } else {
+                form.style.display = "none";
+            }
+        }
     }
+
 
     const main = async () => {
         const getAllGoalsSummary = new GetAllGoalsSummary();
