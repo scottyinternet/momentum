@@ -6,18 +6,24 @@ import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 
 @JsonDeserialize(builder = CreateEventRequest.Builder.class)
 public class CreateEventRequest {
-    private final String goalId;
+    private final String goalName;
+    private final String userId;
     private final String dateOfEvent;
     private final Double measurement;
 
-    private CreateEventRequest(String goalId, String dateOfEvent, Double measurement) {
-        this.goalId = goalId;
+    private CreateEventRequest(String goalName, String userId, String dateOfEvent, Double measurement) {
+        this.goalName = goalName;
+        this.userId = userId;
         this.dateOfEvent = dateOfEvent;
         this.measurement = measurement;
     }
 
-    public String getGoalId() {
-        return goalId;
+    public String getGoalName() {
+        return goalName;
+    }
+
+    public String getUserId() {
+        return userId;
     }
 
     public String getDateOfEvent() {
@@ -31,7 +37,8 @@ public class CreateEventRequest {
     @Override
     public String toString() {
         return "CreateEventRequest{" +
-                "goalId='" + goalId + '\'' +
+                "goalName='" + goalName + '\'' +
+                ", userId='" + userId + '\'' +
                 ", dateOfEvent='" + dateOfEvent + '\'' +
                 ", measurement=" + measurement +
                 '}';
@@ -45,12 +52,19 @@ public class CreateEventRequest {
     @JsonPOJOBuilder
     public static class Builder {
 
-        private String goalId;
+        private String goalName;
+        private String userId;
+
         private String dateOfEvent;
         private Double measurement;
 
-        public Builder withGoalId(String goalId) {
-            this.goalId = goalId;
+        public Builder withGoalName(String goalName) {
+            this.goalName = goalName;
+            return this;
+        }
+
+        public Builder withUserId(String userId) {
+            this.userId = userId;
             return this;
         }
 
@@ -65,7 +79,7 @@ public class CreateEventRequest {
         }
 
         public CreateEventRequest build() {
-            return new CreateEventRequest(goalId, dateOfEvent, measurement);
+            return new CreateEventRequest(goalName, userId, dateOfEvent, measurement);
         }
     }
 }

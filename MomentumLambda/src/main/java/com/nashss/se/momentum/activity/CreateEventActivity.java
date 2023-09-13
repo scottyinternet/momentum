@@ -47,11 +47,9 @@ public class CreateEventActivity {
     public CreateEventResult handleRequest(final CreateEventRequest createEventRequest) {
         log.info("Received CreateEventRequest {}", createEventRequest);
 
-        // validate?
-
         Event newEvent = new Event();
 
-        newEvent.setGoalId(createEventRequest.getGoalId());
+        newEvent.setGoalId(createEventRequest.getUserId()+createEventRequest.getGoalName());
         newEvent.setEventId(UUID.randomUUID().toString());
         newEvent.setDate(LocalDate.parse(createEventRequest.getDateOfEvent()));
         newEvent.setMeasurement(createEventRequest.getMeasurement());
