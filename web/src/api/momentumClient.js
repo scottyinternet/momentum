@@ -103,11 +103,10 @@ export default class MomentumClient extends BindingClass {
         }
     }
 
-    async createGoal(userId, unit, goalName, target, timePeriod, errorCallback){
+    async createGoal(unit, goalName, target, timePeriod, errorCallback){
             try {
                 const token = await this.getTokenOrThrow("Only authenticated users can create Goal.");
                 const response = await this.axiosClient.post(`goals`, {
-                    userId: userId,
                     unit: unit,
                     timePeriod: timePeriod,
                     target: target,
@@ -119,7 +118,7 @@ export default class MomentumClient extends BindingClass {
                 });
                 return response.data.goal;
             } catch (error) {
-                this.handleError(error, errorCallback)
+                this.handleError(error)
             }
     }
 
