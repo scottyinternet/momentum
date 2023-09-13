@@ -117,12 +117,7 @@
         }
 
         async submit(evt) {
-            console.log("SUBMIT BUTTON PUSHED!!!");
             evt.preventDefault();
-    
-            // const errorMessageDisplay = document.getElementById('error-message');
-            // errorMessageDisplay.innerText = `WHATEVER`;
-            // errorMessageDisplay.classList.add('hidden');
     
             const createButton = document.getElementById('createGoal');
             const origButtonText = createButton.innerText;
@@ -133,12 +128,6 @@
             const timePeriod = document.getElementById('timePeriod').value;
     
             const goal = await this.client.createGoal(unit,goalName,target,timePeriod)
-            // const goal = await this.client.createGoal(unit,goalName,target,timePeriod ,(error) => {
-            //     createButton.innerText = origButtonText;
-            //     errorMessageDisplay.innerText = `Error: ${error.message}`;
-            //     errorMessageDisplay.classList.remove('hidden');
-            // });
-            // this.dataStore.set('goal', goal);
 
             window.location.href='getAllGoalsSummary.html';
         }
