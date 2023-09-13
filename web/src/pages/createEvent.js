@@ -23,6 +23,14 @@ class CreateEvent extends BindingClass {
         this.header.addHeaderToPage();
 
         this.client = new MomentumClient();
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const goalName = urlParams.get('goalName');
+        const unit = urlParams.get('unit');
+        const titleHTML = document.getElementById('title');
+        titleHTML.innerHTML = `Create Event: ${goalName}`;
+        const measurementLabel = document.getElementById("measurement-label");
+        measurementLabel.innerHTML = `Measurement in ${unit}`;
     }
 
      /**

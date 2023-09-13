@@ -25,7 +25,6 @@ class GetGoalDetails extends BindingClass {
         this.dataStore = new DataStore(EMPTY_DATASTORE_STATE);
         this.header = new Header(this.dataStore);
         this.dataStore.addChangeListener(this.displaySearchResults);
-        console.log("goalIndex constructor");
     }
 
     /**
@@ -33,14 +32,14 @@ class GetGoalDetails extends BindingClass {
      */
     mount() {
         // Wire up the form's 'submit' event and the button's 'click' event to the search method.
-        document.getElementById('goalDetails-form').addEventListener('submit', this.getGoalDetails);
-        document.getElementById('goalDetails-btn').addEventListener('click', this.getGoalDetails);
-
-
-
         this.header.addHeaderToPage();
 
         this.client = new MomentumClient();
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const goalName = urlParams.get('goalName');
+
+        this.getGoalDetails(goalName);
     }
 
     /**
@@ -48,23 +47,14 @@ class GetGoalDetails extends BindingClass {
      * then updates the datastore with the criteria and results.
      * @param evt The "event" object representing the user-initiated event that triggered this method.
      */
-    async getGoalDetails(evt) {
-        // Prevent submitting the from from reloading the page.
-        evt.preventDefault();
+    async getGoalDetails(goalName) {
 
-        const searchCriteria = document.getElementById('search-criteria').value;
-        const previousSearchCriteria = this.dataStore.get(SEARCH_CRITERIA_KEY);
 
-        // If the user didn't change the search criteria, do nothing
-        if (previousSearchCriteria === searchCriteria) {
-            return;
-        }
-
-        if (searchCriteria) {
-            const results = await this.client.getGoalDetails(searchCriteria);
+        if (goalName) {
+            const results = await this.client.getGoalDetails(goalName);
 
             this.dataStore.setState({
-                [SEARCH_CRITERIA_KEY]: searchCriteria,
+                [SEARCH_CRITERIA_KEY]: goalName,
                 [SEARCH_RESULTS_KEY]: results,
             });
         } else {
@@ -129,6 +119,11 @@ class GetGoalDetails extends BindingClass {
         const eventSummaryList = searchResults.status.eventSummaryList;
         const eventModelList = searchResults.eventModelList;
         const unit = searchResults.unit;
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const goalName2 = urlParams.get('goalName');
+        const newEventButton = document.getElementById("create-event-button");
+        newEventButton.href = `createEvent.html?goalName=${goalName2}&unit=${unit}`;
 
        // DIV
        const container = document.createElement('div');

@@ -8,19 +8,15 @@
 <body class="background">
     <header class="header" id="header"></header>
     <div class="card">
-        <h2>Create Event</h2>
+        <h2 id = 'title'>Create Event</h2>
         <form class="card-content" id="create-event-form">
             <p class="hidden error" id="error-message"> </p>
-            <p class="form-field">
-                <label>GoalId</label>
-                <input type="text" required class="validated-field" id="goal-id" placeholder="Test only, to be generated in prod" autofocus>
-            </p>
             <p class="form-field">
                 <label>Date of Event</label>
                 <input type="text" required class="validated-field" id="date-of-event" placeholder="yyyy-mm-dd" autofocus>
             </p>
             <p class="form-field">
-                <label>Measurement</label>
+                <label id="measurement-label">Measurement</label>
                 <input type="text" required class="validated-field" id="measurement" placeholder="777" autofocus>
             </p>
             <p>
