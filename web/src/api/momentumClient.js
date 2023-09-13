@@ -71,11 +71,11 @@ export default class MomentumClient extends BindingClass {
         return await this.authenticator.getUserToken();
     }
 
-    async createEvent(goalId, dateOfEvent, measurement, errorCallback){
+    async createEvent(goalName, dateOfEvent, measurement, errorCallback){
         try {
             const token = await this.getTokenOrThrow("Only authenticated users can create Events.");
             const response = await this.axiosClient.post(`events`, {
-                goalId: goalId,
+                goalName: goalName,
                 dateOfEvent: dateOfEvent,
                 measurement: measurement
             }, {
