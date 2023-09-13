@@ -30,12 +30,14 @@ class CreateEventActivityTest {
 
     @Test
     void handleRequest_validRequest_createsAndSavesEvent() {
-        String goalId = "1234";
+        String goalName = "myGoal";
+        String userId = "1234@fakemail.com";
         Double measurement = 12.0;
         String dateOfEvent = "2023-01-01";
 
         CreateEventRequest request = CreateEventRequest.builder()
-                .withGoalId(goalId)
+                .withGoalName(goalName)
+                .withUserId(userId)
                 .withMeasurement(measurement)
                 .withDateOfEvent(dateOfEvent)
                 .build();
@@ -43,7 +45,7 @@ class CreateEventActivityTest {
         CreateEventResult result = createEventActivity.handleRequest(request);
 
         assertNotNull(result.getEventModel().getEventId());
-        assertEquals(goalId, result.getEventModel().getGoalId());
+        assertEquals(userId+goalName, result.getEventModel().getGoalId());
         assertEquals(measurement, result.getEventModel().getMeasurement());
         assertEquals(LocalDate.parse(dateOfEvent), result.getEventModel().getDateOfEvent());
         verify(eventDao).saveEvent(any(Event.class));
