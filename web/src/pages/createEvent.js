@@ -58,6 +58,7 @@ class CreateEvent extends BindingClass {
             errorMessageDisplay.classList.remove('hidden');
         });
         this.dataStore.set('event', event);
+        window.location.href = `getGoalDetails.html?goalName=${this.goalName}`;       
     }
 }
 
