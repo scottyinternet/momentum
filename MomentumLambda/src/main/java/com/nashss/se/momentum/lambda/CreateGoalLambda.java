@@ -17,7 +17,6 @@ public class CreateGoalLambda
                     return input.fromUserClaims(claims ->
                             CreateGoalRequest.builder()
                                     .withGoalName(unauthenticatedRequest.getGoalName())
-                                    .withUserId(unauthenticatedRequest.getUserId())
                                     .withTarget(unauthenticatedRequest.getTarget())
                                     .withTimePeriod(unauthenticatedRequest.getTimePeriod())
                                     .withUnit(unauthenticatedRequest.getUnit())
