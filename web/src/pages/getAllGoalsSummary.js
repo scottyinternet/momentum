@@ -84,7 +84,7 @@
                 detailsButton.textContent = 'Details';
                 detailsButton.className = 'button';
                 detailsButton.addEventListener('click', () => {
-                    window.location.href = '/getGoalDetails.html?goalName=' + goalName;
+                    window.location.href = '/details.html?goalName=' + goalName;
                 });
                 detailButtonCell.appendChild(detailsButton);
                 row.appendChild(detailButtonCell);
