@@ -122,6 +122,23 @@ export default class MomentumClient extends BindingClass {
             }
     }
 
+    async updateGoal(goalName, target, timePeriod, errorCallback){
+                try {
+                    const token = await this.getTokenOrThrow("Only authenticated users can update Goal.");
+                    const response = await this.axiosClient.put(`goals`, {
+                        timePeriod: timePeriod,
+                        target: target,
+                        goalName:goalName
+                    }, {
+                        headers: {
+                           Authorization: `Bearer ${token}`
+                        }
+                    });
+                    return response.data.goal;
+                } catch (error) {
+                    this.handleError(error)
+                }
+        }
    
 
     async getGoalDetails(goalName) {
