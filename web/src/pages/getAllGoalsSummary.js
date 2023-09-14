@@ -91,16 +91,16 @@
                 detailButtonCell.appendChild(detailsButton);
                 row.appendChild(detailButtonCell);
 
-                const editButtonCell = document.createElement('td');
-                const editButton = document.createElement('button');
-                editButton.textContent = 'Edit';
+                const updateButtonCell = document.createElement('td');
+                const updateButton = document.createElement('button');
 
-                editButton.className = 'button';
-                editButton.addEventListener('click', () => {
-                    window.location.href = '/editGoal.html?goalName=' + goalName;
+                updateButton.textContent = 'Update';
+                updateButton.className = 'button';
+                updateButton.addEventListener('click', () => {
+                    window.location.href = '/updateGoal.html?goalName=' + goalName;
                 });
-                editButtonCell.appendChild(editButton);
-                row.appendChild(editButtonCell);
+                updateButtonCell.appendChild(updateButton);
+                row.appendChild(updateButtonCell);
 
                 const deleteButtonCell = document.createElement('td');
                 const deleteButton = document.createElement('button');
@@ -116,6 +116,8 @@
                 });
                 deleteButtonCell.appendChild(deleteButton);
                 row.appendChild(deleteButtonCell);
+
+
 
                 goalSummaryTableHTML.appendChild(row);
             }
