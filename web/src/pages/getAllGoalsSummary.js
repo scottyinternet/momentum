@@ -60,7 +60,7 @@
 
 
             const goalSummaryTableHTML = document.getElementById('goal-summaries-table');
-
+            goalSummaryTableHTML.innerHTML = '';
             this.addHTMLRowsToTable(goalList, goalSummaryTableHTML);
         }
 
@@ -109,6 +109,10 @@
                     let deleteYN = confirm("Are you sure? This will also delete all events related to this goal.");
                     if (deleteYN === true) {
                         this.client.deleteGoal(goalName);
+                        // const deletingTable = document.getElementById('all-goals-container');
+                        // deletingTable.innerHTML = '';
+                        this.loadGoals();
+
                         // window.location.href='index.html';
                     }
                 });
