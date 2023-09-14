@@ -109,7 +109,6 @@
                     const deleteYN = confirm("Are you sure? This will also delete all events related to this goal.");
                     if (deleteYN === true) {
                         const response = this.client.deleteGoal(goalName);
-                        console.log("RESPONSE RECEIVED" + response);
                         // window.location.href='getAllGoalsSummary.html';
                     }
                 });
