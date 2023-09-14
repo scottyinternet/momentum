@@ -32,6 +32,8 @@
 
             document.getElementById('createGoal').addEventListener('click', this.submit);
 
+            this.dataStore.addChangeListener(this.displayGoalSummary);
+
             this.header.addHeaderToPage();
 
             this.client = new MomentumClient();
@@ -44,7 +46,7 @@
          * playlist.
          */
         async loadGoals() {
-                this.dataStore.addChangeListener(this.displayGoalSummary);
+            console.log("inside loadGoals");
             const goalSummary = await this.client.getAllGoalsSummary();
             this.dataStore.setState({
                 [SEARCH_CRITERIA_KEY]: "goalSummaries",
@@ -60,7 +62,7 @@
 
 
             const goalSummaryTableHTML = document.getElementById('goal-summaries-table');
-
+            goalSummaryTableHTML.innerHTML = '';
             this.addHTMLRowsToTable(goalList, goalSummaryTableHTML);
         }
 
@@ -105,9 +107,12 @@
                 deleteButton.textContent = 'Delete';
 
                 deleteButton.className = 'button';
-                deleteButton.addEventListener('click', () => {
-
-                    window.location.href = '/deleteGoal.html?goalName=' + goalName;
+                deleteButton.addEventListener('click', async () => {
+                    let deleteYN = confirm("Are you sure? This will also delete all events related to this goal.");
+                    if (deleteYN === true) {
+                        await this.client.deleteGoal(goalName);
+                        this.loadGoals();
+                    }
                 });
                 deleteButtonCell.appendChild(deleteButton);
                 row.appendChild(deleteButtonCell);
@@ -129,19 +134,20 @@
             const target = document.getElementById('target').value;
             const timePeriod = document.getElementById('timePeriod').value;
     
-            const goal = await this.client.createGoal(unit,goalName,target,timePeriod)
+            const goal = await this.client.createGoal(unit,goalName,target,timePeriod);
 
-            window.location.href='getAllGoalsSummary.html';
+            window.location.href='index.html';
         }
 
         toggleHide() {
             const form = document.getElementById("create-goal-form");
-            if (form.style.display === "none") {
-                form.style.display = "block";
-            } else {
+            if (form.style.display === "block") {
                 form.style.display = "none";
+            } else {
+                form.style.display = "block";
             }
         }
+
     }
 
 
