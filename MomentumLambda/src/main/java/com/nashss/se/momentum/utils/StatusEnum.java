@@ -3,13 +3,12 @@ package com.nashss.se.momentum.utils;
 public enum StatusEnum {
 
 
-    GAINING_MOMENTUM("You are gaining momentum"),
-    LOSING_MOMENTUM("You are losing momentum"),
-    NO_MOMENTUM("You have no momentum"),
-    IN_MOMENTUM("You are in momentum"),
-    IN_MOMENTUM_HIT_TOMORROW("You are in momentum"),
-
-    IN_MOMENTUM_HIT_TODAY("You had momentum yesterday");
+    GAINING_MOMENTUM("Gaining Momentum"),
+    LOSING_MOMENTUM("Losing Momentum"),
+    NO_MOMENTUM("No Momentum"),
+    IN_MOMENTUM("In Momentum"),
+    IN_MOMENTUM_HIT_TOMORROW("In Momentum"),
+    IN_MOMENTUM_HIT_TODAY("Keep Momentum");
 
 
 
