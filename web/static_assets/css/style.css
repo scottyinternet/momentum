@@ -138,7 +138,7 @@ a {
 }
 
 .last-row {
-    text-decoration: line-through; 
+    border-top: 2px solid #999; /* Creates a line-through effect at the bottom */
     color: #999; 
     text-indent: 30px; 
 }
