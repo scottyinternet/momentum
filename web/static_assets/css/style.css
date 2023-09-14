@@ -32,11 +32,12 @@
   font-weight: bold;
   text-decoration: none;
   cursor: pointer;
+  margin-right: 10px; /* Add spacing between buttons if needed */
 }
 
 .button-group {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
 }
 
 .header_home {
