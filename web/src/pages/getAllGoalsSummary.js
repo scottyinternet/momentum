@@ -106,8 +106,12 @@
 
                 deleteButton.className = 'button';
                 deleteButton.addEventListener('click', () => {
-
-                    window.location.href = '/deleteGoal.html?goalName=' + goalName;
+                    const deleteYN = confirm("Are you sure? This will also delete all events related to this goal.");
+                    if (deleteYN === true) {
+                        const response = this.client.deleteGoal(goalName);
+                        console.log("RESPONSE RECEIVED" + response);
+                        // window.location.href='getAllGoalsSummary.html';
+                    }
                 });
                 deleteButtonCell.appendChild(deleteButton);
                 row.appendChild(deleteButtonCell);
@@ -127,7 +131,7 @@
             const target = document.getElementById('target').value;
             const timePeriod = document.getElementById('timePeriod').value;
     
-            const goal = await this.client.createGoal(unit,goalName,target,timePeriod)
+            const goal = await this.client.createGoal(unit,goalName,target,timePeriod);
 
             window.location.href='getAllGoalsSummary.html';
         }
@@ -140,6 +144,7 @@
                 form.style.display = "none";
             }
         }
+
     }
 
 
