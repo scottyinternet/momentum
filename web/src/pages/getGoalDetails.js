@@ -164,9 +164,8 @@ class GetGoalDetails extends BindingClass {
             const eventModelList = searchResults.eventModelList;
             const unit = searchResults.unit;
 
-          // DIV
-          const container = document.createElement('div');
-
+           // DIV
+           const container = document.createElement('div');
 
            // TABLE
            const table = document.createElement('table');
@@ -174,14 +173,17 @@ class GetGoalDetails extends BindingClass {
            // TABLE - HEADER
            const tableHeader = table.createTHead();
            const headerRow = tableHeader.insertRow();
-           const headers = ['Date', `Daily Sum`]; // Changed the header
 
-           // TABLE HEADER DATA
-           headers.forEach((headerText) => {
-               const th = document.createElement('th');
-               th.textContent = headerText;
-               headerRow.appendChild(th);
-           });
+           const dateHeader = document.createElement('th');
+           dateHeader.textContent = 'Date';
+           dateHeader.colSpan = 2;
+           dateHeader.style.whiteSpace = 'nowrap'; // Prevent text wrapping
+           dateHeader.style.width = 'auto'; // Let it adjust to content
+           headerRow.appendChild(dateHeader);
+
+            const dailySumHeader = document.createElement('th');
+            dailySumHeader.textContent = 'Daily Sum';
+            headerRow.appendChild(dailySumHeader);
 
            // TABLE BODY
            const tableBody = table.createTBody();
@@ -189,8 +191,9 @@ class GetGoalDetails extends BindingClass {
            // TABLE BODY DATA
            eventSummaryList.forEach((eventSummary, index) => {
                const row = tableBody.insertRow();
-               const dateCell = row.insertCell(0);
-               const measurementCell = row.insertCell(1);
+               const dayOfWeekCell = row.insertCell(0);
+               const dateCell = row.insertCell(1);
+               const measurementCell = row.insertCell(2);
 
                // Extract the date and measurement from the event summary object
                const dateArray = eventSummary.date;
@@ -199,7 +202,8 @@ class GetGoalDetails extends BindingClass {
                const dayOfWeekNum = dateObject.getDay();
                const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat'];
 
-               dateCell.textContent = daysOfWeek[dayOfWeekNum] + ', ' + formattedDate;
+               dayOfWeekCell.textContent = daysOfWeek[dayOfWeekNum];
+               dateCell.textContent = formattedDate;
                measurementCell.textContent = eventSummary.summedMeasurement;
                if (eventSummary.summedMeasurement === 0) {
                 // Apply the "hide-zero" class to hide cells with a measurement of 0
@@ -215,13 +219,7 @@ class GetGoalDetails extends BindingClass {
            container.appendChild(table);
 
            return container.outerHTML; // Return the container element html string
-
-
-
-
-
     }
-
 }
 
 /**
