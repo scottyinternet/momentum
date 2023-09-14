@@ -257,7 +257,7 @@ Resources:
         Momentum:
           Type: Api
           Properties:
-            Path: /goals/
+            Path: /goals/{goalName}
             Method: get
 
   CreateGoalLambda:
