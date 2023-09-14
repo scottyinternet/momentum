@@ -106,9 +106,9 @@
 
                 deleteButton.className = 'button';
                 deleteButton.addEventListener('click', () => {
-                    const deleteYN = confirm("Are you sure? This will also delete all events related to this goal.");
+                    let deleteYN = confirm("Are you sure? This will also delete all events related to this goal.");
                     if (deleteYN === true) {
-                        const response = this.client.deleteGoal(goalName);
+                        this.client.deleteGoal(goalName);
                         // window.location.href='index.html';
                     }
                 });
