@@ -129,7 +129,7 @@
     
             const goal = await this.client.createGoal(unit,goalName,target,timePeriod)
 
-            window.location.href='getAllGoalsSummary.html';
+            window.location.href='index.html';
         }
 
         toggleHide() {
