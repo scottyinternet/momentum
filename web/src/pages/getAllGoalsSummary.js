@@ -134,10 +134,10 @@
 
         toggleHide() {
             const form = document.getElementById("create-goal-form");
-            if (form.style.display === "none") {
-                form.style.display = "block";
-            } else {
+            if (form.style.display === "block") {
                 form.style.display = "none";
+            } else {
+                form.style.display = "block";
             }
         }
     }
