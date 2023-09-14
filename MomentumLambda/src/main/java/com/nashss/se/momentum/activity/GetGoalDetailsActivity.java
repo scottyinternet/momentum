@@ -15,6 +15,7 @@ import com.nashss.se.momentum.utils.StatusCalculator;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class GetGoalDetailsActivity {
@@ -40,6 +41,7 @@ public class GetGoalDetailsActivity {
         for (Event event : eventList) {
             eventModels.add(modelConverter.toEventModel(event));
         }
+        Collections.reverse(eventModels);
 
         String goalSummaryMessage = "Target: " + goal.getTarget() + " " + goal.getUnit() + " within a rolling " + goal.getTimePeriod() + " day period.";
 
