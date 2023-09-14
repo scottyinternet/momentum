@@ -147,6 +147,9 @@ class GetGoalDetails extends BindingClass {
         const statusMessage = searchResults.status.statusMessage;
         const unit = searchResults.unit;
 
+        const goalSummaryMessageHTML = document.getElementById("goal-summary-message");
+        goalSummaryMessageHTML.textContent = goalSummaryMessage;
+
         const urlParams = new URLSearchParams(window.location.search);
         const goalName2 = urlParams.get('goalName');
         const newEventButton = document.getElementById("create-event-button");
@@ -159,12 +162,6 @@ class GetGoalDetails extends BindingClass {
         const statusEnumElement = document.createElement('h4');
         statusEnumElement.textContent = `Status: ${statusString}`;
         container.appendChild(statusEnumElement);
-
-
-        // GOAL SUMMARY MESSAGE
-        const summaryMessageElement = document.createElement('p');
-        summaryMessageElement.textContent = `${goalSummaryMessage}`;
-        container.appendChild(summaryMessageElement);
 
         // CURRENT SUM
         const sumElement = document.createElement('p');

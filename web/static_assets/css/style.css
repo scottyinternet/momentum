@@ -141,6 +141,7 @@ a {
     border-top: 2px solid #999; /* Creates a line-through effect at the bottom */
     color: #999; 
     text-indent: 30px; 
+    text-decoration: line-through;
 }
 
 .hide-zero {
