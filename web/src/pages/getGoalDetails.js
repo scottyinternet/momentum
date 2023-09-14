@@ -147,6 +147,9 @@ class GetGoalDetails extends BindingClass {
         const statusMessage = searchResults.status.statusMessage;
         const unit = searchResults.unit;
 
+        const goalSummaryMessageHTML = document.getElementById("goal-summary-message");
+        goalSummaryMessageHTML.textContent = goalSummaryMessage;
+
         const urlParams = new URLSearchParams(window.location.search);
         const goalName2 = urlParams.get('goalName');
         const newEventButton = document.getElementById("create-event-button");
@@ -159,12 +162,6 @@ class GetGoalDetails extends BindingClass {
         const statusEnumElement = document.createElement('h4');
         statusEnumElement.textContent = `Status: ${statusString}`;
         container.appendChild(statusEnumElement);
-
-
-        // GOAL SUMMARY MESSAGE
-        const summaryMessageElement = document.createElement('p');
-        summaryMessageElement.textContent = `${goalSummaryMessage}`;
-        container.appendChild(summaryMessageElement);
 
         // CURRENT SUM
         const sumElement = document.createElement('p');
@@ -200,9 +197,6 @@ class GetGoalDetails extends BindingClass {
 
         const dateHeader = document.createElement('th');
         dateHeader.textContent = 'Date';
-        dateHeader.colSpan = 2;
-        dateHeader.style.whiteSpace = 'nowrap'; // Prevent text wrapping
-        dateHeader.style.width = 'auto'; // Let it adjust to content
         headerRow.appendChild(dateHeader);
 
         const dailySumHeader = document.createElement('th');
@@ -215,23 +209,22 @@ class GetGoalDetails extends BindingClass {
         // TABLE BODY DATA
         eventSummaryList.forEach((eventSummary, index) => {
             const row = tableBody.insertRow();
-            const dayOfWeekCell = row.insertCell(0);
-            const dateCell = row.insertCell(1);
-            const measurementCell = row.insertCell(2);
+            const dateCell = row.insertCell(0);
+            dateCell.style.textAlign = "right";
+            const measurementCell = row.insertCell(1);
+            measurementCell.style.textAlign = "right";
 
-            // Extract the date and measurement from the event summary object
-            const dateArray = eventSummary.date;
-            const formattedDate = `${dateArray[0]}-${dateArray[1]}-${dateArray[2]}`;
-            const dateObject = new Date(formattedDate);
-            const dayOfWeekNum = dateObject.getDay();
-            const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat'];
 
-            dayOfWeekCell.textContent = daysOfWeek[dayOfWeekNum];
-            dateCell.textContent = formattedDate;
-            measurementCell.textContent = `${eventSummary.summedMeasurement} ${unit}`;
+            const dayOfWeekStr = this.getDayOfWeek(eventSummary.date);
+            const formattedDate = this.formateDate(eventSummary.date);
+
+            dateCell.textContent = `${dayOfWeekStr}, ${formattedDate}`;
             if (eventSummary.summedMeasurement === 0) {
                 // Apply the "hide-zero" class to hide cells with a measurement of 0
+                measurementCell.textContent = eventSummary.summedMeasurement;
                 measurementCell.classList.add('hide-zero');
+            } else {
+                measurementCell.textContent = `${eventSummary.summedMeasurement} ${unit}`;
             }
 
             // Add a CSS class to the last row to change its text color
@@ -249,7 +242,6 @@ class GetGoalDetails extends BindingClass {
         const entryList = searchResults.eventModelList;
         const unit = searchResults.unit;
 
-
         // DIV
         const container = document.createElement('div');
         const tableTitle = document.createElement('h4');
@@ -265,9 +257,6 @@ class GetGoalDetails extends BindingClass {
 
         const dateHeader = document.createElement('th');
         dateHeader.textContent = 'Date';
-        dateHeader.colSpan = 2;
-        dateHeader.style.whiteSpace = 'nowrap'; // Prevent text wrapping
-        dateHeader.style.width = 'auto'; // Let it adjust to content
         headerRow.appendChild(dateHeader);
 
         const dailySumHeader = document.createElement('th');
@@ -280,25 +269,33 @@ class GetGoalDetails extends BindingClass {
         // TABLE BODY DATA
         entryList.forEach((event, index) => {
             const row = tableBody.insertRow();
-            const dayOfWeekCell = row.insertCell(0);
-            const dateCell = row.insertCell(1);
-            const measurementCell = row.insertCell(2);
+            const dateCell = row.insertCell(0);
+            dateCell.style.textAlign = "right";
+            const measurementCell = row.insertCell(1);
+            measurementCell.style.textAlign = "right";
 
-            // Extract the date and measurement from the event summary object
-            const dateArray = event.dateOfEvent;
-            const formattedDate = `${dateArray[0]}-${dateArray[1]}-${dateArray[2]}`;
-            const dateObject = new Date(formattedDate);
-            const dayOfWeekNum = dateObject.getDay();
-            const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat'];
+            const dayOfWeekStr = this.getDayOfWeek(event.dateOfEvent);
+            const formattedDate = this.formateDate(event.dateOfEvent);
 
-            dayOfWeekCell.textContent = daysOfWeek[dayOfWeekNum];
-            dateCell.textContent = formattedDate;
+            dateCell.textContent = `${dayOfWeekStr}, ${formattedDate}`;
             measurementCell.textContent = `${event.measurement} ${unit}`;
         });
 
         container.appendChild(table);
 
         return container.outerHTML; // Return the container element html string
+    }
+
+
+    formateDate(dateArray) {
+        const yearFormat = dateArray[0].toString().slice(2);
+        return `${dateArray[1]}/${dateArray[2]}/${yearFormat}`;
+    }
+    getDayOfWeek(dateArray) {
+        const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat'];
+        const dateObject = new Date(dateArray);
+        const dayOfWeekNum = dateObject.getDay();
+        return daysOfWeek[dayOfWeekNum];
     }
     
 }
