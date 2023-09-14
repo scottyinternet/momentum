@@ -32,6 +32,8 @@
 
             document.getElementById('createGoal').addEventListener('click', this.submit);
 
+            this.dataStore.addChangeListener(this.displayGoalSummary);
+
             this.header.addHeaderToPage();
 
             this.client = new MomentumClient();
@@ -44,7 +46,7 @@
          * playlist.
          */
         async loadGoals() {
-                this.dataStore.addChangeListener(this.displayGoalSummary);
+            console.log("inside loadGoals");
             const goalSummary = await this.client.getAllGoalsSummary();
             this.dataStore.setState({
                 [SEARCH_CRITERIA_KEY]: "goalSummaries",
@@ -60,7 +62,7 @@
 
 
             const goalSummaryTableHTML = document.getElementById('goal-summaries-table');
-
+            goalSummaryTableHTML.innerHTML = '';
             this.addHTMLRowsToTable(goalList, goalSummaryTableHTML);
         }
 
@@ -105,11 +107,11 @@
                 deleteButton.textContent = 'Delete';
 
                 deleteButton.className = 'button';
-                deleteButton.addEventListener('click', () => {
+                deleteButton.addEventListener('click', async () => {
                     let deleteYN = confirm("Are you sure? This will also delete all events related to this goal.");
                     if (deleteYN === true) {
-                        this.client.deleteGoal(goalName);
-                        // window.location.href='index.html';
+                        await this.client.deleteGoal(goalName);
+                        this.loadGoals();
                     }
                 });
                 deleteButtonCell.appendChild(deleteButton);
