@@ -108,6 +108,30 @@ class GetGoalDetails extends BindingClass {
             col1.innerHTML = this.getHTMLForSearchResults(searchResults);
             col1b.innerHTML = this.getListOfEventsToDisplay(searchResults);
             col2.innerHTML = this.getHTMLForAllEntries(searchResults);
+
+            var toggleButton = document.getElementById('view-events-button');
+            function hideCol2() {
+                col2.style.display = 'none';
+            }
+            
+            // Function to show col2
+            function showCol2() {
+                col2.style.display = 'block';
+            }
+            
+            // Initially hide col2
+            hideCol2();
+            
+            // Toggle col2 when the button is clicked
+            toggleButton.addEventListener('click', function() {
+                if (col2.style.display === 'none') {
+                    showCol2();
+                } else {
+                    hideCol2();
+                }
+            });
+
+            
         }
     }
 
@@ -276,6 +300,7 @@ class GetGoalDetails extends BindingClass {
 
         return container.outerHTML; // Return the container element html string
     }
+    
 }
 
 /**
