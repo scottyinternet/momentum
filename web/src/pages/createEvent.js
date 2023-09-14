@@ -21,6 +21,10 @@ class CreateEvent extends BindingClass {
      */
     mount() {
         document.getElementById('create').addEventListener('click', this.submit);
+        const backButton = document.getElementById('back-button');
+        backButton.addEventListener('click', () => {
+            window.history.back();
+        });
 
         this.header.addHeaderToPage();
 
@@ -58,7 +62,7 @@ class CreateEvent extends BindingClass {
             errorMessageDisplay.classList.remove('hidden');
         });
         this.dataStore.set('event', event);
-        window.location.href = `getGoalDetails.html?goalName=${this.goalName}`;       
+        window.location.href = `details.html?goalName=${this.goalName}`;
     }
 }
 
