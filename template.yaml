@@ -257,7 +257,7 @@ Resources:
         Momentum:
           Type: Api
           Properties:
-            Path: /goals/{goalName}
+            Path: /goals/
             Method: get
 
   CreateGoalLambda:
@@ -297,7 +297,7 @@ Resources:
         Momentum:
           Type: Api
           Properties:
-            Path: /goals/{goalId}
+            Path: /goals/
             Method: put
 
   DeleteGoalLambda:
