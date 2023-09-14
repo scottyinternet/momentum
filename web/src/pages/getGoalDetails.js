@@ -91,7 +91,7 @@ class GetGoalDetails extends BindingClass {
                                                     <p>Col1</p>
                                                 </div>
                                                 <div class="custom-bg" id="col1b">
-                                                    <p>Col2</p>
+                                                    <p>Col1b</p>
                                                 </div>
                                      </div>
                                      <div class="col-md-6">
