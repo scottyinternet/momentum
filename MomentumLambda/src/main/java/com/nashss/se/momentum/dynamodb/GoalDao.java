@@ -9,7 +9,6 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.List;
 
-
 @Singleton
 public class GoalDao {
 
@@ -39,7 +38,13 @@ public class GoalDao {
                 .withHashKeyValues(goalPartition);
 
         return this.dynamoDBMapper.query(Goal.class, dynamoDBQueryExpression);
-
+    }
+    /*
+    Method that updates the database
+     */
+    public Goal updateGoal(Goal goal){
+        this.dynamoDBMapper.save(goal);
+        return goal;
     }
 
     public void deleteGoal(Goal goal){

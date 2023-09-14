@@ -1,7 +1,9 @@
 package com.nashss.se.momentum.dependency;
 
+import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.nashss.se.momentum.activity.*;
 
+import com.nashss.se.momentum.activity.requests.UpdateGoalRequest;
 import dagger.Component;
 import dagger.Provides;
 
@@ -69,9 +71,13 @@ public interface ServiceComponent {
      * @return GetGoalDetailsActivity
      */
     GetGoalDetailsActivity provideGetGoalDetailsActivity();
+    /**
+     * @return UpdateGoalActivity
+     */
 
     GetAllGoalsSummaryActivity provideGetAllGoalsSummaryActivity();
 
-    DeleteGoalActivity provideDeleteGoalActivity();
+    UpdateGoalActivity provideUpdateGoalActivity();
 
+    DeleteGoalActivity provideDeleteGoalActivity();
 }
