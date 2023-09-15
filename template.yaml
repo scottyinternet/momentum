@@ -225,6 +225,22 @@ Resources:
                   - 'dynamodb:ConditionCheckItem'
                 Resource: !Sub "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/events"
 
+        - PolicyName: 'AccessEventsTableIndex'
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - 'dynamodb:PutItem'
+                  - 'dynamodb:UpdateItem'
+                  - 'dynamodb:DeleteItem'
+                  - 'dynamodb:BatchWriteItem'
+                  - 'dynamodb:GetItem'
+                  - 'dynamodb:BatchGetItem'
+                  - 'dynamodb:Scan'
+                  - 'dynamodb:Query'
+                  - 'dynamodb:ConditionCheckItem'
+                Resource: !Sub "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/events/index/EventDateIndex"
   #-----------------------------------------------------
   # Lambda Functions Configuration
   #-----------------------------------------------------
