@@ -200,7 +200,7 @@ Resources:
                   - logs:PutLogEvents
                   - cloudwatch:PutMetricData
                 Resource: '*'
-        - PolicyName: 'GoalsTable'
+        - PolicyName: 'AccessGoalsTable'
           PolicyDocument:
             Version: '2012-10-17'
             Statement:
