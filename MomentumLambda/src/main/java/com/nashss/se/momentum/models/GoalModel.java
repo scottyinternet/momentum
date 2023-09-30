@@ -1,6 +1,5 @@
 package com.nashss.se.momentum.models;
 
-import com.amazonaws.services.dynamodbv2.xspec.L;
 import com.nashss.se.momentum.utils.StatusEnum;
 
 import java.text.DecimalFormat;

@@ -11,6 +11,8 @@ public class StreakData {
     private int longestStreak;
     private int totalDaysInMomentum;
     private int totalDays;
+    private double percentInMomentum;
+    private String streakMessage;
 
     public StreakData(Map<LocalDate, Boolean> momentumBoolMap) {
         this.momentumBoolMap = momentumBoolMap;
@@ -18,14 +20,32 @@ public class StreakData {
         calculateLongestStreak();
         countDaysInMomentum();
         totalDays = momentumBoolMap.size();
+        percentInMomentum = (double) totalDaysInMomentum/totalDays;
+        createStreakMessage();
+    }
+
+    private void createStreakMessage() {
+        if (currentStreak > 1 ) {
+            streakMessage = String.format("Current Streak: %d Days", currentStreak);
+        } else if (currentStreak == 1) {
+            streakMessage = "Streak Starts Tomorrow";
+        } else if (currentStreak < -1) {
+            streakMessage = String.format("Last Streak ended %d days ago.", currentStreak*-1);
+        } else {
+            streakMessage = "SAVE YOUR STREAK!";
+        }
     }
 
     private void calculateCurrentStreak() {
         LocalDate date = LocalDate.now();
         currentStreak = 0;
-        while(momentumBoolMap.get(date)) {
+        boolean currentStatus = momentumBoolMap.get(date);
+        while(momentumBoolMap.get(date) == currentStatus) {
             currentStreak++;
             date = date.minusDays(1);
+        }
+        if (!currentStatus) {
+            currentStreak = -currentStreak;
         }
     }
 
