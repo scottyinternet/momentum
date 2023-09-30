@@ -9,13 +9,11 @@ public class Status {
 
     private final StatusEnum statusEnum;
     private final String statusMessage;
-    private final List<EventSummary> eventSummaryList;
     private final double sum;
 
-    public Status(StatusEnum statusEnum, String statusMessage, List<EventSummary> eventSummaryList, double sum) {
+    public Status(StatusEnum statusEnum, String statusMessage, double sum) {
         this.statusEnum = statusEnum;
         this.statusMessage = statusMessage;
-        this.eventSummaryList = eventSummaryList;
         this.sum = sum;
     }
 
@@ -25,10 +23,6 @@ public class Status {
 
     public String getStatusMessage() {
         return statusMessage;
-    }
-
-    public List<EventSummary> getEventSummaryList() {
-        return new ArrayList<>(eventSummaryList);
     }
 
     public double getSum() {

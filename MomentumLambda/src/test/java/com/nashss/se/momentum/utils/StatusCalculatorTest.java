@@ -159,7 +159,7 @@ class StatusCalculatorTest {
 
         printer(status, goal1);
 
-        assertEquals(StatusEnum.IN_MOMENTUM_HIT_TODAY, status.getStatusEnum());
+        assertEquals(StatusEnum.HAD_MOMENTUM_YESTERDAY, status.getStatusEnum());
         assertEquals("Hit 50 minutes today to stay in momentum.", status.getStatusMessage());
         assertEquals(100.0, status.getSum());
         assertEquals(goal1.getTimePeriod()+1, status.getEventSummaryList().size());
@@ -185,7 +185,7 @@ class StatusCalculatorTest {
 
         Status status = StatusCalculator.calculateStatus(goal2, eventList);
 
-        assertEquals(StatusEnum.IN_MOMENTUM_HIT_TODAY, status.getStatusEnum());
+        assertEquals(StatusEnum.HAD_MOMENTUM_YESTERDAY, status.getStatusEnum());
         assertEquals("Hit 10 hours today to stay in momentum.", status.getStatusMessage());
         assertEquals(30.0, status.getSum());
         assertEquals(goal2.getTimePeriod()+1, status.getEventSummaryList().size());

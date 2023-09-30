@@ -1,6 +1,5 @@
 package com.nashss.se.momentum.utils;
 
-import com.nashss.se.momentum.dynamodb.models.Event;
 import com.nashss.se.momentum.dynamodb.models.Goal;
 import com.nashss.se.momentum.models.EventModel;
 import com.nashss.se.momentum.models.EventSummary;
@@ -36,7 +35,7 @@ public class StatusCalculator {
         StatusEnum statusEnum = calculateStatusEnum(goal.getTarget(), todaysTotal, yesterdaysTotals, recentSum, todaysTotalMinusLast);
         String message = createStatusMessage(goal, todaysTotal, todaysTotalMinusLast, statusEnum);
 
-        return new Status(statusEnum, message, eventSummaryList, todaysTotal);
+        return new Status(statusEnum, message, todaysTotal);
     }
 
 
@@ -71,7 +70,7 @@ public class StatusCalculator {
         } else if (todaysTotal >= target){
             statusEnum = StatusEnum.IN_MOMENTUM;
         } else if (yesterdaysTotal >= target) {
-            statusEnum = StatusEnum.IN_MOMENTUM_HIT_TODAY;
+            statusEnum = StatusEnum.HAD_MOMENTUM_YESTERDAY;
         } else if (todaysTotal <= 0) {
             statusEnum = StatusEnum.NO_MOMENTUM;
         } else if (recentSum <= 0 && target > 3) {
@@ -115,7 +114,7 @@ public class StatusCalculator {
                     message = String.format("You have a surplus of %s %s. Keep it up!", diffFormatted, units);
                 }
                 break;
-            case IN_MOMENTUM_HIT_TODAY:
+            case HAD_MOMENTUM_YESTERDAY:
                 message = String.format("Hit %s %s today to stay in momentum.", diffFormatted, units);
                 break;
             case NO_MOMENTUM:
