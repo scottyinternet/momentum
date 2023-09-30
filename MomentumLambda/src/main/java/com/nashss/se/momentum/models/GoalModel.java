@@ -271,5 +271,4 @@ public class GoalModel {
     public StreakData getStreakData() {
         return streakData;
     }
-
 }
