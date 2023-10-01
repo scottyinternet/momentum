@@ -52,7 +52,7 @@ class GetGoalDetailsActivityTest {
         Double sum = 0.0;
         List<EventSummary> eventSummaryList = new ArrayList<>();
 
-        Status status = new Status(statusEnum, statusMessage, eventSummaryList, sum);
+        Status status = new Status(statusEnum, statusMessage, sum);
 
         when(goalDao.getGoal(expectedUserId, expectedGoalName)).thenReturn(goal);
         when(eventDao.getEventsBetweenDates(goal)).thenReturn(eventList);
@@ -67,6 +67,5 @@ class GetGoalDetailsActivityTest {
         assertEquals(expectedGoalName, result.getGoalDetailsModel().getGoalName());
         assertEquals(status.getStatusEnum(), result.getGoalDetailsModel().getStatus().getStatusEnum());
         assertEquals(sum, result.getGoalDetailsModel().getStatus().getSum());
-        assertEquals(expectedSize, result.getGoalDetailsModel().getStatus().getEventSummaryList().size());
     }
 }

@@ -1,19 +1,15 @@
 package com.nashss.se.momentum.activity;
 
 import com.nashss.se.momentum.activity.requests.UpdateGoalRequest;
-import com.nashss.se.momentum.activity.requests.UpdatePlaylistRequest;
 import com.nashss.se.momentum.activity.results.UpdateGoalResult;
-import com.nashss.se.momentum.activity.results.UpdatePlaylistResult;
 import com.nashss.se.momentum.converters.ModelConverter;
 import com.nashss.se.momentum.dynamodb.GoalDao;
 
 import com.nashss.se.momentum.dynamodb.models.Goal;
-import com.nashss.se.momentum.dynamodb.models.Playlist;
 import com.nashss.se.momentum.exceptions.InvalidAttributeValueException;
 import com.nashss.se.momentum.metrics.MetricsConstants;
 
 import com.nashss.se.momentum.models.GoalModel;
-import com.nashss.se.momentum.models.PlaylistModel;
 import com.nashss.se.projectresources.music.playlist.servic.util.MusicPlaylistServiceUtils;
 
 import javax.inject.Inject;

@@ -12,31 +12,30 @@ public class GoalModel {
     private final String userId;
     private final String goalId;
     private final String units;
-
-    // List of GoalCriteria, which can be updated. One item for each update. Includes an "effectiveDate"
     private final List<GoalCriteria> goalCriteriaList;
     private final List<EventModel> rawEvents;
-    private final LocalDate effectiveDate;
+    private final LocalDate startDate;
 
     //  C A L C U L A T E D   A T T R I B U T E S
     private final GoalCriteria currentGoalCriterion;
-    private final Map<LocalDate, Integer> eventSummaryMap = new TreeMap<>();
-    private final Map<LocalDate, GoalCriteria> goalCriteriaMap = new TreeMap<>();
-    private final Map<LocalDate, Boolean> momentumBoolMap = new TreeMap<>();
+    private final Map<LocalDate, Integer> eventSummaryMap;
+    private final Map<LocalDate, GoalCriteria> goalCriteriaMap = new TreeMap<>(Collections.reverseOrder());
+    private final Map<LocalDate, Boolean> momentumBoolMap = new TreeMap<>(Collections.reverseOrder());
     private Status todaysStatus;
     private final StreakData streakData;
 
 
-    public GoalModel(String goalName, String userId, String goalId, String units, List<GoalCriteria> goalCriteriaList, LocalDate effectiveDate, List<EventModel> rawEvents) {
+    public GoalModel(String goalName, String userId, String goalId, String units, List<GoalCriteria> goalCriteriaList, LocalDate startDate, List<EventModel> rawEvents) {
         this.goalName = goalName;
         this.userId = userId;
         this.goalId = goalId;
         this.units = units;
         this.goalCriteriaList = goalCriteriaList;
-        this.effectiveDate = effectiveDate;
+        this.startDate = startDate;
         this.rawEvents = rawEvents;
         //  C A L C U L A T E D   A T T R I B U T E S
         this.currentGoalCriterion = goalCriteriaList.get(goalCriteriaList.size()-1);
+        this.eventSummaryMap = new TreeMap<>(Collections.reverseOrder());
         createEventSummaryMap();
         createGoalCriteriaMap();
         createMomentumBoolMap();
@@ -48,7 +47,7 @@ public class GoalModel {
 
     private void createEventSummaryMap() {
         LocalDate date = LocalDate.now();
-        while(date.isAfter(effectiveDate.minusDays(1))) {
+        while(date.isAfter(startDate.minusDays(1))) {
             int sum = 0;
             for (EventModel event : rawEvents) {
                 if (date.equals(event.getDateOfEvent())) {
@@ -61,10 +60,11 @@ public class GoalModel {
     }
 
     private void createGoalCriteriaMap() {
-        LocalDate date = effectiveDate;
+        LocalDate date = startDate;
         int currentIndex = 0;
         while(date.isBefore(LocalDate.now().plusDays(1))) {
-            if (goalCriteriaList.get(currentIndex+1).getEffectiveDate().isEqual(date)) {
+
+            if (currentIndex + 1 < goalCriteriaList.size() && goalCriteriaList.get(currentIndex+1).getEffectiveDate().isEqual(date)) {
                 currentIndex++;
             }
             goalCriteriaMap.put(date, goalCriteriaList.get(currentIndex));
@@ -73,7 +73,7 @@ public class GoalModel {
     }
 
     private void createMomentumBoolMap() {
-        LocalDate date = effectiveDate;
+        LocalDate date = startDate;
         while(date.isBefore(LocalDate.now().plusDays(1))) {
             int sum = iterateThroughMap(date, goalCriteriaMap.get(date).getTimeFrame());
             if (sum >= goalCriteriaMap.get(date).getTarget()) {
@@ -86,8 +86,8 @@ public class GoalModel {
     }
 
     private void calculateStatus() {
-        int timeFrame = currentGoalCriterion.getTimeFrame();
         LocalDate today = LocalDate.now();
+        int timeFrame = goalCriteriaMap.get(today).getTimeFrame();
         double todaysTotalSum = iterateThroughMap(LocalDate.now(), timeFrame);
         boolean yesterdayInMomentum = momentumBoolMap.get(today.minusDays(1));
         double todaysTotalSumMinusLast = todaysTotalSum - eventSummaryMap.get(today.minusDays(timeFrame-1));
@@ -244,8 +244,8 @@ public class GoalModel {
         return rawEvents;
     }
 
-    public LocalDate getEffectiveDate() {
-        return effectiveDate;
+    public LocalDate getStartDate() {
+        return startDate;
     }
 
     public GoalCriteria getCurrentGoalCriterion() {
@@ -270,5 +270,9 @@ public class GoalModel {
 
     public StreakData getStreakData() {
         return streakData;
+    }
+
+    public String getGoalId() {
+        return goalId;
     }
 }

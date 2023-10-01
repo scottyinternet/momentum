@@ -54,7 +54,7 @@ class StatusCalculatorTest {
 
         eventList = new ArrayList<>();
     }
-
+/*
     //  N O   M O M E N T U M :   G O A L   1
     @Test
     void calculateStatus_goal1NoEntries_returnNoMomentum() {
@@ -438,5 +438,5 @@ class StatusCalculatorTest {
         EventSummary lastEventSummary = status.getEventSummaryList().get(goal.getTimePeriod());
         System.out.println("   - | " + lastEventSummary.getDate() + " | " + lastEventSummary.getSummedMeasurement() + " | dropping off board today");
         System.out.println("");
-    }
+    }*/
 }

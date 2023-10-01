@@ -87,4 +87,12 @@ public class StreakData {
     public int getTotalDays() {
         return totalDays;
     }
+
+    public double getPercentInMomentum() {
+        return percentInMomentum;
+    }
+
+    public String getStreakMessage() {
+        return streakMessage;
+    }
 }
