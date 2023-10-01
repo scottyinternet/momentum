@@ -2,7 +2,6 @@ package com.nashss.se.momentum.models;
 
 import java.time.LocalDate;
 
-import com.nashss.se.momentum.dynamodb.models.Goal;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
