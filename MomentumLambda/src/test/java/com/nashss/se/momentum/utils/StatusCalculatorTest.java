@@ -25,7 +25,7 @@ class StatusCalculatorTest {
     private Goal shortGoal;
     private List<EventModel> eventList;
     private ModelConverter converter = new ModelConverter();
-
+/*
     @BeforeEach
     void setUp() {
         goal1 = new Goal();
@@ -53,7 +53,7 @@ class StatusCalculatorTest {
         shortGoal.setTimePeriod(3);
 
         eventList = new ArrayList<>();
-    }
+    }*/
 /*
     //  N O   M O M E N T U M :   G O A L   1
     @Test

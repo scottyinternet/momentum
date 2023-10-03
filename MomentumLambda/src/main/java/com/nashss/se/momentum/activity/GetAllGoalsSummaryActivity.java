@@ -61,7 +61,7 @@ public class GetAllGoalsSummaryActivity {
 
         List<Goal> goalsList = goalDao.getGoals(getAllGoalsSummaryRequest.getUserId());
 
-        List<GoalSummary> goalSummaryList = new ArrayList<>();
+        List<GoalModel> goalModelList = new ArrayList<>();
 
         for(Goal goal: goalsList){
             List<Event> eventList = eventDao.getEventsBetweenDates(goal);
@@ -70,12 +70,12 @@ public class GetAllGoalsSummaryActivity {
             for (Event event : eventList) {
                 eventModels.add(modelConverter.toEventModel(event));
             }
-            Status status = StatusCalculator.calculateStatus(goal, eventModels);
-            goalSummaryList.add(new GoalSummary(goal.getGoalName(),status.getStatusEnum()));
+            GoalModel goalModel = new GoalModel(goal, eventModels);
+            goalModelList.add(goalModel);
         }
 
         return GetAllGoalsSummaryResult.builder()
-                .withGoalSummaryList(goalSummaryList)
+                .withGoalModelList(goalModelList)
                 .build();
     }
 }

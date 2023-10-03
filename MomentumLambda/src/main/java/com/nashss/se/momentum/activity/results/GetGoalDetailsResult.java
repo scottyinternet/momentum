@@ -2,20 +2,21 @@ package com.nashss.se.momentum.activity.results;
 
 import com.nashss.se.momentum.models.EventModel;
 import com.nashss.se.momentum.models.GoalDetailsModel;
+import com.nashss.se.momentum.models.GoalModel;
 import com.nashss.se.momentum.models.Status;
 
 import java.util.List;
 
 public class GetGoalDetailsResult {
 
-    private final GoalDetailsModel goalDetailsModel;
+    private final GoalModel goalModel;
 
-    private GetGoalDetailsResult(GoalDetailsModel goalDetailsModel){
-        this.goalDetailsModel = goalDetailsModel;
+    private GetGoalDetailsResult(GoalModel goalModel){
+        this.goalModel = goalModel;
     }
 
-    public GoalDetailsModel getGoalDetailsModel() {
-        return goalDetailsModel;
+    public GoalModel getGoalModel() {
+        return goalModel;
     }
 
     public static Builder builder() {
@@ -23,15 +24,15 @@ public class GetGoalDetailsResult {
     }
 
     public static class Builder {
-        private GoalDetailsModel goalDetailsModel;
+        private GoalModel goalModel;
 
-        public Builder withGoalDetailModel(GoalDetailsModel goalDetailsModel) {
-            this.goalDetailsModel = goalDetailsModel;
+        public Builder withGoalDetailModel(GoalModel goalModel) {
+            this.goalModel = goalModel;
             return this;
         }
 
         public GetGoalDetailsResult build() {
-            return new GetGoalDetailsResult(goalDetailsModel);
+            return new GetGoalDetailsResult(goalModel);
         }
     }
 }

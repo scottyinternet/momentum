@@ -1,5 +1,6 @@
 package com.nashss.se.momentum.activity.results;
 
+import com.nashss.se.momentum.models.GoalModel;
 import com.nashss.se.momentum.models.GoalSummary;
 
 import java.util.List;
@@ -8,14 +9,14 @@ import java.util.Objects;
 
 public class GetAllGoalsSummaryResult {
 
-    private final List<GoalSummary> goalSummaryList;
+    private final List<GoalModel> goalModelList;
 
-    private GetAllGoalsSummaryResult( List<GoalSummary> goalSummaryList){
-        this.goalSummaryList = goalSummaryList;
+    private GetAllGoalsSummaryResult( List<GoalModel> goalModelList){
+        this.goalModelList = goalModelList;
     }
 
-    public List<GoalSummary> getGoalSummary() {
-        return goalSummaryList;
+    public List<GoalModel> getGoalModelList() {
+        return goalModelList;
     }
 
     public static Builder builder() {
@@ -23,28 +24,16 @@ public class GetAllGoalsSummaryResult {
     }
 
     public static class Builder {
-        private List<GoalSummary> goalSummaryList;
+        private List<GoalModel> goalModelList;
 
-        public Builder withGoalSummaryList(List<GoalSummary> goalSummaryList) {
-            this.goalSummaryList = goalSummaryList;
+        public Builder withGoalModelList(List<GoalModel> goalModelList) {
+            this.goalModelList = goalModelList;
             return this;
         }
 
         public GetAllGoalsSummaryResult build() {
-            return new GetAllGoalsSummaryResult(goalSummaryList);
+            return new GetAllGoalsSummaryResult(goalModelList);
         }
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof GetAllGoalsSummaryResult)) return false;
-        GetAllGoalsSummaryResult that = (GetAllGoalsSummaryResult) o;
-        return Objects.equals(this.goalSummaryList, that.goalSummaryList);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(goalSummaryList);
-    }
 }

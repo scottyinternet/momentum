@@ -34,28 +34,17 @@ public class GetGoalDetailsActivity {
         String requestedGoalName = getGoalDetailsRequest.getGoalName();
         Goal goal = goalDao.getGoal(requestedUserId, requestedGoalName);
 
-        List<Event> eventList = eventDao.getEventsBetweenDates(goal);
-
+        List<Event> eventList = eventDao.getEvents(goal.getGoalId());
         ModelConverter modelConverter = new ModelConverter();
         List<EventModel> eventModels = new ArrayList<>();
+
         for (Event event : eventList) {
             eventModels.add(modelConverter.toEventModel(event));
         }
 
-        List<Event> allEvents = eventDao.getEvents(goal.getGoalId());
-        List<EventModel> allEventModels = new ArrayList<>();
-        for (Event event : allEvents) {
-            allEventModels.add(modelConverter.toEventModel(event));
-        }
-        Collections.reverse(allEventModels);
-
-        String goalSummaryMessage = "Target: " + goal.getTarget() + " " + goal.getUnit() + " within a rolling " + goal.getTimePeriod() + " day period.";
-
-        Status status = StatusCalculator.calculateStatus(goal, eventModels);
-        GoalDetailsModel goalDetailsModel = new GoalDetailsModel(status, allEventModels, goalSummaryMessage, requestedGoalName, goal.getUnit());
-
+        GoalModel goalModel = new GoalModel(goal, eventModels);
         return GetGoalDetailsResult.builder()
-                .withGoalDetailModel(goalDetailsModel)
+                .withGoalDetailModel(goalModel)
                 .build();
     }
 }

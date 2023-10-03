@@ -19,7 +19,7 @@ public class GoalCriteria {
 
     private void createGoalCriteriaMessage() {
         goalCriteriaMessage = String
-                .format("%d %s in a rolling %d day period.",
+                .format("%f %s in a rolling %d day period.",
                         target,
                         units,
                         timeFrame);

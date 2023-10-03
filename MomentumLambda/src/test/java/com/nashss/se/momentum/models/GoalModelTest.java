@@ -2,6 +2,7 @@ package com.nashss.se.momentum.models;
 
 import java.time.LocalDate;
 
+import com.nashss.se.momentum.dynamodb.models.Goal;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -12,6 +13,7 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.*;
 
 class GoalModelTest {
+    Goal goal1;
     String goalName1 = "Cardio";
     String userId1 = "user1@fakemail.com";
     String goalId1 = userId1+goalName1;
@@ -29,8 +31,8 @@ class GoalModelTest {
 
     @BeforeEach
     void setUp() {
-        goalCriteria1 = new GoalCriteria(150,"minutes", 7, startDate1);
-        goalCriteria2 = new GoalCriteria(200, "minutes", 7, LocalDate.now().minusDays(5));
+        goalCriteria1 = new GoalCriteria(150.0,"minutes", 7, startDate1);
+        goalCriteria2 = new GoalCriteria(200.0, "minutes", 7, LocalDate.now().minusDays(5));
         goalCriteriaList.add(goalCriteria1);
         goalCriteriaList.add(goalCriteria2);
 
@@ -71,13 +73,17 @@ class GoalModelTest {
         rawEvents.add(event4);
         rawEvents.add(event5);
 
-
-
+        goal1 = new Goal();
+        goal1.setGoalId(goalId1);
+        goal1.setGoalName(goalName1);
+        goal1.setGoalCriteriaList(goalCriteriaList);
+        goal1.setUserId(userId1);
+        goal1.setStartDate(startDate1);
     }
 
     @Test
     void x() {
-        GoalModel goal = new GoalModel(goalName1, userId1, goalId1, "minutes", goalCriteriaList, startDate1, rawEvents);
+        GoalModel goal = new GoalModel(goal1, rawEvents);
         printGoal(goal);
         printStatus(goal);
         printStreak(goal);
@@ -89,8 +95,8 @@ class GoalModelTest {
         for (GoalCriteria gc : goal.getGoalCriteriaList()) {
             System.out.println(gc.getGoalCriteriaMessage() + gc.getEffectiveDate());
         }
-        for (Map.Entry<LocalDate, GoalCriteria> entry : goal.getGoalCriteriaMap().entrySet()) {
-            System.out.println(String.format("%s | %s", entry.getKey(), entry.getValue().getGoalCriteriaMessage()));
+        for (Map.Entry<LocalDate, CriteriaStatusContainer> entry : goal.getCriteriaStatusContainerMap().entrySet()) {
+            System.out.println(String.format("%s | %s", entry.getKey(), entry.getValue().getGoalCriteria().getGoalCriteriaMessage()));
         }
     }
 
@@ -111,8 +117,8 @@ class GoalModelTest {
     private void printStatus(GoalModel goal) {
         System.out.println("\n - - - - - - - - - - - - - - - - - - - - - - ");
         System.out.println(String.format("Status: %s", goal.getTodaysStatus().getStatusMessage()));
-        for (Map.Entry<LocalDate, Integer> entry : goal.getEventSummaryMap().entrySet()) {
-            System.out.println(String.format("Date: %s  |  Measurement: %s %s  |  Momentum: %s  |  Criteria: %s", entry.getKey(), entry.getValue(), goal.getUnits(), goal.getMomentumBoolMap().get(entry.getKey()), goal.getGoalCriteriaMap().get(entry.getKey()).getGoalCriteriaMessage()));
+        for (Map.Entry<LocalDate, Double> entry : goal.getEventSummaryMap().entrySet()) {
+            System.out.println(String.format("Date: %s  |  Measurement: %s %s  |  Momentum: %s  |  Criteria: %s", entry.getKey(), entry.getValue(), goal.getCurrentGoalCriterion().getUnits(), goal.getCriteriaStatusContainerMap().get(entry.getKey()).getInMomentumBool(), goal.getCriteriaStatusContainerMap().get(entry.getKey()).getGoalCriteria().getGoalCriteriaMessage()));
         }
         System.out.println("\n - - - - - - - - - - - - - - - - - - - - - - ");
     }

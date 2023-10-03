@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StatusCalculator {
-
+/*
     public static Status calculateStatus(Goal goal, List<EventModel> eventList) {
 
         int timePeriod = goal.getTimePeriod();
@@ -135,4 +135,5 @@ public class StatusCalculator {
         }
         return message;
     }
+    */
 }

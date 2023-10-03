@@ -5,7 +5,10 @@ public class CriteriaStatusContainer {
     Double sumOfTimePeriodsMeasurements;
     Boolean inMomentumBool;
 
-    public CriteriaStatusContainer() {
+    public CriteriaStatusContainer(GoalCriteria goalCriteria, Double sumOfTimePeriodsMeasurements, Boolean inMomentumBool) {
+        this.goalCriteria = goalCriteria;
+        this.sumOfTimePeriodsMeasurements = sumOfTimePeriodsMeasurements;
+        this.inMomentumBool = inMomentumBool;
     }
 
     public GoalCriteria getGoalCriteria() {

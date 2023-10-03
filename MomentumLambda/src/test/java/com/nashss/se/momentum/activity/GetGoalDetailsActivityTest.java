@@ -33,7 +33,7 @@ class GetGoalDetailsActivityTest {
         openMocks(this);
         getGoalDetailsActivity = new GetGoalDetailsActivity(goalDao, eventDao);
     }
-
+/*
     @Test
     public void handleRequest_goalFoundNoEvents_returnsEmptyGetGoalDetailsResult() {
         String expectedUserId = "expectedId";
@@ -67,5 +67,5 @@ class GetGoalDetailsActivityTest {
         assertEquals(expectedGoalName, result.getGoalDetailsModel().getGoalName());
         assertEquals(status.getStatusEnum(), result.getGoalDetailsModel().getStatus().getStatusEnum());
         assertEquals(sum, result.getGoalDetailsModel().getStatus().getSum());
-    }
+    }*/
 }

@@ -2,9 +2,10 @@ package com.nashss.se.momentum.models;
 
 import java.time.LocalDate;
 import java.util.Map;
+import java.util.TreeMap;
 
 public class StreakData {
-    private final Map<LocalDate, Boolean> momentumBoolMap;
+    private final Map<LocalDate, CriteriaStatusContainer> criteriaStatusContainerMap;
 
     // C A L C U L A T E D   A T T R I B U T E S
     private int currentStreak;
@@ -14,14 +15,60 @@ public class StreakData {
     private double percentInMomentum;
     private String streakMessage;
 
-    public StreakData(Map<LocalDate, Boolean> momentumBoolMap) {
-        this.momentumBoolMap = momentumBoolMap;
+    public StreakData(Map<LocalDate, CriteriaStatusContainer> criteriaStatusContainerMap) {
+        this.criteriaStatusContainerMap = criteriaStatusContainerMap;
         calculateCurrentStreak();
         calculateLongestStreak();
         countDaysInMomentum();
-        totalDays = momentumBoolMap.size();
+        totalDays = criteriaStatusContainerMap.size();
         percentInMomentum = (double) totalDaysInMomentum/totalDays;
         createStreakMessage();
+    }
+
+    public StreakData() {
+        this.criteriaStatusContainerMap = new TreeMap<>();
+        this.currentStreak = 0;
+        this.longestStreak = 0;
+        this.totalDaysInMomentum = 0;
+        this.totalDays = 0;
+        this.percentInMomentum = 0;
+        this.streakMessage = "";
+    }
+
+    /**
+     * calculates current streak
+     * positive if currenet streak is In Momentum
+     * negative if currently not In Momentum - represents days since In Momentum
+     */
+    private void calculateCurrentStreak() {
+        LocalDate date = LocalDate.now();
+        currentStreak = 0;
+        final boolean currentStatus = criteriaStatusContainerMap.get(date).getInMomentumBool();
+        while(criteriaStatusContainerMap.get(date).inMomentumBool == currentStatus) {
+            currentStreak++;
+            date = date.minusDays(1);
+        }
+        if (!currentStatus) {
+            currentStreak = -currentStreak;
+        }
+    }
+
+    /**
+     * calculates longest streak since the Goals Inception
+     */
+    private void calculateLongestStreak() {
+        longestStreak = 0;
+        int localStreak = 0;
+        for (Map.Entry<LocalDate, CriteriaStatusContainer> entry : criteriaStatusContainerMap.entrySet()) {
+            if(entry.getValue().getInMomentumBool()) {
+                localStreak++;
+                if (localStreak > longestStreak) {
+                    longestStreak = localStreak;
+                }
+            } else {
+                localStreak = 0;
+            }
+        }
     }
 
     private void createStreakMessage() {
@@ -35,38 +82,9 @@ public class StreakData {
             streakMessage = "SAVE YOUR STREAK!";
         }
     }
-
-    private void calculateCurrentStreak() {
-        LocalDate date = LocalDate.now();
-        currentStreak = 0;
-        boolean currentStatus = momentumBoolMap.get(date);
-        while(momentumBoolMap.get(date) == currentStatus) {
-            currentStreak++;
-            date = date.minusDays(1);
-        }
-        if (!currentStatus) {
-            currentStreak = -currentStreak;
-        }
-    }
-
-    private void calculateLongestStreak() {
-        longestStreak = 0;
-        int localStreak = 0;
-        for (Map.Entry<LocalDate, Boolean> entry : momentumBoolMap.entrySet()) {
-            if(entry.getValue()) {
-                localStreak++;
-                if (localStreak > longestStreak) {
-                    longestStreak = localStreak;
-                }
-            } else {
-                localStreak = 0;
-            }
-        }
-    }
-
     private void countDaysInMomentum() {
-        for (Map.Entry<LocalDate, Boolean> entry : momentumBoolMap.entrySet()) {
-            if (entry.getValue()) {
+        for (Map.Entry<LocalDate, CriteriaStatusContainer> entry : criteriaStatusContainerMap.entrySet()) {
+            if (entry.getValue().getInMomentumBool()) {
                 totalDaysInMomentum++;
             }
         }

@@ -15,14 +15,7 @@ import java.util.List;
 public class ModelConverter {
 
     public GoalModel toGoalModel(Goal goal) {
-
-        return new GoalModel(goal.getGoalName(),
-                goal.getUserId(),
-                goal.getGoalId(),
-                goal.getUnit(),
-                new ArrayList<>(),
-                LocalDate.now().minusDays(30),
-                new ArrayList<>());
+        return new GoalModel(goal);
     }
 
     /**

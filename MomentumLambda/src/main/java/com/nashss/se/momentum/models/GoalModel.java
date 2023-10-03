@@ -6,6 +6,7 @@ import com.nashss.se.momentum.utils.StatusEnum;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class GoalModel {
 
@@ -13,15 +14,13 @@ public class GoalModel {
     private final String userId;
     private final String goalId;
     private final List<GoalCriteria> goalCriteriaList;
-    private final List<EventModel> rawEvents;
+    private List<EventModel> rawEvents;
     private final LocalDate startDate;
 
     //  C A L C U L A T E D   A T T R I B U T E S
     private final GoalCriteria currentGoalCriterion;
-    private final Map<LocalDate, Integer> eventSummaryMap;
+    private final Map<LocalDate, Double> eventSummaryMap;
     private final Map<LocalDate, CriteriaStatusContainer> criteriaStatusContainerMap;
-    private final Map<LocalDate, GoalCriteria> goalCriteriaMap = new TreeMap<>(Collections.reverseOrder());
-    private final Map<LocalDate, Boolean> momentumBoolMap = new TreeMap<>(Collections.reverseOrder());
     private Status todaysStatus;
     private final StreakData streakData;
 
@@ -33,14 +32,15 @@ public class GoalModel {
         this.goalCriteriaList = goal.getGoalCriteriaList();
         this.startDate = goal.getStartDate();
         this.rawEvents = rawEvents;
+        sortRawEvents();
         //  C A L C U L A T E D   A T T R I B U T E S
         this.currentGoalCriterion = goalCriteriaList.get(goalCriteriaList.size()-1);
         this.eventSummaryMap = new TreeMap<>(Collections.reverseOrder());
+        this.criteriaStatusContainerMap = new TreeMap<>(Collections.reverseOrder());
         createEventSummaryMap();
-        createGoalCriteriaMap();
-        createMomentumBoolMap();
+        createCriteriaStatusContainerMap();
         calculateStatus();
-        this.streakData = new StreakData(momentumBoolMap);
+        this.streakData = new StreakData();
     }
 
     public GoalModel(Goal goal) {
@@ -51,16 +51,23 @@ public class GoalModel {
         this.startDate = goal.getStartDate();
         this.currentGoalCriterion = goalCriteriaList.get(0);
         this.rawEvents = new ArrayList<>();
-        this.eventSummaryMap = new TreeMap<>();
-
+        this.eventSummaryMap = new TreeMap<>(Collections.reverseOrder());
+        this.criteriaStatusContainerMap = new TreeMap<>(Collections.reverseOrder());
+        this.streakData = new StreakData(criteriaStatusContainerMap);
     }
 
     //  C A L C U L A T E D   A T T R I B U T E   M E T H O D S
 
+    private void sortRawEvents() {
+        rawEvents = rawEvents.stream()
+                .sorted(Comparator.comparing(EventModel::getDateOfEvent))
+                .collect(Collectors.toList());
+    }
+
     private void createEventSummaryMap() {
         LocalDate date = LocalDate.now();
         while(date.isAfter(startDate.minusDays(1))) {
-            int sum = 0;
+            double sum = 0;
             for (EventModel event : rawEvents) {
                 if (date.equals(event.getDateOfEvent())) {
                     sum += event.getMeasurement();
@@ -71,48 +78,51 @@ public class GoalModel {
         }
     }
 
-    private void createGoalCriteriaMap() {
+    private void createCriteriaStatusContainerMap() {
         LocalDate date = startDate;
         int currentIndex = 0;
         while(date.isBefore(LocalDate.now().plusDays(1))) {
-
             if (currentIndex + 1 < goalCriteriaList.size()
                     && goalCriteriaList.get(currentIndex+1).getEffectiveDate().isEqual(date)) {
                 currentIndex++;
             }
-            goalCriteriaMap.put(date, goalCriteriaList.get(currentIndex));
+            CriteriaStatusContainer container = makeNewCriteriaStatusContainer(date, currentIndex);
+            criteriaStatusContainerMap.put(date, container);
             date = date.plusDays(1);
         }
     }
 
-    private void createMomentumBoolMap() {
-        LocalDate date = startDate;
-        while(date.isBefore(LocalDate.now().plusDays(1))) {
-            int sum = iterateThroughMap(date, goalCriteriaMap.get(date).getTimeFrame());
-            if (sum >= goalCriteriaMap.get(date).getTarget()) {
-                momentumBoolMap.put(date, true);
-            } else {
-                momentumBoolMap.put(date, false);
-            }
-            date = date.plusDays(1);
-        }
+    private CriteriaStatusContainer makeNewCriteriaStatusContainer(LocalDate date, int currentIndex) {
+        GoalCriteria goalCriteria = goalCriteriaList.get(currentIndex);
+        double sum = sumNDays(date, goalCriteria.getTimeFrame());
+        Boolean inMomentumBool = isInMomentum(goalCriteria, sum);
+        return new CriteriaStatusContainer(
+                goalCriteria,
+                sum,
+                inMomentumBool
+        );
+    }
+
+    private Boolean isInMomentum(GoalCriteria goalCriteria, double sum) {
+        return sum >= goalCriteria.getTarget();
     }
 
     private void calculateStatus() {
         LocalDate today = LocalDate.now();
-        int timeFrame = goalCriteriaMap.get(today).getTimeFrame();
-        double todaysTotalSum = iterateThroughMap(LocalDate.now(), timeFrame);
-        boolean yesterdayInMomentum = momentumBoolMap.get(today.minusDays(1));
+        CriteriaStatusContainer container = criteriaStatusContainerMap.get(today);
+        int timeFrame = container.getGoalCriteria().getTimeFrame();
+        double todaysTotalSum = container.getSumOfTimePeriodsMeasurements();
+        boolean yesterdayInMomentumBool = criteriaStatusContainerMap.get(today.minusDays(1)).getInMomentumBool();
         double todaysTotalSumMinusLast = todaysTotalSum - eventSummaryMap.get(today.minusDays(timeFrame-1));
 
-        StatusEnum statusEnum = calculateStatusEnum(todaysTotalSum, yesterdayInMomentum, todaysTotalSumMinusLast);
+        StatusEnum statusEnum = calculateStatusEnum(todaysTotalSum, yesterdayInMomentumBool, todaysTotalSumMinusLast);
         String message = createStatusMessage(currentGoalCriterion, todaysTotalSum, todaysTotalSumMinusLast, statusEnum);
         todaysStatus = new Status(statusEnum, message, todaysTotalSum);
     }
 
-    private int iterateThroughMap(LocalDate endDate, int numberOfDays) {
-        LocalDate date = endDate;
-        int sum = 0;
+    private double sumNDays(LocalDate mostRecentDate, int numberOfDays) {
+        LocalDate date = mostRecentDate;
+        double sum = 0;
         for (int i = 0; i < numberOfDays; i++) {
             if (!eventSummaryMap.containsKey(date)) {
                 break;
@@ -151,7 +161,7 @@ public class GoalModel {
         int timePeriod = goalCriteria.getTimeFrame();
         double target = goalCriteria.getTarget();
 
-        // diff is difference between target and Todays Total
+        // diff is difference between target and Today's Total
         double diff = Math.abs(todaysTotal - target); // positive number represents surplus, negative is building
         String formatUnits = currentGoalCriterion.getUnits();
         // make units singular if necessary
@@ -171,7 +181,7 @@ public class GoalModel {
                 break;
             case IN_MOMENTUM:
                 if (diff == 0) {
-                    message = String.format("You have hit your target of %d %s exactly. Great work!", target, formatUnits);
+                    message = String.format("You have hit your target of %f %s exactly. Great work!", target, formatUnits);
                 } else {
                     message = String.format("You have a surplus of %s %s. Keep it up!", diffFormatted, formatUnits);
                 }
@@ -206,7 +216,7 @@ public class GoalModel {
     private int calculateDaysStale() {
         int daysStale = 0;
         LocalDate date = LocalDate.now();
-        while (eventSummaryMap.get(date).equals(0)) {
+        while (eventSummaryMap.get(date) == 0) {
             daysStale++;
             date = date.minusDays(1);
         }
@@ -216,7 +226,7 @@ public class GoalModel {
     private int calculateDaysSinceMomentum() {
         int daysSinceMomentum = 0;
         LocalDate date = LocalDate.now();
-        while (!momentumBoolMap.get(date)) {
+        while (!criteriaStatusContainerMap.get(date).getInMomentumBool()) {
             daysSinceMomentum++;
             date = date.minusDays(1);
         }
@@ -261,18 +271,6 @@ public class GoalModel {
         return currentGoalCriterion;
     }
 
-    public Map<LocalDate, Integer> getEventSummaryMap() {
-        return eventSummaryMap;
-    }
-
-    public Map<LocalDate, GoalCriteria> getGoalCriteriaMap() {
-        return goalCriteriaMap;
-    }
-
-    public Map<LocalDate, Boolean> getMomentumBoolMap() {
-        return momentumBoolMap;
-    }
-
     public Status getTodaysStatus() {
         return todaysStatus;
     }
@@ -283,5 +281,13 @@ public class GoalModel {
 
     public String getGoalId() {
         return goalId;
+    }
+
+    public Map<LocalDate, Double> getEventSummaryMap() {
+        return eventSummaryMap;
+    }
+
+    public Map<LocalDate, CriteriaStatusContainer> getCriteriaStatusContainerMap() {
+        return criteriaStatusContainerMap;
     }
 }
