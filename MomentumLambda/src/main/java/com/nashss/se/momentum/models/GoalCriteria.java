@@ -3,13 +3,13 @@ package com.nashss.se.momentum.models;
 import java.time.LocalDate;
 
 public class GoalCriteria {
-    private final double target;
+    private final int target;
     private final int timeFrame;
     private final String units;
     private final LocalDate effectiveDate;
     private String goalCriteriaMessage;
 
-    public GoalCriteria(double target, String units, int timeFrame, LocalDate effectiveDate) {
+    public GoalCriteria(int target, String units, int timeFrame, LocalDate effectiveDate) {
         this.target = target;
         this.units = units;
         this.timeFrame = timeFrame;
@@ -19,13 +19,13 @@ public class GoalCriteria {
 
     private void createGoalCriteriaMessage() {
         goalCriteriaMessage = String
-                .format("%f %s in a rolling %d day period.",
+                .format("%d %s in a rolling %d day period.",
                         target,
                         units,
                         timeFrame);
     }
 
-    public double getTarget() {
+    public int getTarget() {
         return target;
     }
 

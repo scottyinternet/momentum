@@ -8,7 +8,7 @@ public class CreateGoalRequest {
     private final String goalName;
     private final String userId;
     private final String startDate;
-    private final Double goalCritTarget;
+    private final Integer goalCritTarget;
     private final Integer goalCritTimeperiod;
     private final String goalCritUnit;
     private final String goalCritEffectiveDate;
@@ -16,7 +16,7 @@ public class CreateGoalRequest {
     public CreateGoalRequest(String goalName,
                              String userId,
                              String startDate,
-                             Double goalCritTarget,
+                             Integer goalCritTarget,
                              Integer goalCritTimeperiod,
                              String goalCritUnit,
                              String goalCritEffectiveDate) {
@@ -41,7 +41,7 @@ public class CreateGoalRequest {
         return startDate;
     }
 
-    public Double getGoalCritTarget() {
+    public Integer getGoalCritTarget() {
         return goalCritTarget;
     }
 
@@ -70,7 +70,7 @@ public class CreateGoalRequest {
         private String goalName;
         private String userId;
         private String startDate;
-        private Double goalCritTarget;
+        private Integer goalCritTarget;
         private Integer goalCritTimeperiod;
         private String goalCritUnit;
         private String goalCritEffectiveDate;
@@ -90,7 +90,7 @@ public class CreateGoalRequest {
             return this;
         }
 
-        public Builder withGoalCritTarget(Double goalCritTarget){
+        public Builder withGoalCritTarget(Integer goalCritTarget){
             this.goalCritTarget = goalCritTarget;
             return this;
         }

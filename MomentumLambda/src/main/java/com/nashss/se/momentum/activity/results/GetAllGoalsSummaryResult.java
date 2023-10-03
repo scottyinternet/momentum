@@ -1,22 +1,20 @@
 package com.nashss.se.momentum.activity.results;
 
-import com.nashss.se.momentum.models.GoalModel;
 import com.nashss.se.momentum.models.GoalSummary;
 
 import java.util.List;
-import java.util.Objects;
 
 
 public class GetAllGoalsSummaryResult {
 
-    private final List<GoalModel> goalModelList;
+    private final List<GoalSummary> goalSummaryList;
 
-    private GetAllGoalsSummaryResult( List<GoalModel> goalModelList){
-        this.goalModelList = goalModelList;
+    private GetAllGoalsSummaryResult( List<GoalSummary> goalModelList){
+        this.goalSummaryList = goalModelList;
     }
 
-    public List<GoalModel> getGoalModelList() {
-        return goalModelList;
+    public List<GoalSummary> getGoalSummaryList() {
+        return goalSummaryList;
     }
 
     public static Builder builder() {
@@ -24,9 +22,9 @@ public class GetAllGoalsSummaryResult {
     }
 
     public static class Builder {
-        private List<GoalModel> goalModelList;
+        private List<GoalSummary> goalModelList;
 
-        public Builder withGoalModelList(List<GoalModel> goalModelList) {
+        public Builder withGoalSummaryList(List<GoalSummary> goalModelList) {
             this.goalModelList = goalModelList;
             return this;
         }

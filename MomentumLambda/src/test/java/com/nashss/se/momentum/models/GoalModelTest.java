@@ -31,8 +31,8 @@ class GoalModelTest {
 
     @BeforeEach
     void setUp() {
-        goalCriteria1 = new GoalCriteria(150.0,"minutes", 7, startDate1);
-        goalCriteria2 = new GoalCriteria(200.0, "minutes", 7, LocalDate.now().minusDays(5));
+        goalCriteria1 = new GoalCriteria(150,"minutes", 7, startDate1);
+        goalCriteria2 = new GoalCriteria(200, "minutes", 7, LocalDate.now().minusDays(5));
         goalCriteriaList.add(goalCriteria1);
         goalCriteriaList.add(goalCriteria2);
 
@@ -84,24 +84,19 @@ class GoalModelTest {
     @Test
     void x() {
         GoalModel goal = new GoalModel(goal1, rawEvents);
+        printAllGoalInfo(goal);
+    }
+
+    private void printAllGoalInfo(GoalModel goal) {
         printGoal(goal);
         printStatus(goal);
         printStreak(goal);
-        //printGoalCriteriaFull(goal);
-
-    }
-
-    private void printGoalCriteriaFull(GoalModel goal) {
-        for (GoalCriteria gc : goal.getGoalCriteriaList()) {
-            System.out.println(gc.getGoalCriteriaMessage() + gc.getEffectiveDate());
-        }
-        for (Map.Entry<LocalDate, CriteriaStatusContainer> entry : goal.getCriteriaStatusContainerMap().entrySet()) {
-            System.out.println(String.format("%s | %s", entry.getKey(), entry.getValue().getGoalCriteria().getGoalCriteriaMessage()));
-        }
+        printAllEventSummaries(goal);
+        printRawEvents(goal);
     }
 
     void printGoal(GoalModel goal) {
-        System.out.println("\n - - - - - - - - - - - - - - - - - - - - - - ");
+        System.out.println("\n - - - - - - - -  P R I N T   G O A L   M O D E L  - - - - - - - - - - - - - - ");
         System.out.printf("Goal Name: %s%n", goal.getGoalName());
         System.out.printf("User Name: %s%n", goal.getUserId());
         System.out.printf("GoalID: %s%n", goal.getGoalId());
@@ -115,18 +110,40 @@ class GoalModelTest {
         }
     }
     private void printStatus(GoalModel goal) {
-        System.out.println("\n - - - - - - - - - - - - - - - - - - - - - - ");
-        System.out.println(String.format("Status: %s", goal.getTodaysStatus().getStatusMessage()));
-        for (Map.Entry<LocalDate, Double> entry : goal.getEventSummaryMap().entrySet()) {
-            System.out.println(String.format("Date: %s  |  Measurement: %s %s  |  Momentum: %s  |  Criteria: %s", entry.getKey(), entry.getValue(), goal.getCurrentGoalCriterion().getUnits(), goal.getCriteriaStatusContainerMap().get(entry.getKey()).getInMomentumBool(), goal.getCriteriaStatusContainerMap().get(entry.getKey()).getGoalCriteria().getGoalCriteriaMessage()));
+        System.out.println("\n - - - - - - - -  P R I N T   S T A T U S  - - - - - - - - - - - - - - ");
+        System.out.println("Status: " + goal.getTodaysStatus().getStatusEnum().toString());
+        System.out.println("Sum: " + goal.getTodaysStatus().getSum());
+        System.out.println(String.format("Status Message: %s", goal.getTodaysStatus().getStatusMessage()));
+        System.out.println(" E V E N T   S U M M A R I E S");
+        int index = 1;
+        for (Map.Entry<LocalDate, Double> entry: goal.getTodaysStatus().getStatusEventSummaries().entrySet()) {
+            StringBuilder message = new StringBuilder(String.format("Date: %s  |  Measurement: %s %s", entry.getKey(), entry.getValue(), goal.getCurrentGoalCriterion().getUnits()));
+            if (index == goal.getTodaysStatus().getStatusEventSummaries().size()) {
+                message.insert(0, "       - ");
+            }
+            System.out.println(message);
+            index++;
         }
-        System.out.println("\n - - - - - - - - - - - - - - - - - - - - - - ");
     }
     private void printStreak(GoalModel goal) {
+        System.out.println("\n - - - - - - - -  P R I N T   S T R E A K  - - - - - - - - - - - - - - ");
      StreakData streakData = goal.getStreakData();
         System.out.println("Current Streak: " + streakData.getCurrentStreak());
         System.out.println("Longest Streak: " + streakData.getLongestStreak());
         System.out.println(String.format("%s days in momentum out of %s days tracked", streakData.getTotalDaysInMomentum(), streakData.getTotalDays()));
-        System.out.println("Percentage Of Time In Momentum: " + streakData.getPercentInMomentum());
+        System.out.println("Percentage Of Time In Momentum: " + streakData.getPercentString());
+    }
+    private void printAllEventSummaries(GoalModel goal) {
+        System.out.println("\n - - - - - - - -  P R I N T   E V E N T   S U M A R R I E S  - - - - - - - - - - - - - - ");
+        for (Map.Entry<LocalDate, Double> entry : goal.getEventSummaryMap().entrySet()) {
+            System.out.println(String.format("Date: %s  |  Measurement: %s %s  |  Momentum: %s  |  Criteria: %s", entry.getKey(), entry.getValue(), goal.getCurrentGoalCriterion().getUnits(), goal.getCriteriaStatusContainerMap().get(entry.getKey()).getInMomentumBool(), goal.getCriteriaStatusContainerMap().get(entry.getKey()).getGoalCriteria().getGoalCriteriaMessage()));
+        }
+    }
+
+    private void printRawEvents(GoalModel goal) {
+        System.out.println("\n - - - - - - - -  P R I N T   R A W   E V E N T S  - - - - - - - - - - - - - - ");
+        for (EventModel event : goal.getRawEvents()) {
+            System.out.println(String.format("Date: %s  |  Measurement: %s", event.getDateOfEvent(),event.getMeasurement()));
+        }
     }
 }

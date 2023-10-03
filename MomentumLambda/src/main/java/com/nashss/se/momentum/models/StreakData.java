@@ -113,4 +113,8 @@ public class StreakData {
     public String getStreakMessage() {
         return streakMessage;
     }
+
+    public String getPercentString() {
+        return (int) (percentInMomentum * 100) + "%";
+    }
 }

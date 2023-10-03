@@ -7,6 +7,7 @@ import com.nashss.se.momentum.dynamodb.models.Event;
 import com.nashss.se.momentum.dynamodb.models.Goal;
 import com.nashss.se.momentum.metrics.MetricsPublisher;
 
+import com.nashss.se.momentum.models.GoalCriteria;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -42,7 +43,6 @@ class EventDaoTest {
         event.setMeasurement(12.0);
         event.setDate(LocalDate.parse("2023-01-01"));
     }
-/*
     @Test
     void saveEvent() {
         eventDao.saveEvent(event);
@@ -54,19 +54,4 @@ class EventDaoTest {
          eventDao.deleteEvent(event);
          verify(dynamoDBMapper).delete(event);
     }
-
-    public void getEventsBetweenDates_validInput_returnsListOfEvents() {
-        Goal goal = new Goal();
-        goal.setUserId("userId");
-        goal.setGoalName("goalName");
-        goal.setTimePeriod(7);
-
-        DynamoDBQueryExpression<Event> queryExpression = new DynamoDBQueryExpression<Event>();
-        when(dynamoDBMapper.query(Event.class, queryExpression)).thenReturn(queryList);
-
-        List<Event> events = eventDao.getEventsBetweenDates(goal);
-        assertNotNull(events);
-        verify(dynamoDBMapper).query(any(), any());
-
-    }*/
 }

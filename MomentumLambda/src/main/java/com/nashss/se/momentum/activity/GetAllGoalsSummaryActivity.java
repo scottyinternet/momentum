@@ -61,21 +61,21 @@ public class GetAllGoalsSummaryActivity {
 
         List<Goal> goalsList = goalDao.getGoals(getAllGoalsSummaryRequest.getUserId());
 
-        List<GoalModel> goalModelList = new ArrayList<>();
+        List<GoalSummary> goalSummaries = new ArrayList<>();
 
         for(Goal goal: goalsList){
-            List<Event> eventList = eventDao.getEventsBetweenDates(goal);
+            List<Event> eventList = eventDao.getEvents(goal.getGoalId());
             ModelConverter modelConverter = new ModelConverter();
             List<EventModel> eventModels = new ArrayList<>();
             for (Event event : eventList) {
                 eventModels.add(modelConverter.toEventModel(event));
             }
             GoalModel goalModel = new GoalModel(goal, eventModels);
-            goalModelList.add(goalModel);
+            goalSummaries.add(new GoalSummary(goalModel));
         }
 
         return GetAllGoalsSummaryResult.builder()
-                .withGoalModelList(goalModelList)
+                .withGoalSummaryList(goalSummaries)
                 .build();
     }
 }
