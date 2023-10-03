@@ -1,104 +1,126 @@
 package com.nashss.se.momentum.activity.requests;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
-import com.nashss.se.momentum.utils.UnitOfMeasurement;
-
-import java.time.LocalDate;
 
 @JsonDeserialize(builder = CreateGoalRequest.Builder.class)
 public class CreateGoalRequest {
 
-
-    private final String userId;
-    private final Integer timePeriod;
-    private final Integer target;
-    private final String unit;
     private final String goalName;
+    private final String userId;
+    private final String startDate;
+    private final Double goalCritTarget;
+    private final Integer goalCritTimeperiod;
+    private final String goalCritUnit;
+    private final String goalCritEffectiveDate;
 
-    public CreateGoalRequest(String userId, Integer timePeriod, Integer target, String unit, String goalName) {
-
-        this.userId = userId;
-        this.timePeriod = timePeriod;
-        this.target = target;
-        this.unit = unit;
+    public CreateGoalRequest(String goalName,
+                             String userId,
+                             String startDate,
+                             Double goalCritTarget,
+                             Integer goalCritTimeperiod,
+                             String goalCritUnit,
+                             String goalCritEffectiveDate) {
         this.goalName = goalName;
-    }
-
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public Integer getTimePeriod() {
-        return timePeriod;
-    }
-
-    public Integer getTarget() {
-        return target;
-    }
-
-    public String getUnit() {
-        return unit;
+        this.userId = userId;
+        this.startDate = startDate;
+        this.goalCritTarget = goalCritTarget;
+        this.goalCritTimeperiod = goalCritTimeperiod;
+        this.goalCritUnit = goalCritUnit;
+        this.goalCritEffectiveDate = goalCritEffectiveDate;
     }
 
     public String getGoalName() {
         return goalName;
     }
 
+    public String getUserId() {
+        return userId;
+    }
+
+    public String getStartDate() {
+        return startDate;
+    }
+
+    public Double getGoalCritTarget() {
+        return goalCritTarget;
+    }
+
+    public Integer getGoalCritTimeperiod() {
+        return goalCritTimeperiod;
+    }
+
+    public String getGoalCritUnit() {
+        return goalCritUnit;
+    }
+
+    public String getGoalCritEffectiveDate() {
+        return goalCritEffectiveDate;
+    }
+
     @Override
     public String toString() {
-        return "CreateGoalRequest{" +
-                ", userId='" + userId + '\'' +
-                ", timePeriod=" + timePeriod +
-                ", target=" + target +
-                ", unit='" + unit + '\'' +
-                ", goalName='" + goalName + '\'' +
-                '}';
+        return "CreateGoalRequest...";
     }
 
-    public static CreateGoalRequest.Builder builder() {
-        return new CreateGoalRequest.Builder();
+    public static Builder builder() {
+        return new Builder();
     }
 
-    @JsonPOJOBuilder
     public static class Builder {
-
-        private String userId;
-        private Integer timePeriod;
-        private Integer target;
-        private String unit;
         private String goalName;
+        private String userId;
+        private String startDate;
+        private Double goalCritTarget;
+        private Integer goalCritTimeperiod;
+        private String goalCritUnit;
+        private String goalCritEffectiveDate;
 
-
-        public CreateGoalRequest.Builder withUserId(String userId) {
-            this.userId = userId;
-            return this;
-        }
-
-        public CreateGoalRequest.Builder withTimePeriod(Integer timePeriod) {
-            this.timePeriod = timePeriod;
-            return this;
-        }
-
-        public CreateGoalRequest.Builder withTarget(Integer target) {
-            this.target = target;
-            return this;
-        }
-
-        public CreateGoalRequest.Builder withUnit(String unit) {
-            this.unit = unit;
-            return this;
-        }
-
-        public CreateGoalRequest.Builder withGoalName(String goalName) {
+        public Builder withGoalName(String goalName){
             this.goalName = goalName;
             return this;
         }
 
-        public CreateGoalRequest build() {
-            return new CreateGoalRequest(userId, timePeriod, target, unit, goalName);
+        public Builder withUserId(String userId){
+            this.userId = userId;
+            return this;
         }
-    }
 
+        public Builder withStartDate(String startDate){
+            this.startDate = startDate;
+            return this;
+        }
+
+        public Builder withGoalCritTarget(Double goalCritTarget){
+            this.goalCritTarget = goalCritTarget;
+            return this;
+        }
+
+        public Builder withGoalCritTimeperiod(Integer goalCritTimeperiod){
+            this.goalCritTimeperiod = goalCritTimeperiod;
+            return this;
+        }
+
+        public Builder withGoalCritUnit(String goalCritUnit){
+            this.goalCritUnit = goalCritUnit;
+            return this;
+        }
+
+        public Builder withGoalCritEffectiveDate(String goalCritEffectiveDate){
+            this.goalCritEffectiveDate = goalCritEffectiveDate;
+            return this;
+        }
+
+        public CreateGoalRequest build() {
+            return new CreateGoalRequest(
+                    goalName,
+                    userId,
+                    startDate,
+                    goalCritTarget,
+                    goalCritTimeperiod,
+                    goalCritUnit,
+                    goalCritEffectiveDate
+            );
+        }
+
+    }
 }

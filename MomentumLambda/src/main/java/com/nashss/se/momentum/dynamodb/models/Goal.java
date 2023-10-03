@@ -1,8 +1,12 @@
 package com.nashss.se.momentum.dynamodb.models;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.*;
-import com.nashss.se.momentum.converters.UnitOfMeasurementConverter;
-import com.nashss.se.momentum.utils.UnitOfMeasurement;
+import com.nashss.se.momentum.converters.LocalDateToStringConverter;
+import com.nashss.se.momentum.models.GoalCriteria;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @DynamoDBTable(tableName = "goals")
 public class Goal {
@@ -10,9 +14,8 @@ public class Goal {
     private String userId;
     private String goalName;
     private String goalId;
-    private Integer timePeriod;
-    private Integer target;
-    private String unit;
+    private LocalDate startDate;
+    private List<GoalCriteria> goalCriteriaList;
 
     @DynamoDBHashKey(attributeName = "userId")
     public String getUserId() {
@@ -23,6 +26,7 @@ public class Goal {
         this.userId = userId;
     }
 
+
     @DynamoDBRangeKey(attributeName = "goalName")
     public String getGoalName() {
         return goalName;
@@ -31,6 +35,7 @@ public class Goal {
     public void setGoalName(String goalName) {
         this.goalName = goalName;
     }
+
 
     @DynamoDBAttribute(attributeName = "goalId")
 
@@ -42,31 +47,23 @@ public class Goal {
         this.goalId = goalId;
     }
 
-    @DynamoDBAttribute(attributeName = "timePeriod")
-    public Integer getTimePeriod() {
-        return timePeriod;
+    @DynamoDBAttribute(attributeName = "startDate")
+    @DynamoDBTypeConverted(converter = LocalDateToStringConverter.class)
+    public LocalDate getStartDate() {
+        return startDate;
     }
 
-    public void setTimePeriod(Integer timePeriod) {
-        this.timePeriod = timePeriod;
+    public void setStartDate(LocalDate startDate) {
+        this.startDate = startDate;
     }
 
-    @DynamoDBAttribute(attributeName = "target")
-    public Integer getTarget() {
-        return target;
+
+    // NEED TO DEAL WITH LIST OF OBJECTS CONTAINING LOCAL DATES!!!!
+    public List<GoalCriteria> getGoalCriteriaList() {
+        return new ArrayList<>(goalCriteriaList);
+    }
+    public void setGoalCriteriaList(List<GoalCriteria> goalCriteriaList) {
+        this.goalCriteriaList = goalCriteriaList;
     }
 
-    public void setTarget(Integer target) {
-        this.target = target;
-    }
-
-    @DynamoDBAttribute(attributeName = "unit")
-   // @DynamoDBTypeConverted(converter = UnitOfMeasurementConverter.class)
-    public String getUnit() {
-        return unit;
-    }
-
-    public void setUnit(String unit) {
-        this.unit = unit;
-    }
 }

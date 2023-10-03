@@ -39,13 +39,6 @@ public class GoalDao {
 
         return this.dynamoDBMapper.query(Goal.class, dynamoDBQueryExpression);
     }
-    /*
-    Method that updates the database
-     */
-    public Goal updateGoal(Goal goal){
-        this.dynamoDBMapper.save(goal);
-        return goal;
-    }
 
     public void deleteGoal(Goal goal){
         dynamoDBMapper.delete(goal);

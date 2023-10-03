@@ -1,5 +1,6 @@
 package com.nashss.se.momentum.models;
 
+import com.nashss.se.momentum.dynamodb.models.Goal;
 import com.nashss.se.momentum.utils.StatusEnum;
 
 import java.text.DecimalFormat;
@@ -11,7 +12,6 @@ public class GoalModel {
     private final String goalName;
     private final String userId;
     private final String goalId;
-    private final String units;
     private final List<GoalCriteria> goalCriteriaList;
     private final List<EventModel> rawEvents;
     private final LocalDate startDate;
@@ -19,19 +19,19 @@ public class GoalModel {
     //  C A L C U L A T E D   A T T R I B U T E S
     private final GoalCriteria currentGoalCriterion;
     private final Map<LocalDate, Integer> eventSummaryMap;
+    private final Map<LocalDate, CriteriaStatusContainer> criteriaStatusContainerMap;
     private final Map<LocalDate, GoalCriteria> goalCriteriaMap = new TreeMap<>(Collections.reverseOrder());
     private final Map<LocalDate, Boolean> momentumBoolMap = new TreeMap<>(Collections.reverseOrder());
     private Status todaysStatus;
     private final StreakData streakData;
 
 
-    public GoalModel(String goalName, String userId, String goalId, String units, List<GoalCriteria> goalCriteriaList, LocalDate startDate, List<EventModel> rawEvents) {
-        this.goalName = goalName;
-        this.userId = userId;
-        this.goalId = goalId;
-        this.units = units;
-        this.goalCriteriaList = goalCriteriaList;
-        this.startDate = startDate;
+    public GoalModel(Goal goal, List<EventModel> rawEvents) {
+        this.goalName = goal.getGoalName();
+        this.userId = goal.getUserId();
+        this.goalId = goal.getGoalId();
+        this.goalCriteriaList = goal.getGoalCriteriaList();
+        this.startDate = goal.getStartDate();
         this.rawEvents = rawEvents;
         //  C A L C U L A T E D   A T T R I B U T E S
         this.currentGoalCriterion = goalCriteriaList.get(goalCriteriaList.size()-1);
@@ -41,6 +41,18 @@ public class GoalModel {
         createMomentumBoolMap();
         calculateStatus();
         this.streakData = new StreakData(momentumBoolMap);
+    }
+
+    public GoalModel(Goal goal) {
+        this.goalName = goal.getGoalName();
+        this.userId = goal.getUserId();
+        this.goalId = goal.getGoalId();
+        this.goalCriteriaList = goal.getGoalCriteriaList();
+        this.startDate = goal.getStartDate();
+        this.currentGoalCriterion = goalCriteriaList.get(0);
+        this.rawEvents = new ArrayList<>();
+        this.eventSummaryMap = new TreeMap<>();
+
     }
 
     //  C A L C U L A T E D   A T T R I B U T E   M E T H O D S
@@ -64,7 +76,8 @@ public class GoalModel {
         int currentIndex = 0;
         while(date.isBefore(LocalDate.now().plusDays(1))) {
 
-            if (currentIndex + 1 < goalCriteriaList.size() && goalCriteriaList.get(currentIndex+1).getEffectiveDate().isEqual(date)) {
+            if (currentIndex + 1 < goalCriteriaList.size()
+                    && goalCriteriaList.get(currentIndex+1).getEffectiveDate().isEqual(date)) {
                 currentIndex++;
             }
             goalCriteriaMap.put(date, goalCriteriaList.get(currentIndex));
@@ -112,7 +125,7 @@ public class GoalModel {
 
     //  C A L C U L A T E   S T A T U S   E N U M
     private StatusEnum calculateStatusEnum(double todaysTotal, boolean yesterdayInMomentum, double todaysTotalMinusLast) {
-        int target = currentGoalCriterion.getTarget();
+        double target = currentGoalCriterion.getTarget();
         StatusEnum statusEnum;
         if (todaysTotal >= target && todaysTotalMinusLast < target) {
             statusEnum = StatusEnum.IN_MOMENTUM_HIT_TOMORROW;
@@ -136,11 +149,11 @@ public class GoalModel {
     private String createStatusMessage(GoalCriteria goalCriteria, double todaysTotal, double todaysTotalMinusLast, StatusEnum statusEnum) {
         String message;
         int timePeriod = goalCriteria.getTimeFrame();
-        int target = goalCriteria.getTarget();
+        double target = goalCriteria.getTarget();
 
         // diff is difference between target and Todays Total
         double diff = Math.abs(todaysTotal - target); // positive number represents surplus, negative is building
-        String formatUnits = units;
+        String formatUnits = currentGoalCriterion.getUnits();
         // make units singular if necessary
         if (0 < diff && diff <= 1 &&  formatUnits.endsWith("s")) {
             formatUnits = formatUnits.substring(0,formatUnits.length()-1);
@@ -230,10 +243,6 @@ public class GoalModel {
 
     public String getUserId() {
         return userId;
-    }
-
-    public String getUnits() {
-        return units;
     }
 
     public List<GoalCriteria> getGoalCriteriaList() {
