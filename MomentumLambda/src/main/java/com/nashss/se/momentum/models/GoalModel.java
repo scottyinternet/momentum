@@ -11,9 +11,9 @@ public class GoalModel {
     private final String goalName;
     private final String userId;
     private final String goalId;
+    private final LocalDate startDate;
     private final List<GoalCriteria> goalCriteriaList;
     private List<EventModel> rawEvents;
-    private final LocalDate startDate;
 
     //  C A L C U L A T E D   A T T R I B U T E S
     private final GoalCriteria currentGoalCriterion;
@@ -27,8 +27,8 @@ public class GoalModel {
         this.goalName = goal.getGoalName();
         this.userId = goal.getUserId();
         this.goalId = goal.getGoalId();
-        this.goalCriteriaList = goal.getGoalCriteriaList();
         this.startDate = goal.getStartDate();
+        this.goalCriteriaList = goal.getGoalCriteriaList();
         this.rawEvents = rawEvents;
         sortRawEvents();
         //  C A L C U L A T E D   A T T R I B U T E S
