@@ -7,7 +7,7 @@ import com.nashss.se.momentum.converters.ModelConverter;
 import com.nashss.se.momentum.dynamodb.GoalDao;
 import com.nashss.se.momentum.dynamodb.models.Goal;
 
-import com.nashss.se.momentum.models.GoalCriteria;
+import com.nashss.se.momentum.dynamodb.models.GoalCriteria;
 import com.nashss.se.momentum.models.GoalModel;
 
 

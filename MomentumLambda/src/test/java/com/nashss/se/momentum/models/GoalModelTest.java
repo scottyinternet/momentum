@@ -3,14 +3,13 @@ package com.nashss.se.momentum.models;
 import java.time.LocalDate;
 
 import com.nashss.se.momentum.dynamodb.models.Goal;
+import com.nashss.se.momentum.dynamodb.models.GoalCriteria;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class GoalModelTest {
     Goal goal1;
@@ -89,6 +88,7 @@ class GoalModelTest {
 
     private void printAllGoalInfo(GoalModel goal) {
         printGoal(goal);
+        printGoalCriteria(goal);
         printStatus(goal);
         printStreak(goal);
         printAllEventSummaries(goal);
@@ -96,29 +96,29 @@ class GoalModelTest {
     }
 
     void printGoal(GoalModel goal) {
-        System.out.println("\n - - - - - - - -  P R I N T   G O A L   M O D E L  - - - - - - - - - - - - - - ");
-        System.out.printf("Goal Name: %s%n", goal.getGoalName());
-        System.out.printf("User Name: %s%n", goal.getUserId());
-        System.out.printf("GoalID: %s%n", goal.getGoalId());
-        System.out.printf("Start Date: %s%n", goal.getStartDate());
-        printGoalCriteria(goal.getGoalCriteriaList());
+        System.out.println("\n - - - - - - - -  P R I N T   G O A L   I N F O  - - - - - - - - - - - - - - ");
+        System.out.printf("Goal Name: %s%n", goal.getGoalInfo().getGoalName());
+        System.out.printf("User Name: %s%n", goal.getGoalInfo().getUserId());
+        System.out.printf("GoalID: %s%n", goal.getGoalInfo().getGoalId());
+        System.out.printf("Start Date: %s%n", goal.getGoalInfo().getStartDate());
     }
 
-    private void printGoalCriteria(List<GoalCriteria> goalCriteriaList) {
+    private void printGoalCriteria(GoalModel goal) {
+        System.out.println("\n - - - - - - - -  P R I N T   G O A L   C R I T E R I A   L I S T  - - - - - - - - - - - - - - ");
+        List<GoalCriteriaModel> goalCriteriaList = goal.getGoalCriteriaList();
         for (int i = 0; i < goalCriteriaList.size(); i++) {
             System.out.printf("Goal Criteria %d: %s | Effective Date: %s%n", i+1, goalCriteriaList.get(i).getGoalCriteriaMessage(), goalCriteriaList.get(i).getEffectiveDate().toString());
         }
     }
     private void printStatus(GoalModel goal) {
         System.out.println("\n - - - - - - - -  P R I N T   S T A T U S  - - - - - - - - - - - - - - ");
-        System.out.println("Status: " + goal.getTodaysStatus().getStatusEnum().toString());
-        System.out.println("Sum: " + goal.getTodaysStatus().getSum());
-        System.out.println(String.format("Status Message: %s", goal.getTodaysStatus().getStatusMessage()));
-        System.out.println(" E V E N T   S U M M A R I E S");
+        System.out.println("Status: " + goal.getStatus().getStatusEnum().toString());
+        System.out.println("Sum: " + goal.getStatus().getSum());
+        System.out.println(String.format("Status Message: %s", goal.getStatus().getStatusMessage()));
         int index = 1;
-        for (Map.Entry<LocalDate, Double> entry: goal.getTodaysStatus().getStatusEventSummaries().entrySet()) {
+        for (Map.Entry<LocalDate, Double> entry: goal.getStatus().getStatusEventSummaries().entrySet()) {
             StringBuilder message = new StringBuilder(String.format("Date: %s  |  Measurement: %s %s", entry.getKey(), entry.getValue(), goal.getCurrentGoalCriterion().getUnits()));
-            if (index == goal.getTodaysStatus().getStatusEventSummaries().size()) {
+            if (index == goal.getStatus().getStatusEventSummaries().size()) {
                 message.insert(0, "       - ");
             }
             System.out.println(message);
@@ -141,8 +141,8 @@ class GoalModelTest {
     }
 
     private void printRawEvents(GoalModel goal) {
-        System.out.println("\n - - - - - - - -  P R I N T   R A W   E V E N T S  - - - - - - - - - - - - - - ");
-        for (EventModel event : goal.getRawEvents()) {
+        System.out.println("\n - - - - - - - -  P R I N T   E V E N T   E N T R I E S  - - - - - - - - - - - - - - ");
+        for (EventModel event : goal.getEventEntries()) {
             System.out.println(String.format("Date: %s  |  Measurement: %s", event.getDateOfEvent(),event.getMeasurement()));
         }
     }

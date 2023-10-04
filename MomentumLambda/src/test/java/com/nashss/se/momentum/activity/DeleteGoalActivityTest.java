@@ -2,20 +2,20 @@ package com.nashss.se.momentum.activity;
 
 import com.nashss.se.momentum.activity.requests.DeleteGoalRequest;
 import com.nashss.se.momentum.activity.results.DeleteGoalResult;
-import com.nashss.se.momentum.converters.ModelConverter;
 import com.nashss.se.momentum.dynamodb.EventDao;
 import com.nashss.se.momentum.dynamodb.GoalDao;
 import com.nashss.se.momentum.dynamodb.models.Event;
 import com.nashss.se.momentum.dynamodb.models.Goal;
-import com.nashss.se.momentum.models.GoalModel;
-import org.junit.jupiter.api.Assertions;
+import com.nashss.se.momentum.dynamodb.models.GoalCriteria;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -38,13 +38,17 @@ class DeleteGoalActivityTest {
 
     @Test
     void handleRequest_validRequest_deletesGoalAndEvents() {
-        String goalName = "goal";
-        String userId = "user";
+        String goalName = "Cardio";
+        String userId = "user1@fakemail.com";
         String goalId = userId + goalName;
+        GoalCriteria goalCriteria = new GoalCriteria(10, "minutes", 7, LocalDate.now().minusDays(10));
+        List<GoalCriteria> goalCriteriaList = new ArrayList<>();
+        goalCriteriaList.add(goalCriteria);
 
         Goal goal = new Goal();
         goal.setUserId(userId);
         goal.setGoalName(goalName);
+        goal.setGoalCriteriaList(goalCriteriaList);
 
         Event event = new Event();
         event.setEventId("1234");
@@ -61,9 +65,9 @@ class DeleteGoalActivityTest {
                 .build();
 
         DeleteGoalResult result = deleteGoalActivity.handleRequest(request);
-        GoalModel goalModel = new ModelConverter().toGoalModel(goal);
 
-        Assertions.assertEquals(goalModel,result.getGoalModel());
+        assertEquals(goalName, result.getGoalInfo().getGoalName());
+        assertEquals(userId, result.getGoalInfo().getUserId());
         verify(goalDao).deleteGoal(any(Goal.class));
         verify(eventDao).deleteEvent(any(Event.class));
     }

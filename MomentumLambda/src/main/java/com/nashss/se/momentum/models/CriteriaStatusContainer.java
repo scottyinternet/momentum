@@ -1,30 +1,30 @@
 package com.nashss.se.momentum.models;
 
 public class CriteriaStatusContainer {
-    GoalCriteria goalCriteria;
-    Double sumOfTimePeriodsMeasurements;
+    GoalCriteriaModel goalCriteria;
+    Double sumNMeasurements;
     Boolean inMomentumBool;
 
-    public CriteriaStatusContainer(GoalCriteria goalCriteria, Double sumOfTimePeriodsMeasurements, Boolean inMomentumBool) {
+    public CriteriaStatusContainer(GoalCriteriaModel goalCriteria, Double sumNMeasurements, Boolean inMomentumBool) {
         this.goalCriteria = goalCriteria;
-        this.sumOfTimePeriodsMeasurements = sumOfTimePeriodsMeasurements;
+        this.sumNMeasurements = sumNMeasurements;
         this.inMomentumBool = inMomentumBool;
     }
 
-    public GoalCriteria getGoalCriteria() {
+    public GoalCriteriaModel getGoalCriteria() {
         return goalCriteria;
     }
 
-    public void setGoalCriteria(GoalCriteria goalCriteria) {
+    public void setGoalCriteria(GoalCriteriaModel goalCriteria) {
         this.goalCriteria = goalCriteria;
     }
 
-    public Double getSumOfTimePeriodsMeasurements() {
-        return sumOfTimePeriodsMeasurements;
+    public Double getSumNMeasurements() {
+        return sumNMeasurements;
     }
 
-    public void setSumOfTimePeriodsMeasurements(Double sumOfTimePeriodsMeasurements) {
-        this.sumOfTimePeriodsMeasurements = sumOfTimePeriodsMeasurements;
+    public void setSumNMeasurements(Double sumNMeasurements) {
+        this.sumNMeasurements = sumNMeasurements;
     }
 
     public Boolean getInMomentumBool() {

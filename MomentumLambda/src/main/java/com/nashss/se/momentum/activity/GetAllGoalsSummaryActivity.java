@@ -1,10 +1,6 @@
 package com.nashss.se.momentum.activity;
 
-
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
-import com.nashss.se.momentum.activity.requests.DeleteEventRequest;
 import com.nashss.se.momentum.activity.requests.GetAllGoalsSummaryRequest;
-import com.nashss.se.momentum.activity.results.DeleteEventResult;
 import com.nashss.se.momentum.activity.results.GetAllGoalsSummaryResult;
 import com.nashss.se.momentum.converters.ModelConverter;
 import com.nashss.se.momentum.dynamodb.EventDao;
@@ -14,15 +10,12 @@ import com.nashss.se.momentum.dynamodb.models.Goal;
 import com.nashss.se.momentum.models.EventModel;
 import com.nashss.se.momentum.models.GoalModel;
 import com.nashss.se.momentum.models.GoalSummary;
-import com.nashss.se.momentum.models.Status;
-import com.nashss.se.momentum.utils.StatusCalculator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Queue;
 
 /**
  * Implementation of the GetAllGoalsSummaryActivity for Momentum's GetAllGoalsSummary API.

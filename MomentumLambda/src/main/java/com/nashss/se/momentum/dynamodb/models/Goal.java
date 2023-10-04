@@ -1,11 +1,10 @@
 package com.nashss.se.momentum.dynamodb.models;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.*;
+import com.nashss.se.momentum.converters.GoalCriteriaListToStringConverter;
 import com.nashss.se.momentum.converters.LocalDateToStringConverter;
-import com.nashss.se.momentum.models.GoalCriteria;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 @DynamoDBTable(tableName = "goals")
@@ -27,6 +26,7 @@ public class Goal {
     }
 
 
+
     @DynamoDBRangeKey(attributeName = "goalName")
     public String getGoalName() {
         return goalName;
@@ -37,8 +37,9 @@ public class Goal {
     }
 
 
-    @DynamoDBAttribute(attributeName = "goalId")
 
+
+    @DynamoDBAttribute(attributeName = "goalId")
     public String getGoalId() {
         return goalId;
     }
@@ -46,6 +47,8 @@ public class Goal {
     public void setGoalId(String goalId) {
         this.goalId = goalId;
     }
+
+
 
     @DynamoDBAttribute(attributeName = "startDate")
     @DynamoDBTypeConverted(converter = LocalDateToStringConverter.class)
@@ -58,9 +61,11 @@ public class Goal {
     }
 
 
-    // NEED TO DEAL WITH LIST OF OBJECTS CONTAINING LOCAL DATES!!!!
+
+    @DynamoDBAttribute(attributeName = "goalCriteriaList")
+    @DynamoDBTypeConverted(converter = GoalCriteriaListToStringConverter.class)
     public List<GoalCriteria> getGoalCriteriaList() {
-        return new ArrayList<>(goalCriteriaList);
+        return goalCriteriaList;
     }
     public void setGoalCriteriaList(List<GoalCriteria> goalCriteriaList) {
         this.goalCriteriaList = goalCriteriaList;

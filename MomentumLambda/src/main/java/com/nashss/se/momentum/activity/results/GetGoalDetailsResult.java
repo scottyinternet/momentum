@@ -1,11 +1,6 @@
 package com.nashss.se.momentum.activity.results;
 
-import com.nashss.se.momentum.models.EventModel;
-import com.nashss.se.momentum.models.GoalDetailsModel;
 import com.nashss.se.momentum.models.GoalModel;
-import com.nashss.se.momentum.models.Status;
-
-import java.util.List;
 
 public class GetGoalDetailsResult {
 

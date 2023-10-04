@@ -8,9 +8,9 @@ public class GoalSummary {
     private String statusMessage;
     private String currentStreak;
     public GoalSummary(GoalModel goal) {
-        this.goalName = goal.getGoalName();
-        this.status = goal.getTodaysStatus().getStatusEnum().toString();
-        this.statusMessage = goal.getTodaysStatus().getStatusMessage();
+        this.goalName = goal.getGoalInfo().getGoalName();
+        this.status = goal.getStatus().getStatusEnum().toString();
+        this.statusMessage = goal.getStatus().getStatusMessage();
         this.currentStreak = Integer.toString(goal.getStreakData().getCurrentStreak());
     }
 

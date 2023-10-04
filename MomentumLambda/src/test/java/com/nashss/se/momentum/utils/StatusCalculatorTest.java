@@ -1,3 +1,4 @@
+/*
 package com.nashss.se.momentum.utils;
 
 import com.nashss.se.momentum.converters.ModelConverter;
@@ -25,6 +26,7 @@ class StatusCalculatorTest {
     private Goal shortGoal;
     private List<EventModel> eventList;
     private ModelConverter converter = new ModelConverter();
+*/
 /*
     @BeforeEach
     void setUp() {
@@ -53,7 +55,9 @@ class StatusCalculatorTest {
         shortGoal.setTimePeriod(3);
 
         eventList = new ArrayList<>();
-    }*/
+    }*//*
+
+*/
 /*
     //  N O   M O M E N T U M :   G O A L   1
     @Test
@@ -438,5 +442,7 @@ class StatusCalculatorTest {
         EventSummary lastEventSummary = status.getEventSummaryList().get(goal.getTimePeriod());
         System.out.println("   - | " + lastEventSummary.getDate() + " | " + lastEventSummary.getSummedMeasurement() + " | dropping off board today");
         System.out.println("");
-    }*/
+    }*//*
+
 }
+*/

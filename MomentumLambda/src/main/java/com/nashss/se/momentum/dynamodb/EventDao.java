@@ -10,7 +10,7 @@ import com.nashss.se.momentum.dynamodb.models.Goal;
 import com.nashss.se.momentum.exceptions.EventNotFoundException;
 import com.nashss.se.momentum.metrics.MetricsConstants;
 import com.nashss.se.momentum.metrics.MetricsPublisher;
-import com.nashss.se.momentum.models.GoalCriteria;
+import com.nashss.se.momentum.dynamodb.models.GoalCriteria;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;

@@ -8,6 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -23,12 +24,15 @@ public class CreateGoalActivityTest {
 
     private CreateGoalActivity createGoalActivity;
 
+    private String tenDaysAgo;
+
     @BeforeEach
     void setUp() {
         openMocks(this);
         createGoalActivity = new CreateGoalActivity(goalDao);
+        tenDaysAgo = LocalDate.now().minusDays(10).toString();
     }
-/*
+
     @Test
     public void handleRequest_withFullData_createsAndSavesGoalObject() {
         // GIVEN
@@ -43,9 +47,11 @@ public class CreateGoalActivityTest {
         CreateGoalRequest request = CreateGoalRequest.builder()
                 .withGoalName(goalName)
                 .withUserId(userId)
-                .withTimePeriod(timePeriod)
-                .withTarget(3)
-                .withUnit(unit)
+                .withStartDate(tenDaysAgo)
+                .withGoalCritTimeperiod(timePeriod)
+                .withGoalCritTarget(3)
+                .withGoalCritUnit(unit)
+                .withGoalCritEffectiveDate(tenDaysAgo)
                 .build();
 
         // WHEN
@@ -53,15 +59,13 @@ public class CreateGoalActivityTest {
 
         // THEN
         verify(goalDao).saveGoal(any(Goal.class));
-*//*
-        assertNotNull(result.getGoal().getGoalId());
-        assertEquals(goalName, result.getGoal().getGoalName());
-        assertEquals(userId+goalName, result.getGoal().getGoalId());
-        assertEquals(userId, result.getGoal().getUserId());
-        assertEquals(timePeriod, result.getGoal().getTimePeriod());
-        assertEquals(target, result.getGoal().getTarget());
-        assertEquals(unit, result.getGoal().getUnit());*//*
-
-    }*/
+        assertNotNull(result.getGoal().getGoalInfo().getGoalId());
+        assertEquals(goalName, result.getGoal().getGoalInfo().getGoalName());
+        assertEquals(userId+goalName, result.getGoal().getGoalInfo().getGoalId());
+        assertEquals(userId, result.getGoal().getGoalInfo().getUserId());
+        assertEquals(timePeriod, result.getGoal().getCurrentGoalCriterion().getTimeFrame());
+        assertEquals(target, result.getGoal().getCurrentGoalCriterion().getTarget());
+        assertEquals(unit, result.getGoal().getCurrentGoalCriterion().getUnits());
+    }
 
 }

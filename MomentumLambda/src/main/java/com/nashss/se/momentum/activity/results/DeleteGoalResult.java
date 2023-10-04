@@ -1,19 +1,23 @@
 package com.nashss.se.momentum.activity.results;
 
-import com.nashss.se.momentum.models.GoalModel;
+import com.nashss.se.momentum.models.GoalInfo;
 
 public class DeleteGoalResult {
 
-    private final GoalModel goal;
+    private final GoalInfo goalInfo;
 
-    private DeleteGoalResult(GoalModel goal){this.goal = goal;}
+    private DeleteGoalResult(GoalInfo goalInfo) {
+        this.goalInfo = goalInfo;
+    }
 
-    public GoalModel getGoalModel(){return goal;}
+    public GoalInfo getGoalInfo() {
+        return goalInfo;
+    }
 
     @Override
     public String toString(){
         return "DeleteGoalResult{" +
-                "goal=" + goal +
+                "goalInfo=" + goalInfo +
                 '}';
     }
 
@@ -23,13 +27,15 @@ public class DeleteGoalResult {
 
     public static class Builder {
 
-        private GoalModel goal;
+        private GoalInfo goalInfo;
 
-        public Builder withGoal(GoalModel goal) {
-            this.goal = goal;
+        public Builder withGoalInfo(GoalInfo goalInfo) {
+            this.goalInfo = goalInfo;
             return this;
         }
 
-        public DeleteGoalResult build() {return new DeleteGoalResult(goal);}
+        public DeleteGoalResult build() {
+            return new DeleteGoalResult(goalInfo);
+        }
     }
 }

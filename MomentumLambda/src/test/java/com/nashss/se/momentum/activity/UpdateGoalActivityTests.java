@@ -27,8 +27,7 @@ public class UpdateGoalActivityTests {
         openMocks(this);
         updateGoalActivity = new UpdateGoalActivity(goalDao);
     }
-
-    /*
+/*
     @Test
     public void handleRequest_goodRequest_updatesGoalName() {
         // GIVEN
@@ -58,6 +57,5 @@ public class UpdateGoalActivityTests {
         assertEquals(goalName, result.getGoal().getGoalName());
         assertEquals(2, result.getGoal().getCurrentGoalCriterion().getTarget());
 
-    }
-    */
+    }*/
 }

@@ -1,6 +1,9 @@
 package com.nashss.se.momentum.models;
 
+import com.nashss.se.momentum.converters.ModelConverter;
 import com.nashss.se.momentum.dynamodb.models.Goal;
+import com.nashss.se.momentum.dynamodb.models.GoalCriteria;
+import net.bytebuddy.matcher.StringMatcher;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -8,65 +11,52 @@ import java.util.stream.Collectors;
 
 public class GoalModel {
 
-    private final String goalName;
-    private final String userId;
-    private final String goalId;
-    private final LocalDate startDate;
-    private final List<GoalCriteria> goalCriteriaList;
-    private List<EventModel> rawEvents;
+    private final GoalInfo goalInfo;
+    private final List<GoalCriteriaModel> goalCriteriaList;
+    private List<EventModel> eventEntries;
 
     //  C A L C U L A T E D   A T T R I B U T E S
-    private final GoalCriteria currentGoalCriterion;
+    private final GoalCriteriaModel currentGoalCriterion;
     private final TreeMap<LocalDate, Double> eventSummaryMap;
     private final TreeMap<LocalDate, CriteriaStatusContainer> criteriaStatusContainerMap;
-    private Status todaysStatus;
+    private Status status;
     private final StreakData streakData;
 
 
-    public GoalModel(Goal goal, List<EventModel> rawEvents) {
-        this.goalName = goal.getGoalName();
-        this.userId = goal.getUserId();
-        this.goalId = goal.getGoalId();
-        this.startDate = goal.getStartDate();
-        this.goalCriteriaList = goal.getGoalCriteriaList();
-        this.rawEvents = rawEvents;
-        sortRawEvents();
+    public GoalModel(Goal goal, List<EventModel> eventEntries) {
+        goalInfo = new GoalInfo(
+                goal.getGoalName(),
+                goal.getUserId(),
+                goal.getGoalId(),
+                goal.getStartDate()
+        );
+        ModelConverter modelConverter = new ModelConverter();
+        this.goalCriteriaList = modelConverter.toGoalCriteriaModelList(goal.getGoalCriteriaList());
+        this.eventEntries = eventEntries;
+        sortEventEntries();
         //  C A L C U L A T E D   A T T R I B U T E S
         this.currentGoalCriterion = goalCriteriaList.get(goalCriteriaList.size()-1);
         this.eventSummaryMap = new TreeMap<>(Collections.reverseOrder());
-        this.criteriaStatusContainerMap = new TreeMap<>(Collections.reverseOrder());
         createEventSummaryMap();
-        createCriteriaStatusContainerMap();
-        todaysStatus = new Status(this, LocalDate.now());
-        this.streakData = new StreakData(criteriaStatusContainerMap);
-    }
-
-    public GoalModel(Goal goal) {
-        this.goalName = goal.getGoalName();
-        this.userId = goal.getUserId();
-        this.goalId = goal.getGoalId();
-        this.goalCriteriaList = goal.getGoalCriteriaList();
-        this.startDate = goal.getStartDate();
-        this.currentGoalCriterion = goalCriteriaList.get(0);
-        this.rawEvents = new ArrayList<>();
-        this.eventSummaryMap = new TreeMap<>(Collections.reverseOrder());
         this.criteriaStatusContainerMap = new TreeMap<>(Collections.reverseOrder());
-        this.streakData = new StreakData();
+        makeCriteriaStatusContainerMap();
+        status = new Status(this, LocalDate.now());
+        this.streakData = new StreakData(criteriaStatusContainerMap);
     }
 
     //  C A L C U L A T E D   A T T R I B U T E   M E T H O D S
 
-    private void sortRawEvents() {
-        rawEvents = rawEvents.stream()
+    private void sortEventEntries() {
+        eventEntries = eventEntries.stream()
                 .sorted(Comparator.comparing(EventModel::getDateOfEvent))
                 .collect(Collectors.toList());
     }
 
     private void createEventSummaryMap() {
         LocalDate date = LocalDate.now();
-        while(date.isAfter(startDate.minusDays(1))) {
+        while(date.isAfter(goalInfo.getStartDate().minusDays(1))) {
             double sum = 0;
-            for (EventModel event : rawEvents) {
+            for (EventModel event : eventEntries) {
                 if (date.equals(event.getDateOfEvent())) {
                     sum += event.getMeasurement();
                 }
@@ -76,22 +66,22 @@ public class GoalModel {
         }
     }
 
-    private void createCriteriaStatusContainerMap() {
-        LocalDate date = startDate;
+    private void makeCriteriaStatusContainerMap() {
+        LocalDate date = goalInfo.getStartDate();
         int currentIndex = 0;
         while(date.isBefore(LocalDate.now().plusDays(1))) {
             if (currentIndex + 1 < goalCriteriaList.size()
                     && goalCriteriaList.get(currentIndex+1).getEffectiveDate().isEqual(date)) {
                 currentIndex++;
             }
-            CriteriaStatusContainer container = makeNewCriteriaStatusContainer(date, currentIndex);
+            CriteriaStatusContainer container = makeContainer(date, currentIndex);
             criteriaStatusContainerMap.put(date, container);
             date = date.plusDays(1);
         }
     }
 
-    private CriteriaStatusContainer makeNewCriteriaStatusContainer(LocalDate date, int currentIndex) {
-        GoalCriteria goalCriteria = goalCriteriaList.get(currentIndex);
+    private CriteriaStatusContainer makeContainer(LocalDate date, int currentIndex) {
+        GoalCriteriaModel goalCriteria = goalCriteriaList.get(currentIndex);
         double sum = sumNDays(date, goalCriteria.getTimeFrame());
         Boolean inMomentumBool = isInMomentum(goalCriteria, sum);
         return new CriteriaStatusContainer(
@@ -101,7 +91,7 @@ public class GoalModel {
         );
     }
 
-    private Boolean isInMomentum(GoalCriteria goalCriteria, double sum) {
+    private Boolean isInMomentum(GoalCriteriaModel goalCriteria, double sum) {
         return sum >= goalCriteria.getTarget();
     }
 
@@ -123,49 +113,36 @@ public class GoalModel {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         GoalModel goalModel = (GoalModel) o;
-        return Objects.equals(goalId, goalModel.goalId);
+        return Objects.equals(goalInfo, goalModel.goalInfo);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(goalId);
+        return Objects.hash(goalInfo);
     }
 
     //  G E T T E R S
-    public String getGoalName() {
-        return goalName;
+    public GoalInfo getGoalInfo() {
+        return this.goalInfo;
     }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public List<GoalCriteria> getGoalCriteriaList() {
+    public List<GoalCriteriaModel> getGoalCriteriaList() {
         return goalCriteriaList;
     }
 
-    public List<EventModel> getRawEvents() {
-        return rawEvents;
+    public List<EventModel> getEventEntries() {
+        return eventEntries;
     }
 
-    public LocalDate getStartDate() {
-        return startDate;
-    }
-
-    public GoalCriteria getCurrentGoalCriterion() {
+    public GoalCriteriaModel getCurrentGoalCriterion() {
         return currentGoalCriterion;
     }
 
-    public Status getTodaysStatus() {
-        return todaysStatus;
+    public Status getStatus() {
+        return status;
     }
 
     public StreakData getStreakData() {
         return streakData;
-    }
-
-    public String getGoalId() {
-        return goalId;
     }
 
     public TreeMap<LocalDate, Double> getEventSummaryMap() {

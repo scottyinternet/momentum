@@ -19,7 +19,7 @@ public class Status {
     private final LocalDate date;
     TreeMap<LocalDate, CriteriaStatusContainer> criteriaStatusContainerMap;
     TreeMap<LocalDate, Double> eventSummaryMap;
-    GoalCriteria currentGoalCriterion;
+    GoalCriteriaModel currentGoalCriterion;
 
 
     public Status(GoalModel goal, LocalDate date) {
@@ -37,7 +37,7 @@ public class Status {
     private void calculateStatus(LocalDate date) {
         CriteriaStatusContainer container = criteriaStatusContainerMap.get(date);
         int timeFrame = container.getGoalCriteria().getTimeFrame();
-        sum = container.getSumOfTimePeriodsMeasurements();
+        sum = container.getSumNMeasurements();
         boolean yesterdayInMomentumBool = criteriaStatusContainerMap.get(date.minusDays(1)).getInMomentumBool();
         double todaysTotalSumMinusLast = sum - eventSummaryMap.get(date.minusDays(timeFrame-1));
 
@@ -46,7 +46,7 @@ public class Status {
         statusEventSummaries = createSubMap(date, currentGoalCriterion);
     }
 
-    private Map<LocalDate, Double> createSubMap(LocalDate date, GoalCriteria goalCriteria) {
+    private Map<LocalDate, Double> createSubMap(LocalDate date, GoalCriteriaModel goalCriteria) {
         return eventSummaryMap.headMap(date.minusDays(goalCriteria.getTimeFrame()+1));
     }
 
@@ -73,7 +73,7 @@ public class Status {
     }
 
     //  C R E A T E   M E S S A G E
-    private String createStatusMessage(GoalCriteria goalCriteria, double todaysTotal, double todaysTotalMinusLast, StatusEnum statusEnum) {
+    private String createStatusMessage(GoalCriteriaModel goalCriteria, double todaysTotal, double todaysTotalMinusLast, StatusEnum statusEnum) {
         String message;
         int timePeriod = goalCriteria.getTimeFrame();
         double target = goalCriteria.getTarget();
@@ -107,7 +107,7 @@ public class Status {
                 message = String.format("Hit %s %s today to stay in momentum.", diffFormatted, formatUnits);
                 break;
             case NO_MOMENTUM:
-                if (goal.getRawEvents().size() == 0) {
+                if (goal.getEventEntries().size() == 0) {
                     message = "This goal has no entries, lets get started today!";
                 } else if (timePeriod <= 2) {
                     message = "The best time to plant a tree was yesterday. The second best time is today!";

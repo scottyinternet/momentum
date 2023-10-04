@@ -8,14 +8,10 @@ import com.nashss.se.momentum.dynamodb.GoalDao;
 import com.nashss.se.momentum.dynamodb.models.Event;
 import com.nashss.se.momentum.dynamodb.models.Goal;
 import com.nashss.se.momentum.models.EventModel;
-import com.nashss.se.momentum.models.GoalDetailsModel;
 import com.nashss.se.momentum.models.GoalModel;
-import com.nashss.se.momentum.models.Status;
-import com.nashss.se.momentum.utils.StatusCalculator;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class GetGoalDetailsActivity {

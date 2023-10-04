@@ -39,6 +39,7 @@ public class ModelConverterTest {
         assertEquals(goal.getTarget(), goalModel.getTarget());
         assertEquals(goal.getUnit(), goalModel.getUnit());
     }
+    */
 
     @Test
     void toEventModel_withEvent_convertsToEventModel() {
@@ -53,5 +54,5 @@ public class ModelConverterTest {
         assertEquals(event.getGoalId(), eventModel.getGoalId());
         assertEquals(event.getDate(), eventModel.getDateOfEvent());
         assertEquals(event.getMeasurement(), eventModel.getMeasurement());
-    }*/
+    }
 }
