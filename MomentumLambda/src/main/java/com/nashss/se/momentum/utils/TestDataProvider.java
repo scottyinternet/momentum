@@ -23,7 +23,7 @@ public class TestDataProvider {
     LocalDate todays = LocalDate.now();
     List<EventModel> rawEvents = new ArrayList<>();
     GoalCriteria goalCriteria1 = new GoalCriteria(150,"minutes", 7, todayMinus30);
-    GoalCriteria goalCriteria2 = new GoalCriteria(200, "minutes", 7, todayMinus5);
+    GoalCriteria goalCriteria2 = new GoalCriteria(30, "minutes", 7, todayMinus5);
 
     EventModel event1 = EventModel.builder()
             .withGoalId(goalId1)

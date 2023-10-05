@@ -29,6 +29,9 @@ public class GoalModel {
                 goal.getStartDate()
         );
         ModelConverter modelConverter = new ModelConverter();
+        if (goal.getGoalCriteriaList().isEmpty()) {
+            throw new RuntimeException("Goal Criteria List Empty");
+        }
         this.goalCriteriaList = modelConverter.toGoalCriteriaModelList(goal.getGoalCriteriaList());
         this.eventEntries = eventEntries;
         sortEventEntries();

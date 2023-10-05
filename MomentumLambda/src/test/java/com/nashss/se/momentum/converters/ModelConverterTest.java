@@ -29,7 +29,7 @@ public class ModelConverterTest {
         assertEquals(goal.getGoalId(), goalModel.getGoalInfo().getGoalId());
         GoalCriteria currentGoalCriteria = goal.getGoalCriteriaList().get(goal.getGoalCriteriaList().size()-1);
         assertEquals(currentGoalCriteria.getTimeFrame(), goal.getGoalCriteriaList().get(goal.getGoalCriteriaList().size()-1).getTimeFrame(), goalModel.getCurrentGoalCriterion().getTimeFrame());
-        assertEquals(currentGoalCriteria.getTimeFrame(), goalModel.getCurrentGoalCriterion().getTarget());
+        assertEquals(currentGoalCriteria.getTarget(), goalModel.getCurrentGoalCriterion().getTarget());
         assertEquals(currentGoalCriteria.getUnits(), goalModel.getCurrentGoalCriterion().getUnits());
     }
 

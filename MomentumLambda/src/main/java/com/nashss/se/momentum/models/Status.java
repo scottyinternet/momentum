@@ -146,7 +146,8 @@ public class Status {
     private int calculateDaysSinceMomentum() {
         int daysSinceMomentum = 0;
         LocalDate dateIter = this.date;
-        while (!criteriaStatusContainerMap.get(dateIter).getInMomentumBool()) {
+        while (criteriaStatusContainerMap.get(dateIter) != null &&
+                !criteriaStatusContainerMap.get(dateIter).getInMomentumBool()) {
             daysSinceMomentum++;
             dateIter = dateIter.minusDays(1);
         }

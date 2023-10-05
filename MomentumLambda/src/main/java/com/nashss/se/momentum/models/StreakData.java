@@ -16,7 +16,6 @@ public class StreakData {
     private String streakMessage;
 
     public StreakData(Map<LocalDate, CriteriaStatusContainer> criteriaStatusContainerMap) {
-        System.out.println("hello");
         this.criteriaStatusContainerMap = criteriaStatusContainerMap;
         calculateCurrentStreak();
         calculateLongestStreak();
