@@ -2,8 +2,6 @@ package com.nashss.se.momentum.models;
 
 import com.nashss.se.momentum.converters.ModelConverter;
 import com.nashss.se.momentum.dynamodb.models.Goal;
-import com.nashss.se.momentum.dynamodb.models.GoalCriteria;
-import net.bytebuddy.matcher.StringMatcher;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -41,11 +39,17 @@ public class GoalModel {
         this.criteriaStatusContainerMap = new TreeMap<>(Collections.reverseOrder());
         makeCriteriaStatusContainerMap();
         status = new Status(this, LocalDate.now());
-        this.streakData = new StreakData(criteriaStatusContainerMap);
+        this.streakData = calculateStreakData();
     }
 
+    private StreakData calculateStreakData() {
+        if (eventEntries.size() == 0) {
+            return new StreakData();
+        } else {
+            return new StreakData(criteriaStatusContainerMap);
+        }
+    }
     //  C A L C U L A T E D   A T T R I B U T E   M E T H O D S
-
     private void sortEventEntries() {
         eventEntries = eventEntries.stream()
                 .sorted(Comparator.comparing(EventModel::getDateOfEvent))

@@ -12,6 +12,8 @@ public class Status {
     private StatusEnum statusEnum;
     private String statusMessage;
     private double sum;
+    private double target;
+    private double targetPercent;
     private Map<LocalDate, Double> statusEventSummaries;
 
     // for calculated values
@@ -25,12 +27,13 @@ public class Status {
     public Status(GoalModel goal, LocalDate date) {
         this.goal = goal;
         this.date = date;
+        this.target = goal.getCurrentGoalCriterion().getTarget();
         this.criteriaStatusContainerMap = goal.getCriteriaStatusContainerMap();
         this.eventSummaryMap = goal.getEventSummaryMap();
         this.currentGoalCriterion = goal.getCurrentGoalCriterion();
 
         calculateStatus(date);
-
+        calculateTargetPercent();
     }
 
     //  S T A T U S   M E T H O D S
@@ -150,6 +153,10 @@ public class Status {
         return daysSinceMomentum;
     }
 
+    private void calculateTargetPercent() {
+        targetPercent = sum/currentGoalCriterion.getTarget()*100;
+    }
+
     public StatusEnum getStatusEnum() {
         return statusEnum;
     }
@@ -164,6 +171,14 @@ public class Status {
 
     public Map<LocalDate, Double> getStatusEventSummaries() {
         return statusEventSummaries;
+    }
+
+    public double getTargetPercent() {
+        return targetPercent;
+    }
+
+    public double getTarget() {
+        return target;
     }
 }
 

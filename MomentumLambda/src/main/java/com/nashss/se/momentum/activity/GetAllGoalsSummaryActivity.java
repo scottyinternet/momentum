@@ -64,7 +64,8 @@ public class GetAllGoalsSummaryActivity {
                 eventModels.add(modelConverter.toEventModel(event));
             }
             GoalModel goalModel = new GoalModel(goal, eventModels);
-            goalSummaries.add(new GoalSummary(goalModel));
+
+            goalSummaries.add(modelConverter.toGoalSummary(goalModel));
         }
 
         return GetAllGoalsSummaryResult.builder()

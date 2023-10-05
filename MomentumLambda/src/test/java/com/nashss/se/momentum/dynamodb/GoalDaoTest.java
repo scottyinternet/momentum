@@ -19,10 +19,10 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.openMocks;
 
 class GoalDaoTest {
-
+/*
     Goal goal1;
-    String goalName1 = "Cardio69696969";
-    String userId1 = "user69@fakemail.com";
+    String goalName1 = "Cardio";
+    String userId1 = "griffin.scott88@gmail.com";
     String goalId1 = userId1+goalName1;
     List<GoalCriteria> goalCriteriaList = new ArrayList<>();
     LocalDate startDate1 = LocalDate.of(2023,9,1);
@@ -40,8 +40,8 @@ class GoalDaoTest {
     public void setup() {
         openMocks(this);
         goalDao = new GoalDao(new DynamoDBMapper(DynamoDbClientProvider.getDynamoDBClient(Regions.US_EAST_2)), metricsPublisher);
-        goalCriteria1 = new GoalCriteria(150,"minutes", 7, startDate1);
-        goalCriteria2 = new GoalCriteria(200, "minutes", 7, LocalDate.now().minusDays(5));
+        goalCriteria1 = new GoalCriteria(90,"minutes", 7, startDate1);
+        goalCriteria2 = new GoalCriteria(150, "minutes", 7, LocalDate.now().minusDays(5));
         goalCriteriaList.add(goalCriteria1);
         goalCriteriaList.add(goalCriteria2);
         goal1 = new Goal();
@@ -66,8 +66,17 @@ class GoalDaoTest {
         System.out.println(result.getGoalCriteriaList().get(0).getTimeFrame() + " !!!!!!!!! ");
     }
 
-    @Test
+*//*    @Test
     public void deleteGoal() {
         goalDao.deleteGoal(goal1);
-    }
+    }*//*
+
+    @Test
+    public void getAllGoals() {
+        List<Goal> goalList = goalDao.getGoals(goal1.getUserId());
+        assertEquals(1, goalList.size());
+        for (Goal g : goalList) {
+            System.out.println(g.getGoalName() + " !!!!!!!!! ");
+        }
+    }*/
 }

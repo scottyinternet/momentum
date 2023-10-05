@@ -16,6 +16,7 @@ public class StreakData {
     private String streakMessage;
 
     public StreakData(Map<LocalDate, CriteriaStatusContainer> criteriaStatusContainerMap) {
+        System.out.println("hello");
         this.criteriaStatusContainerMap = criteriaStatusContainerMap;
         calculateCurrentStreak();
         calculateLongestStreak();
@@ -44,7 +45,8 @@ public class StreakData {
         LocalDate date = LocalDate.now();
         currentStreak = 0;
         final boolean currentStatus = criteriaStatusContainerMap.get(date).getInMomentumBool();
-        while(criteriaStatusContainerMap.get(date).inMomentumBool == currentStatus) {
+        while(criteriaStatusContainerMap.get(date) != null
+                && criteriaStatusContainerMap.get(date).inMomentumBool == currentStatus) {
             currentStreak++;
             date = date.minusDays(1);
         }

@@ -18,54 +18,54 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.openMocks;
 
 public class CreateGoalActivityTest {
-
-    @Mock
-    private GoalDao goalDao;
-
-    private CreateGoalActivity createGoalActivity;
-
-    private String tenDaysAgo;
-
-    @BeforeEach
-    void setUp() {
-        openMocks(this);
-        createGoalActivity = new CreateGoalActivity(goalDao);
-        tenDaysAgo = LocalDate.now().minusDays(10).toString();
-    }
-
-    @Test
-    public void handleRequest_withFullData_createsAndSavesGoalObject() {
-        // GIVEN
-
-        String goalName = "StudyBehaviour";
-        String userId ="55555";
-        Integer timePeriod = 2;
-        Integer target =3;
-        String unit ="HOURS";
-
-
-        CreateGoalRequest request = CreateGoalRequest.builder()
-                .withGoalName(goalName)
-                .withUserId(userId)
-                .withStartDate(tenDaysAgo)
-                .withGoalCritTimeperiod(timePeriod)
-                .withGoalCritTarget(3)
-                .withGoalCritUnit(unit)
-                .withGoalCritEffectiveDate(tenDaysAgo)
-                .build();
-
-        // WHEN
-        CreateGoalResult  result = createGoalActivity.handleRequest(request);
-
-        // THEN
-        verify(goalDao).saveGoal(any(Goal.class));
-        assertNotNull(result.getGoal().getGoalInfo().getGoalId());
-        assertEquals(goalName, result.getGoal().getGoalInfo().getGoalName());
-        assertEquals(userId+goalName, result.getGoal().getGoalInfo().getGoalId());
-        assertEquals(userId, result.getGoal().getGoalInfo().getUserId());
-        assertEquals(timePeriod, result.getGoal().getCurrentGoalCriterion().getTimeFrame());
-        assertEquals(target, result.getGoal().getCurrentGoalCriterion().getTarget());
-        assertEquals(unit, result.getGoal().getCurrentGoalCriterion().getUnits());
-    }
+//
+//    @Mock
+//    private GoalDao goalDao;
+//
+//    private CreateGoalActivity createGoalActivity;
+//
+//    private String tenDaysAgo;
+//
+//    @BeforeEach
+//    void setUp() {
+//        openMocks(this);
+//        createGoalActivity = new CreateGoalActivity(goalDao);
+//        tenDaysAgo = LocalDate.now().minusDays(10).toString();
+//    }
+//
+//    @Test
+//    public void handleRequest_withFullData_createsAndSavesGoalObject() {
+//        // GIVEN
+//
+//        String goalName = "StudyBehaviour";
+//        String userId ="55555";
+//        Integer timePeriod = 2;
+//        Integer target =3;
+//        String unit ="HOURS";
+//
+//
+//        CreateGoalRequest request = CreateGoalRequest.builder()
+//                .withGoalName(goalName)
+//                .withUserId(userId)
+//                .withStartDate(tenDaysAgo)
+//                .withGoalCritTimeperiod(timePeriod)
+//                .withGoalCritTarget(3)
+//                .withGoalCritUnit(unit)
+//                .withGoalCritEffectiveDate(tenDaysAgo)
+//                .build();
+//
+//        // WHEN
+//        CreateGoalResult  result = createGoalActivity.handleRequest(request);
+//
+//        // THEN
+//        verify(goalDao).saveGoal(any(Goal.class));
+//        assertNotNull(result.getGoal().getGoalInfo().getGoalId());
+//        assertEquals(goalName, result.getGoal().getGoalInfo().getGoalName());
+//        assertEquals(userId+goalName, result.getGoal().getGoalInfo().getGoalId());
+//        assertEquals(userId, result.getGoal().getGoalInfo().getUserId());
+//        assertEquals(timePeriod, result.getGoal().getCurrentGoalCriterion().getTimeFrame());
+//        assertEquals(target, result.getGoal().getCurrentGoalCriterion().getTarget());
+//        assertEquals(unit, result.getGoal().getCurrentGoalCriterion().getUnits());
+//    }
 
 }

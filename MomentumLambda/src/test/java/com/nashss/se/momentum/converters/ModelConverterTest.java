@@ -1,45 +1,37 @@
 package com.nashss.se.momentum.converters;
 
 
+import com.nashss.se.momentum.utils.TestDataProvider;
 import com.nashss.se.momentum.dynamodb.models.Goal;
-import com.nashss.se.momentum.models.GoalModel;
 import com.nashss.se.momentum.dynamodb.models.Event;
+import com.nashss.se.momentum.dynamodb.models.GoalCriteria;
 import com.nashss.se.momentum.models.EventModel;
 
-import com.google.common.collect.Sets;
-import com.nashss.se.momentum.utils.UnitOfMeasurement;
+import com.nashss.se.momentum.models.GoalModel;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
-import java.util.LinkedList;
-import java.util.List;
 
-import static com.nashss.se.momentum.utils.CollectionUtils.copyToSet;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class ModelConverterTest {
+    TestDataProvider testDataProvider = new TestDataProvider();
     private ModelConverter modelConverter = new ModelConverter();
-/*
     @Test
     void toGoalModel_validInput_convertsToModel() {
-        Goal goal = new Goal();
-        goal.setGoalName("name");
-        goal.setUserId("userId");
-        goal.setGoalId(goal.getUserId() + goal.getGoalName());
-        goal.setTimePeriod(0);
-        goal.setTarget(0);
-        goal.setUnit("Hour");
+        Goal goal = testDataProvider.provideGoalWithFullDataAnd2GC();
 
         GoalModel goalModel = modelConverter.toGoalModel(goal);
-        assertEquals(goal.getGoalName(), goalModel.getGoalName());
-        assertEquals(goal.getUserId(), goalModel.getUserId());
-        assertEquals(goal.getGoalId(), goalModel.getGoalId());
-        assertEquals(goal.getTimePeriod(), goalModel.getTimePeriod());
-        assertEquals(goal.getTarget(), goalModel.getTarget());
-        assertEquals(goal.getUnit(), goalModel.getUnit());
+
+        assertEquals(goal.getGoalName(), goalModel.getGoalInfo().getGoalName());
+        assertEquals(goal.getUserId(), goalModel.getGoalInfo().getUserId());
+        assertEquals(goal.getGoalId(), goalModel.getGoalInfo().getGoalId());
+        GoalCriteria currentGoalCriteria = goal.getGoalCriteriaList().get(goal.getGoalCriteriaList().size()-1);
+        assertEquals(currentGoalCriteria.getTimeFrame(), goal.getGoalCriteriaList().get(goal.getGoalCriteriaList().size()-1).getTimeFrame(), goalModel.getCurrentGoalCriterion().getTimeFrame());
+        assertEquals(currentGoalCriteria.getTimeFrame(), goalModel.getCurrentGoalCriterion().getTarget());
+        assertEquals(currentGoalCriteria.getUnits(), goalModel.getCurrentGoalCriterion().getUnits());
     }
-    */
 
     @Test
     void toEventModel_withEvent_convertsToEventModel() {

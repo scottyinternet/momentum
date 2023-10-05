@@ -77,7 +77,7 @@
                 row.appendChild(goalNameCell);
 
                 const goalStatusCell = document.createElement('td');
-                goalStatusCell.textContent = `${goal.goalStatus}`;
+                goalStatusCell.textContent = `${goal.status}`;
                 row.appendChild(goalStatusCell);
 
                 const detailButtonCell = document.createElement('td');

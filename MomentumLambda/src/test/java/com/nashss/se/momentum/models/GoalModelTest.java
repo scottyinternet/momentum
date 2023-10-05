@@ -14,7 +14,7 @@ import java.util.Map;
 class GoalModelTest {
     Goal goal1;
     String goalName1 = "Cardio";
-    String userId1 = "user1@fakemail.com";
+    String userId1 = "griffin.scott881@gmail.com";
     String goalId1 = userId1+goalName1;
     List<GoalCriteria> goalCriteriaList = new ArrayList<>();
     LocalDate startDate1 = LocalDate.of(2023,9,1);
@@ -81,8 +81,14 @@ class GoalModelTest {
     }
 
     @Test
-    void x() {
+    void happyPath() {
         GoalModel goal = new GoalModel(goal1, rawEvents);
+        printAllGoalInfo(goal);
+    }
+
+    @Test
+    void noEvents() {
+        GoalModel goal = new GoalModel(goal1, new ArrayList<>());
         printAllGoalInfo(goal);
     }
 
@@ -113,8 +119,11 @@ class GoalModelTest {
     private void printStatus(GoalModel goal) {
         System.out.println("\n - - - - - - - -  P R I N T   S T A T U S  - - - - - - - - - - - - - - ");
         System.out.println("Status: " + goal.getStatus().getStatusEnum().toString());
+        System.out.println("Target: " + goal.getStatus().getTarget());
         System.out.println("Sum: " + goal.getStatus().getSum());
+        System.out.println(("Percent of Target: " + goal.getStatus().getTargetPercent()));
         System.out.println(String.format("Status Message: %s", goal.getStatus().getStatusMessage()));
+
         int index = 1;
         for (Map.Entry<LocalDate, Double> entry: goal.getStatus().getStatusEventSummaries().entrySet()) {
             StringBuilder message = new StringBuilder(String.format("Date: %s  |  Measurement: %s %s", entry.getKey(), entry.getValue(), goal.getCurrentGoalCriterion().getUnits()));
