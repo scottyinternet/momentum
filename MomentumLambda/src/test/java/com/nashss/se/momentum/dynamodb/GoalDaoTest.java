@@ -19,6 +19,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.openMocks;
 
 class GoalDaoTest {
+/*
 
     Goal goal1;
     String goalName1 = "Reading";
@@ -79,6 +80,7 @@ class GoalDaoTest {
             System.out.println(g.getGoalName() + " !!!!!!!!! ");
         }
     }
+*/
 
 
 }

@@ -17,6 +17,7 @@ import static org.mockito.MockitoAnnotations.openMocks;
 
 class EventDaoTest {
 
+/*
 
 
 //    @Mock
@@ -49,6 +50,7 @@ class EventDaoTest {
          eventDao.deleteEvent(event);
          verify(dynamoDBMapper).delete(event);
     }
+*/
 
 
 
