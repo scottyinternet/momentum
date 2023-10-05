@@ -16,7 +16,7 @@
     class GetAllGoalsSummary extends BindingClass {
         constructor() {
             super();
-            this.bindClassMethods(['mount', 'loadGoals', 'displayGoalSummary', 'addHTMLRowsToTable', 'toggleHide', 'submit'], this);
+            this.bindClassMethods(['mount', 'loadGoals', 'displayGoalSummary', 'addHTMLRowsToTable', 'submit'], this);
             this.dataStore = new DataStore(EMPTY_DATASTORE_STATE);
             this.header = new Header(this.dataStore);
             this.displayGoalSummary = this.displayGoalSummary.bind(this);
@@ -28,10 +28,6 @@
          * Add the header to the page and load the MomentumClient.
          */
         mount() {
-            document.getElementById('createGoalForm').addEventListener('click', this.toggleHide);
-
-            document.getElementById('createGoal').addEventListener('click', this.submit);
-
                 const openModalButton = document.getElementById('openModalBtn');
                 const closeModalButton = document.getElementById('closeModalBtn');
                 const modal = document.getElementById('myModal');
@@ -177,16 +173,6 @@
 
             window.location.href='index.html';
         }
-
-        toggleHide() {
-            const form = document.getElementById("create-goal-form");
-            if (form.style.display === "block") {
-                form.style.display = "none";
-            } else {
-                form.style.display = "block";
-            }
-        }
-
     }
 
 

@@ -11,13 +11,9 @@
 
     <h2>Your Goals</h2>
 
-    <p>
-        <button class="button" id="createGoalForm">Create New Goal</button>
-    </p>
-
     <button class="button" id="openModalBtn">Create New Goal</button>
 
-    <!-- The Modal -->
+    <!-- The Create New Goal Modal -->
     <div id="myModal" class="modal">
         <div class="modal-content">
             <span class="close" id="closeModalBtn">&times;</span>
@@ -33,15 +29,15 @@
                     <input class="form-input" type="number" required class="validated-field" id="target" placeholder="'150'" autofocus min="1" max="10000">
                 </p>
                 <p class="form-field-inline">
-
-                <select class="form-input" name="units" id="units">
-                    <option value="minutes">Minutes</option>
-                    <option value="hours">Hours</option>
-                    <option value="miles">Miles</option>
-                    <option value="kilometers">Kilometers</option>
-                    <option value="times">Times</option>
-                    <option value="units">Units</option>
-                </select>
+                    <label class="form-label" for="target">Unit</label>
+                    <select class="form-input" name="units" id="units">
+                        <option value="minutes">Minutes</option>
+                        <option value="hours">Hours</option>
+                        <option value="miles">Miles</option>
+                        <option value="kilometers">Kilometers</option>
+                        <option value="times">Times</option>
+                        <option value="units">Units</option>
+                    </select>
             </p>
                 <p class="form-field-inline">
                     <label class="form-label" for="timePeriod">Days</label>
