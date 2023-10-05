@@ -32,6 +32,26 @@
 
             document.getElementById('createGoal').addEventListener('click', this.submit);
 
+                const openModalButton = document.getElementById('openModalBtn');
+                const closeModalButton = document.getElementById('closeModalBtn');
+                const modal = document.getElementById('myModal');
+            
+                openModalButton.addEventListener('click', () => {
+                    modal.style.display = 'block';
+                });
+            
+                closeModalButton.addEventListener('click', () => {
+                    modal.style.display = 'none';
+                });
+            
+                // Close the modal if the user clicks outside of it
+                window.addEventListener('click', (event) => {
+                    if (event.target === modal) {
+                        modal.style.display = 'none';
+                    }
+                });
+
+
             this.dataStore.addChangeListener(this.displayGoalSummary);
 
             this.header.addHeaderToPage();
@@ -67,6 +87,18 @@
         }
 
         addHTMLRowsToTable(goalList, goalSummaryTableHTML) {
+            const headers = ['Goal', 'Status', 'Message', 'Progress','',''];
+
+            // Create a table row for headers
+            const headerRow = document.createElement('tr');
+            for (const headerText of headers) {
+              const headerCell = document.createElement('th');
+              headerCell.textContent = headerText;
+              headerRow.appendChild(headerCell);
+            }
+          
+            // Append the header row to the table
+            goalSummaryTableHTML.appendChild(headerRow);
 
             for (const goalSummary of goalList) {
                 const row = document.createElement('tr');
@@ -85,20 +117,15 @@
                 row.appendChild(statusMessageCell);
 
                 const currentStreakCell = document.createElement('td');
-                currentStreakCell.textContent = `${goalSummary.currentStreak}`;
+                if (goalSummary.currentStreak > 1) {
+                    currentStreakCell.textContent = `Streak: ${goalSummary.currentStreak} Days`;
+                } else if (goalSummary.currentStreak == 1) {
+                    currentStreakCell.textContent = `Streak: 1 Day`;
+                } else if (goalSummary.percentOfTarget > 0) {
+                    currentStreakCell.textContent = `Progress: ${goalSummary.percentOfTarget}%`;
+                }       
                 row.appendChild(currentStreakCell);
 
-
-                const detailButtonCell = document.createElement('td');
-                const detailsButton = document.createElement('button');
-
-                detailsButton.textContent = 'Details';
-                detailsButton.className = 'button';
-                detailsButton.addEventListener('click', () => {
-                    window.location.href = '/details.html?goalName=' + goalName;
-                });
-                detailButtonCell.appendChild(detailsButton);
-                row.appendChild(detailButtonCell);
 
                 const updateButtonCell = document.createElement('td');
                 const updateButton = document.createElement('button');
@@ -126,7 +153,10 @@
                 deleteButtonCell.appendChild(deleteButton);
                 row.appendChild(deleteButtonCell);
 
-
+                row.addEventListener('click', () => {
+                    // Trigger the update action when the row is clicked
+                    window.location.href = '/details.html?goalName=' + goalName;
+                  });
 
                 goalSummaryTableHTML.appendChild(row);
             }

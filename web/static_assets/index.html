@@ -8,14 +8,52 @@
 <body class="background">
 <header class="header" id="header"></header>
 <div class="card">
+
     <h2>Your Goals</h2>
 
     <p>
         <button class="button" id="createGoalForm">Create New Goal</button>
     </p>
+
+    <button class="button" id="openModalBtn">Create New Goal</button>
+
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeModalBtn">&times;</span>
+            <h2>Create New Goal Modal</h2>
+            <div class="form-container">
+
+                <p class="form-field">
+                    <label class="form-label" for="goalName">Goal Name</label>
+                    <input class="form-input" type="text" required class="validated-field" id="goalName" placeholder="ex: 'Cardio'" autofocus>
+                </p>
+                <p class="form-field-inline">
+                    <label class="form-label" for="target">Target</label>
+                    <input class="form-input" type="number" required class="validated-field" id="target" placeholder="'150'" autofocus min="1" max="10000">
+                </p>
+                <p class="form-field-inline">
+
+                <select class="form-input" name="units" id="units">
+                    <option value="minutes">Minutes</option>
+                    <option value="hours">Hours</option>
+                    <option value="miles">Miles</option>
+                    <option value="kilometers">Kilometers</option>
+                    <option value="times">Times</option>
+                    <option value="units">Units</option>
+                </select>
+            </p>
+                <p class="form-field">
+                    <label class="form-label" for="timePeriod">Days</label>
+                    <input class="form-input" type="number" required class="validated-field" id="timePeriod" placeholder="Enter a number of days" autofocus min="1" max="100">
+                </p>
+                <a href="#" class="button" id="createGoal">Submit</a>
+            </div>
+        </div>
+    </div>
+
+
 <div hidden id="create-goal-form">
-
-
     <p class="form-field">
         <label for="goalName">Goal Name</label>
         <input type="text" required class="validated-field" id="goalName" placeholder="name" autofocus>
@@ -38,7 +76,6 @@
         <input type="number" required class="validated-field" id="timePeriod" placeholder="time-period" autofocus min="1" max="100">
     </p>
     <a href="#" class="button" id="createGoal">Submit</a>
-
 </div>
 
     <div id='all-goals-container'>

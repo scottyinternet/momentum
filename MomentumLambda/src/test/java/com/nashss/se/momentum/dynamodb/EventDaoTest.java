@@ -3,7 +3,6 @@ package com.nashss.se.momentum.dynamodb;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.PaginatedQueryList;
-import com.nashss.se.momentum.dependency.DaoModule;
 import com.nashss.se.momentum.dynamodb.models.Event;
 import com.nashss.se.momentum.metrics.MetricsPublisher;
 
@@ -17,6 +16,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.openMocks;
 
 class EventDaoTest {
+
 
 
 //    @Mock
@@ -33,10 +33,10 @@ class EventDaoTest {
         openMocks(this);
         eventDao = new EventDao(new DynamoDBMapper(DynamoDbClientProvider.getDynamoDBClient(Regions.US_EAST_2)), metricsPublisher);
         event = new Event();
-        event.setGoalId("griffin.scott88@gmail.comCardio");
-        event.setEventId("testUUID002");
-        event.setMeasurement(09.0);
-        event.setDate(LocalDate.now().minusDays(1));
+        event.setGoalId("griffin.scott88@gmail.comReading");
+        event.setEventId("testUUID004");
+        event.setMeasurement(30.0);
+        event.setDate(LocalDate.now().minusDays(3));
     }
     @Test
     void saveEvent() {
@@ -49,4 +49,7 @@ class EventDaoTest {
          eventDao.deleteEvent(event);
          verify(dynamoDBMapper).delete(event);
     }
+
+
+
 }
