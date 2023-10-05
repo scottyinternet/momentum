@@ -17,7 +17,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.openMocks;
 
 class EventDaoTest {
-    /*
+
 
 //    @Mock
     private DynamoDBMapper dynamoDBMapper;
@@ -34,9 +34,9 @@ class EventDaoTest {
         eventDao = new EventDao(new DynamoDBMapper(DynamoDbClientProvider.getDynamoDBClient(Regions.US_EAST_2)), metricsPublisher);
         event = new Event();
         event.setGoalId("griffin.scott88@gmail.comCardio");
-        event.setEventId("testUUID001");
-        event.setMeasurement(60.0);
-        event.setDate(LocalDate.parse("2023-10-03"));
+        event.setEventId("testUUID002");
+        event.setMeasurement(09.0);
+        event.setDate(LocalDate.now().minusDays(1));
     }
     @Test
     void saveEvent() {
@@ -48,5 +48,5 @@ class EventDaoTest {
     void deleteEvent(){
          eventDao.deleteEvent(event);
          verify(dynamoDBMapper).delete(event);
-    }*/
+    }
 }

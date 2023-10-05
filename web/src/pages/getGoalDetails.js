@@ -310,3 +310,657 @@ const main = async () => {
 
 window.addEventListener('DOMContentLoaded', main);
 
+/*
+{
+    "goalModel": {
+        "goalInfo": {
+            "goalName": "Cardio",
+            "userId": "griffin.scott88@gmail.com",
+            "goalId": "griffin.scott88@gmail.comCardio",
+            "startDate": [
+                2023,
+                9,
+                1
+            ]
+        },
+        "goalCriteriaList": [
+            {
+                "target": 90,
+                "timeFrame": 7,
+                "units": "minutes",
+                "effectiveDate": [
+                    2023,
+                    9,
+                    1
+                ],
+                "goalCriteriaMessage": "90 minutes in a 7 day rolling period"
+            },
+            {
+                "target": 150,
+                "timeFrame": 7,
+                "units": "minutes",
+                "effectiveDate": [
+                    2023,
+                    9,
+                    29
+                ],
+                "goalCriteriaMessage": "150 minutes in a 7 day rolling period"
+            }
+        ],
+        "eventEntries": [
+            {
+                "goalId": "griffin.scott88@gmail.comCardio",
+                "eventId": "testUUID001",
+                "dateOfEvent": [
+                    2023,
+                    10,
+                    3
+                ],
+                "measurement": 60.0
+            }
+        ],
+        "currentGoalCriterion": {
+            "target": 150,
+            "timeFrame": 7,
+            "units": "minutes",
+            "effectiveDate": [
+                2023,
+                9,
+                29
+            ],
+            "goalCriteriaMessage": "150 minutes in a 7 day rolling period"
+        },
+        "eventSummaryMap": {
+            "2023-10-05": 0.0,
+            "2023-10-04": 0.0,
+            "2023-10-03": 60.0,
+            "2023-10-02": 0.0,
+            "2023-10-01": 0.0,
+            "2023-09-30": 0.0,
+            "2023-09-29": 0.0,
+            "2023-09-28": 0.0,
+            "2023-09-27": 0.0,
+            "2023-09-26": 0.0,
+            "2023-09-25": 0.0,
+            "2023-09-24": 0.0,
+            "2023-09-23": 0.0,
+            "2023-09-22": 0.0,
+            "2023-09-21": 0.0,
+            "2023-09-20": 0.0,
+            "2023-09-19": 0.0,
+            "2023-09-18": 0.0,
+            "2023-09-17": 0.0,
+            "2023-09-16": 0.0,
+            "2023-09-15": 0.0,
+            "2023-09-14": 0.0,
+            "2023-09-13": 0.0,
+            "2023-09-12": 0.0,
+            "2023-09-11": 0.0,
+            "2023-09-10": 0.0,
+            "2023-09-09": 0.0,
+            "2023-09-08": 0.0,
+            "2023-09-07": 0.0,
+            "2023-09-06": 0.0,
+            "2023-09-05": 0.0,
+            "2023-09-04": 0.0,
+            "2023-09-03": 0.0,
+            "2023-09-02": 0.0,
+            "2023-09-01": 0.0
+        },
+        "criteriaStatusContainerMap": {
+            "2023-10-05": {
+                "goalCriteria": {
+                    "target": 150,
+                    "timeFrame": 7,
+                    "units": "minutes",
+                    "effectiveDate": [
+                        2023,
+                        9,
+                        29
+                    ],
+                    "goalCriteriaMessage": "150 minutes in a 7 day rolling period"
+                },
+                "sumNMeasurements": 60.0,
+                "inMomentumBool": false
+            },
+            "2023-10-04": {
+                "goalCriteria": {
+                    "target": 150,
+                    "timeFrame": 7,
+                    "units": "minutes",
+                    "effectiveDate": [
+                        2023,
+                        9,
+                        29
+                    ],
+                    "goalCriteriaMessage": "150 minutes in a 7 day rolling period"
+                },
+                "sumNMeasurements": 60.0,
+                "inMomentumBool": false
+            },
+            "2023-10-03": {
+                "goalCriteria": {
+                    "target": 150,
+                    "timeFrame": 7,
+                    "units": "minutes",
+                    "effectiveDate": [
+                        2023,
+                        9,
+                        29
+                    ],
+                    "goalCriteriaMessage": "150 minutes in a 7 day rolling period"
+                },
+                "sumNMeasurements": 60.0,
+                "inMomentumBool": false
+            },
+            "2023-10-02": {
+                "goalCriteria": {
+                    "target": 150,
+                    "timeFrame": 7,
+                    "units": "minutes",
+                    "effectiveDate": [
+                        2023,
+                        9,
+                        29
+                    ],
+                    "goalCriteriaMessage": "150 minutes in a 7 day rolling period"
+                },
+                "sumNMeasurements": 0.0,
+                "inMomentumBool": false
+            },
+            "2023-10-01": {
+                "goalCriteria": {
+                    "target": 150,
+                    "timeFrame": 7,
+                    "units": "minutes",
+                    "effectiveDate": [
+                        2023,
+                        9,
+                        29
+                    ],
+                    "goalCriteriaMessage": "150 minutes in a 7 day rolling period"
+                },
+                "sumNMeasurements": 0.0,
+                "inMomentumBool": false
+            },
+            "2023-09-30": {
+                "goalCriteria": {
+                    "target": 150,
+                    "timeFrame": 7,
+                    "units": "minutes",
+                    "effectiveDate": [
+                        2023,
+                        9,
+                        29
+                    ],
+                    "goalCriteriaMessage": "150 minutes in a 7 day rolling period"
+                },
+                "sumNMeasurements": 0.0,
+                "inMomentumBool": false
+            },
+            "2023-09-29": {
+                "goalCriteria": {
+                    "target": 150,
+                    "timeFrame": 7,
+                    "units": "minutes",
+                    "effectiveDate": [
+                        2023,
+                        9,
+                        29
+                    ],
+                    "goalCriteriaMessage": "150 minutes in a 7 day rolling period"
+                },
+                "sumNMeasurements": 0.0,
+                "inMomentumBool": false
+            },
+            "2023-09-28": {
+                "goalCriteria": {
+                    "target": 90,
+                    "timeFrame": 7,
+                    "units": "minutes",
+                    "effectiveDate": [
+                        2023,
+                        9,
+                        1
+                    ],
+                    "goalCriteriaMessage": "90 minutes in a 7 day rolling period"
+                },
+                "sumNMeasurements": 0.0,
+                "inMomentumBool": false
+            },
+            "2023-09-27": {
+                "goalCriteria": {
+                    "target": 90,
+                    "timeFrame": 7,
+                    "units": "minutes",
+                    "effectiveDate": [
+                        2023,
+                        9,
+                        1
+                    ],
+                    "goalCriteriaMessage": "90 minutes in a 7 day rolling period"
+                },
+                "sumNMeasurements": 0.0,
+                "inMomentumBool": false
+            },
+            "2023-09-26": {
+                "goalCriteria": {
+                    "target": 90,
+                    "timeFrame": 7,
+                    "units": "minutes",
+                    "effectiveDate": [
+                        2023,
+                        9,
+                        1
+                    ],
+                    "goalCriteriaMessage": "90 minutes in a 7 day rolling period"
+                },
+                "sumNMeasurements": 0.0,
+                "inMomentumBool": false
+            },
+            "2023-09-25": {
+                "goalCriteria": {
+                    "target": 90,
+                    "timeFrame": 7,
+                    "units": "minutes",
+                    "effectiveDate": [
+                        2023,
+                        9,
+                        1
+                    ],
+                    "goalCriteriaMessage": "90 minutes in a 7 day rolling period"
+                },
+                "sumNMeasurements": 0.0,
+                "inMomentumBool": false
+            },
+            "2023-09-24": {
+                "goalCriteria": {
+                    "target": 90,
+                    "timeFrame": 7,
+                    "units": "minutes",
+                    "effectiveDate": [
+                        2023,
+                        9,
+                        1
+                    ],
+                    "goalCriteriaMessage": "90 minutes in a 7 day rolling period"
+                },
+                "sumNMeasurements": 0.0,
+                "inMomentumBool": false
+            },
+            "2023-09-23": {
+                "goalCriteria": {
+                    "target": 90,
+                    "timeFrame": 7,
+                    "units": "minutes",
+                    "effectiveDate": [
+                        2023,
+                        9,
+                        1
+                    ],
+                    "goalCriteriaMessage": "90 minutes in a 7 day rolling period"
+                },
+                "sumNMeasurements": 0.0,
+                "inMomentumBool": false
+            },
+            "2023-09-22": {
+                "goalCriteria": {
+                    "target": 90,
+                    "timeFrame": 7,
+                    "units": "minutes",
+                    "effectiveDate": [
+                        2023,
+                        9,
+                        1
+                    ],
+                    "goalCriteriaMessage": "90 minutes in a 7 day rolling period"
+                },
+                "sumNMeasurements": 0.0,
+                "inMomentumBool": false
+            },
+            "2023-09-21": {
+                "goalCriteria": {
+                    "target": 90,
+                    "timeFrame": 7,
+                    "units": "minutes",
+                    "effectiveDate": [
+                        2023,
+                        9,
+                        1
+                    ],
+                    "goalCriteriaMessage": "90 minutes in a 7 day rolling period"
+                },
+                "sumNMeasurements": 0.0,
+                "inMomentumBool": false
+            },
+            "2023-09-20": {
+                "goalCriteria": {
+                    "target": 90,
+                    "timeFrame": 7,
+                    "units": "minutes",
+                    "effectiveDate": [
+                        2023,
+                        9,
+                        1
+                    ],
+                    "goalCriteriaMessage": "90 minutes in a 7 day rolling period"
+                },
+                "sumNMeasurements": 0.0,
+                "inMomentumBool": false
+            },
+            "2023-09-19": {
+                "goalCriteria": {
+                    "target": 90,
+                    "timeFrame": 7,
+                    "units": "minutes",
+                    "effectiveDate": [
+                        2023,
+                        9,
+                        1
+                    ],
+                    "goalCriteriaMessage": "90 minutes in a 7 day rolling period"
+                },
+                "sumNMeasurements": 0.0,
+                "inMomentumBool": false
+            },
+            "2023-09-18": {
+                "goalCriteria": {
+                    "target": 90,
+                    "timeFrame": 7,
+                    "units": "minutes",
+                    "effectiveDate": [
+                        2023,
+                        9,
+                        1
+                    ],
+                    "goalCriteriaMessage": "90 minutes in a 7 day rolling period"
+                },
+                "sumNMeasurements": 0.0,
+                "inMomentumBool": false
+            },
+            "2023-09-17": {
+                "goalCriteria": {
+                    "target": 90,
+                    "timeFrame": 7,
+                    "units": "minutes",
+                    "effectiveDate": [
+                        2023,
+                        9,
+                        1
+                    ],
+                    "goalCriteriaMessage": "90 minutes in a 7 day rolling period"
+                },
+                "sumNMeasurements": 0.0,
+                "inMomentumBool": false
+            },
+            "2023-09-16": {
+                "goalCriteria": {
+                    "target": 90,
+                    "timeFrame": 7,
+                    "units": "minutes",
+                    "effectiveDate": [
+                        2023,
+                        9,
+                        1
+                    ],
+                    "goalCriteriaMessage": "90 minutes in a 7 day rolling period"
+                },
+                "sumNMeasurements": 0.0,
+                "inMomentumBool": false
+            },
+            "2023-09-15": {
+                "goalCriteria": {
+                    "target": 90,
+                    "timeFrame": 7,
+                    "units": "minutes",
+                    "effectiveDate": [
+                        2023,
+                        9,
+                        1
+                    ],
+                    "goalCriteriaMessage": "90 minutes in a 7 day rolling period"
+                },
+                "sumNMeasurements": 0.0,
+                "inMomentumBool": false
+            },
+            "2023-09-14": {
+                "goalCriteria": {
+                    "target": 90,
+                    "timeFrame": 7,
+                    "units": "minutes",
+                    "effectiveDate": [
+                        2023,
+                        9,
+                        1
+                    ],
+                    "goalCriteriaMessage": "90 minutes in a 7 day rolling period"
+                },
+                "sumNMeasurements": 0.0,
+                "inMomentumBool": false
+            },
+            "2023-09-13": {
+                "goalCriteria": {
+                    "target": 90,
+                    "timeFrame": 7,
+                    "units": "minutes",
+                    "effectiveDate": [
+                        2023,
+                        9,
+                        1
+                    ],
+                    "goalCriteriaMessage": "90 minutes in a 7 day rolling period"
+                },
+                "sumNMeasurements": 0.0,
+                "inMomentumBool": false
+            },
+            "2023-09-12": {
+                "goalCriteria": {
+                    "target": 90,
+                    "timeFrame": 7,
+                    "units": "minutes",
+                    "effectiveDate": [
+                        2023,
+                        9,
+                        1
+                    ],
+                    "goalCriteriaMessage": "90 minutes in a 7 day rolling period"
+                },
+                "sumNMeasurements": 0.0,
+                "inMomentumBool": false
+            },
+            "2023-09-11": {
+                "goalCriteria": {
+                    "target": 90,
+                    "timeFrame": 7,
+                    "units": "minutes",
+                    "effectiveDate": [
+                        2023,
+                        9,
+                        1
+                    ],
+                    "goalCriteriaMessage": "90 minutes in a 7 day rolling period"
+                },
+                "sumNMeasurements": 0.0,
+                "inMomentumBool": false
+            },
+            "2023-09-10": {
+                "goalCriteria": {
+                    "target": 90,
+                    "timeFrame": 7,
+                    "units": "minutes",
+                    "effectiveDate": [
+                        2023,
+                        9,
+                        1
+                    ],
+                    "goalCriteriaMessage": "90 minutes in a 7 day rolling period"
+                },
+                "sumNMeasurements": 0.0,
+                "inMomentumBool": false
+            },
+            "2023-09-09": {
+                "goalCriteria": {
+                    "target": 90,
+                    "timeFrame": 7,
+                    "units": "minutes",
+                    "effectiveDate": [
+                        2023,
+                        9,
+                        1
+                    ],
+                    "goalCriteriaMessage": "90 minutes in a 7 day rolling period"
+                },
+                "sumNMeasurements": 0.0,
+                "inMomentumBool": false
+            },
+            "2023-09-08": {
+                "goalCriteria": {
+                    "target": 90,
+                    "timeFrame": 7,
+                    "units": "minutes",
+                    "effectiveDate": [
+                        2023,
+                        9,
+                        1
+                    ],
+                    "goalCriteriaMessage": "90 minutes in a 7 day rolling period"
+                },
+                "sumNMeasurements": 0.0,
+                "inMomentumBool": false
+            },
+            "2023-09-07": {
+                "goalCriteria": {
+                    "target": 90,
+                    "timeFrame": 7,
+                    "units": "minutes",
+                    "effectiveDate": [
+                        2023,
+                        9,
+                        1
+                    ],
+                    "goalCriteriaMessage": "90 minutes in a 7 day rolling period"
+                },
+                "sumNMeasurements": 0.0,
+                "inMomentumBool": false
+            },
+            "2023-09-06": {
+                "goalCriteria": {
+                    "target": 90,
+                    "timeFrame": 7,
+                    "units": "minutes",
+                    "effectiveDate": [
+                        2023,
+                        9,
+                        1
+                    ],
+                    "goalCriteriaMessage": "90 minutes in a 7 day rolling period"
+                },
+                "sumNMeasurements": 0.0,
+                "inMomentumBool": false
+            },
+            "2023-09-05": {
+                "goalCriteria": {
+                    "target": 90,
+                    "timeFrame": 7,
+                    "units": "minutes",
+                    "effectiveDate": [
+                        2023,
+                        9,
+                        1
+                    ],
+                    "goalCriteriaMessage": "90 minutes in a 7 day rolling period"
+                },
+                "sumNMeasurements": 0.0,
+                "inMomentumBool": false
+            },
+            "2023-09-04": {
+                "goalCriteria": {
+                    "target": 90,
+                    "timeFrame": 7,
+                    "units": "minutes",
+                    "effectiveDate": [
+                        2023,
+                        9,
+                        1
+                    ],
+                    "goalCriteriaMessage": "90 minutes in a 7 day rolling period"
+                },
+                "sumNMeasurements": 0.0,
+                "inMomentumBool": false
+            },
+            "2023-09-03": {
+                "goalCriteria": {
+                    "target": 90,
+                    "timeFrame": 7,
+                    "units": "minutes",
+                    "effectiveDate": [
+                        2023,
+                        9,
+                        1
+                    ],
+                    "goalCriteriaMessage": "90 minutes in a 7 day rolling period"
+                },
+                "sumNMeasurements": 0.0,
+                "inMomentumBool": false
+            },
+            "2023-09-02": {
+                "goalCriteria": {
+                    "target": 90,
+                    "timeFrame": 7,
+                    "units": "minutes",
+                    "effectiveDate": [
+                        2023,
+                        9,
+                        1
+                    ],
+                    "goalCriteriaMessage": "90 minutes in a 7 day rolling period"
+                },
+                "sumNMeasurements": 0.0,
+                "inMomentumBool": false
+            },
+            "2023-09-01": {
+                "goalCriteria": {
+                    "target": 90,
+                    "timeFrame": 7,
+                    "units": "minutes",
+                    "effectiveDate": [
+                        2023,
+                        9,
+                        1
+                    ],
+                    "goalCriteriaMessage": "90 minutes in a 7 day rolling period"
+                },
+                "sumNMeasurements": 0.0,
+                "inMomentumBool": false
+            }
+        },
+        "status": {
+            "statusEnum": "GAINING_MOMENTUM",
+            "statusMessage": "Add 90 more minutes to be in momentum.",
+            "sum": 60.0,
+            "target": 150.0,
+            "targetPercent": 40.0,
+            "statusEventSummaries": {
+                "2023-10-05": 0.0,
+                "2023-10-04": 0.0,
+                "2023-10-03": 60.0,
+                "2023-10-02": 0.0,
+                "2023-10-01": 0.0,
+                "2023-09-30": 0.0,
+                "2023-09-29": 0.0,
+                "2023-09-28": 0.0
+            }
+        },
+        "streakData": {
+            "currentStreak": -35,
+            "longestStreak": 0,
+            "totalDaysInMomentum": 0,
+            "totalDays": 35,
+            "percentInMomentum": 0.0,
+            "streakMessage": "Last Streak ended 35 days ago.",
+            "percentString": "0%"
+        }
+    }
+}
+*/
+

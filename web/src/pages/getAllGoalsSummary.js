@@ -68,17 +68,26 @@
 
         addHTMLRowsToTable(goalList, goalSummaryTableHTML) {
 
-            for (const goal of goalList) {
+            for (const goalSummary of goalList) {
                 const row = document.createElement('tr');
 
                 const goalNameCell = document.createElement('td');
-                const goalName = `${goal.goalName}`;
+                const goalName = `${goalSummary.goalName}`;
                 goalNameCell.textContent = goalName;
                 row.appendChild(goalNameCell);
 
                 const goalStatusCell = document.createElement('td');
-                goalStatusCell.textContent = `${goal.status}`;
+                goalStatusCell.textContent = `${goalSummary.status}`;
                 row.appendChild(goalStatusCell);
+
+                const statusMessageCell = document.createElement('td');
+                statusMessageCell.textContent = `${goalSummary.statusMessage}`;
+                row.appendChild(statusMessageCell);
+
+                const currentStreakCell = document.createElement('td');
+                currentStreakCell.textContent = `${goalSummary.currentStreak}`;
+                row.appendChild(currentStreakCell);
+
 
                 const detailButtonCell = document.createElement('td');
                 const detailsButton = document.createElement('button');
@@ -157,3 +166,16 @@
     };
 
     window.addEventListener('DOMContentLoaded', main);
+
+    /*
+    {
+        "goalSummaryList": [
+            {
+                "goalName": "Cardio",
+                "status": "Gaining Momentum",
+                "statusMessage": "Add 90 more minutes to be in momentum.",
+                "currentStreak": "-35"
+            }
+        ]
+    }
+    */ 
