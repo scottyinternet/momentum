@@ -3,12 +3,12 @@ package com.nashss.se.momentum.models;
 public class CriteriaStatusContainer {
     GoalCriteriaModel goalCriteria;
     Double sumNMeasurements;
-    Boolean inMomentumBool;
+    Boolean inMomentum;
 
-    public CriteriaStatusContainer(GoalCriteriaModel goalCriteria, Double sumNMeasurements, Boolean inMomentumBool) {
+    public CriteriaStatusContainer(GoalCriteriaModel goalCriteria, Double sumNMeasurements, Boolean inMomentum) {
         this.goalCriteria = goalCriteria;
         this.sumNMeasurements = sumNMeasurements;
-        this.inMomentumBool = inMomentumBool;
+        this.inMomentum = inMomentum;
     }
 
     public GoalCriteriaModel getGoalCriteria() {
@@ -27,11 +27,11 @@ public class CriteriaStatusContainer {
         this.sumNMeasurements = sumNMeasurements;
     }
 
-    public Boolean getInMomentumBool() {
-        return inMomentumBool;
+    public Boolean getInMomentum() {
+        return inMomentum;
     }
 
-    public void setInMomentumBool(Boolean inMomentumBool) {
-        this.inMomentumBool = inMomentumBool;
+    public void setInMomentum(Boolean inMomentum) {
+        this.inMomentum = inMomentum;
     }
 }

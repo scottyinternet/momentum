@@ -43,9 +43,9 @@ public class StreakData {
     private void calculateCurrentStreak() {
         LocalDate date = LocalDate.now();
         currentStreak = 0;
-        final boolean currentStatus = criteriaStatusContainerMap.get(date).getInMomentumBool();
+        final boolean currentStatus = criteriaStatusContainerMap.get(date).getInMomentum();
         while(criteriaStatusContainerMap.get(date) != null
-                && criteriaStatusContainerMap.get(date).inMomentumBool == currentStatus) {
+                && criteriaStatusContainerMap.get(date).inMomentum == currentStatus) {
             currentStreak++;
             date = date.minusDays(1);
         }
@@ -61,7 +61,7 @@ public class StreakData {
         longestStreak = 0;
         int localStreak = 0;
         for (Map.Entry<LocalDate, CriteriaStatusContainer> entry : criteriaStatusContainerMap.entrySet()) {
-            if(entry.getValue().getInMomentumBool()) {
+            if(entry.getValue().getInMomentum()) {
                 localStreak++;
                 if (localStreak > longestStreak) {
                     longestStreak = localStreak;
@@ -85,7 +85,7 @@ public class StreakData {
     }
     private void countDaysInMomentum() {
         for (Map.Entry<LocalDate, CriteriaStatusContainer> entry : criteriaStatusContainerMap.entrySet()) {
-            if (entry.getValue().getInMomentumBool()) {
+            if (entry.getValue().getInMomentum()) {
                 totalDaysInMomentum++;
             }
         }

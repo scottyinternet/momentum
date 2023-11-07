@@ -162,7 +162,7 @@ export default class MomentumClient extends BindingClass {
                    Authorization: `Bearer ${token}`
             }}
             );
-            return response.data.goalDetailsModel;
+            return response.data.goalModel;
         } catch (error) {
             this.handleError(error)
         }

@@ -2,8 +2,6 @@ package com.nashss.se.momentum.models;
 
 import java.time.LocalDate;
 
-import com.nashss.se.momentum.dynamodb.models.Goal;
-import com.nashss.se.momentum.dynamodb.models.GoalCriteria;
 import com.nashss.se.momentum.utils.TestDataProvider;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -86,7 +84,7 @@ class GoalModelTest {
     private void printAllEventSummaries(GoalModel goal) {
         System.out.println("\n - - - - - - - -  P R I N T   E V E N T   S U M M A R I E S  - - - - - - - - - - - - - - ");
         for (Map.Entry<LocalDate, Double> entry : goal.getEventSummaryMap().entrySet()) {
-            System.out.println(String.format("Date: %s  |  Measurement: %s %s  |  Momentum: %s  |  Criteria: %s", entry.getKey(), entry.getValue(), goal.getCurrentGoalCriterion().getUnits(), goal.getCriteriaStatusContainerMap().get(entry.getKey()).getInMomentumBool(), goal.getCriteriaStatusContainerMap().get(entry.getKey()).getGoalCriteria().getGoalCriteriaMessage()));
+            System.out.println(String.format("Date: %s  |  Measurement: %s %s  |  Momentum: %s  |  Criteria: %s", entry.getKey(), entry.getValue(), goal.getCurrentGoalCriterion().getUnits(), goal.getCriteriaStatusContainerMap().get(entry.getKey()).getInMomentum(), goal.getCriteriaStatusContainerMap().get(entry.getKey()).getGoalCriteria().getGoalCriteriaMessage()));
         }
     }
 

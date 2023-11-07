@@ -15,8 +15,8 @@ public class GoalModel {
 
     //  C A L C U L A T E D   A T T R I B U T E S
     private final GoalCriteriaModel currentGoalCriterion;
-    private final TreeMap<LocalDate, Double> eventSummaryMap;
-    private final TreeMap<LocalDate, CriteriaStatusContainer> criteriaStatusContainerMap;
+    private final SortedMap<LocalDate, Double> eventSummaryMap;
+    private final SortedMap<LocalDate, CriteriaStatusContainer> criteriaStatusContainerMap;
     private Status status;
     private final StreakData streakData;
 
@@ -152,11 +152,11 @@ public class GoalModel {
         return streakData;
     }
 
-    public TreeMap<LocalDate, Double> getEventSummaryMap() {
+    public SortedMap<LocalDate, Double> getEventSummaryMap() {
         return eventSummaryMap;
     }
 
-    public TreeMap<LocalDate, CriteriaStatusContainer> getCriteriaStatusContainerMap() {
+    public SortedMap<LocalDate, CriteriaStatusContainer> getCriteriaStatusContainerMap() {
         return criteriaStatusContainerMap;
     }
 }

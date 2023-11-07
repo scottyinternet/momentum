@@ -5,11 +5,12 @@ import com.nashss.se.momentum.utils.StatusEnum;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.Map;
-import java.util.TreeMap;
+import java.util.SortedMap;
 
 public class Status {
 
     private StatusEnum statusEnum;
+    private String statusString;
     private String statusMessage;
     private double sum;
     private double target;
@@ -19,8 +20,8 @@ public class Status {
     // for calculated values
     private final GoalModel goal;
     private final LocalDate date;
-    TreeMap<LocalDate, CriteriaStatusContainer> criteriaStatusContainerMap;
-    TreeMap<LocalDate, Double> eventSummaryMap;
+    SortedMap<LocalDate, CriteriaStatusContainer> criteriaStatusContainerMap;
+    SortedMap<LocalDate, Double> eventSummaryMap;
     GoalCriteriaModel currentGoalCriterion;
 
 
@@ -41,7 +42,7 @@ public class Status {
         CriteriaStatusContainer container = criteriaStatusContainerMap.get(date);
         int timeFrame = container.getGoalCriteria().getTimeFrame();
         sum = container.getSumNMeasurements();
-        boolean yesterdayInMomentumBool = criteriaStatusContainerMap.get(date.minusDays(1)).getInMomentumBool();
+        boolean yesterdayInMomentumBool = criteriaStatusContainerMap.get(date.minusDays(1)).getInMomentum();
         double todaysTotalSumMinusLast = sum - eventSummaryMap.get(date.minusDays(timeFrame-1));
 
         statusEnum = calculateStatusEnum(sum, yesterdayInMomentumBool, todaysTotalSumMinusLast);
@@ -72,6 +73,7 @@ public class Status {
         } else {
             statusEnum = StatusEnum.GAINING_MOMENTUM;
         }
+        statusString = statusEnum.toString();
         return statusEnum;
     }
 
@@ -147,7 +149,7 @@ public class Status {
         int daysSinceMomentum = 0;
         LocalDate dateIter = this.date;
         while (criteriaStatusContainerMap.get(dateIter) != null &&
-                !criteriaStatusContainerMap.get(dateIter).getInMomentumBool()) {
+                !criteriaStatusContainerMap.get(dateIter).getInMomentum()) {
             daysSinceMomentum++;
             dateIter = dateIter.minusDays(1);
         }
@@ -180,6 +182,10 @@ public class Status {
 
     public double getTarget() {
         return target;
+    }
+
+    public String getStatusString() {
+        return statusString;
     }
 }
 
