@@ -19,7 +19,7 @@ class GetGoalDetails extends BindingClass {
     constructor() {
         super();
 
-        this.bindClassMethods(['mount', 'getGoalDetails', 'displaySearchResults', 'getHTMLForSearchResults'], this);
+        this.bindClassMethods(['mount', 'getGoalDetails', 'displaySearchResults', 'getHTMLForHistory'], this);
 
 
         this.dataStore = new DataStore(EMPTY_DATASTORE_STATE);
@@ -31,6 +31,24 @@ class GetGoalDetails extends BindingClass {
      * Add the header to the page and load the MusicPlaylistClient.
      */
     mount() {
+        const openModalButton = document.getElementById('openModalBtn');
+        const closeModalButton = document.getElementById('closeModalBtn');
+        const modal = document.getElementById('new-entry-modal');
+    
+        openModalButton.addEventListener('click', () => {
+            modal.style.display = 'block';
+        });
+    
+        closeModalButton.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+    
+        // Close the modal if the user clicks outside of it
+        window.addEventListener('click', (event) => {
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
         // Wire up the form's 'submit' event and the button's 'click' event to the search method.
         this.header.addHeaderToPage();
 
@@ -40,6 +58,19 @@ class GetGoalDetails extends BindingClass {
         const goalName = urlParams.get('goalName');
 
         this.getGoalDetails(goalName);
+
+        const newEventForm = document.getElementById('myForm');
+        newEventForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+        
+            // Get the values from the form fields
+            var dateValue = document.getElementById('datePicker').value;
+            var measurementValue = document.getElementById('measurement').value;
+            this.client.createEvent(goalName, dateValue, measurementValue);
+
+            modal.style.display = 'none';
+
+        });
     }
 
     /**
@@ -67,8 +98,7 @@ class GetGoalDetails extends BindingClass {
      */
     displaySearchResults() {
         const searchCriteria = this.dataStore.get(SEARCH_CRITERIA_KEY);
-        const searchResults = this.dataStore.get(SEARCH_RESULTS_KEY);
-        console.log(searchResults);
+        const searchResults = this.dataStore.get(SEARCH_RESULTS_KEY)
 
 
         const searchCriteriaDisplay = document.getElementById('search-criteria-display');
@@ -87,29 +117,24 @@ class GetGoalDetails extends BindingClass {
             cont.innerHTML = `<div class="container">
                                  <div class="row">
                                      <div class="col-md-6">
-                                                <!-- Content for the left column of the first row -->
-                                                <div class="custom-bg" id="col1">
-                                                    <p>I'm Loading Stuff</p>
-                                                </div>
-                                                <div class="custom-bg" id="col1b">
-                                                    <p>I'm Loading Stuff</p>
-                                                </div>
-                                     </div>
-                                     <div class="col-md-6">
-                                                 <!-- Content for the left column of the first row -->
-                                                 <div class="custom-bg" id="col2">
-                                                     <p>I'm Loading Stuff</p>
-
-                                                 </div>
+                                        <!-- Content for the left column of the first row -->
+                                        <div class="custom-bg" id="col1">
+                                            <p>I'm Loading Stuff</p>
                                         </div>
+                                    </div>
+                                     <div class="col-md-6">
+                                        <!-- Content for the left column of the first row -->
+                                        <div class="custom-bg" id="col2">
+                                            <p>I'm Loading Stuff</p>
+
+                                        </div>
+                                    </div>
                                  </div>
                              </div>`;
             var col1 = document.getElementById('col1')
-            var col1b = document.getElementById('col1b')
             var col2 = document.getElementById('col2')
             col1.innerHTML = this.getHTMLForSearchResults(searchResults);
-            col1b.innerHTML = this.getListOfEventsToDisplay(searchResults);
-            col2.innerHTML = this.getHTMLForAllEntries(searchResults);
+            col2.innerHTML = this.getHTMLForHistory(searchResults);
 
             var toggleButton = document.getElementById('view-events-button');
             function hideCol2() {
@@ -145,6 +170,7 @@ class GetGoalDetails extends BindingClass {
     getHTMLForSearchResults(searchResults) {
         const goalCriteriaMessage = searchResults.currentGoalCriterion.goalCriteriaMessage;
         const statusString = searchResults.status.statusString;
+        const streakMessage = searchResults.streakData.streakMessage;
         const sum = searchResults.status.sum;
         const statusMessage = searchResults.status.statusMessage;
         const unit = searchResults.currentGoalCriterion.units;
@@ -154,8 +180,6 @@ class GetGoalDetails extends BindingClass {
 
         const urlParams = new URLSearchParams(window.location.search);
         const goalName2 = urlParams.get('goalName');
-        const newEventButton = document.getElementById("create-event-button");
-        newEventButton.href = `createEvent.html?goalName=${goalName2}&unit=${unit}`;
 
         // DIV
         const container = document.createElement('div');
@@ -175,16 +199,19 @@ class GetGoalDetails extends BindingClass {
         statusMessageElement.textContent = `${statusMessage}`;
         container.appendChild(statusMessageElement);
 
+        // CURRENT STREAK
+        const currentStreakElement = document.createElement('h6');
+        currentStreakElement.textContent = `Streak: ${streakMessage}`
+        container.appendChild(currentStreakElement);
 
-        return container.outerHTML; // Return the container element html string
-    }
 
-    getListOfEventsToDisplay(searchResults) {
+        //  L I S T   O F   E V E N T S
+        const hr = document.createElement('hr');
+        hr.style.borderTop = "2px solid gray"; 
+        hr.style.paddingBottom = "30px"; 
+        container.appendChild(hr);
+
         const eventSummaryList = Object.entries(searchResults.status.statusEventSummaries);
-        const unit = searchResults.currentGoalCriterion.units;
-
-        // DIV
-        const container = document.createElement('div');
 
         const tableTitle = document.createElement('h4');
         tableTitle.textContent = 'Daily Event Summaries';
@@ -219,6 +246,8 @@ class GetGoalDetails extends BindingClass {
             const dateArray = this.convertToDateArray(eventSummary[0]);
             const dayOfWeekStr = this.getDayOfWeek(dateArray);
             const formattedDate = this.formatDate(dateArray);
+            console.log(dateArray + " - dateArray");
+            console.log(formattedDate + "- formatted Date");
 
             dateCell.textContent = `${dayOfWeekStr}, ${formattedDate}`;
             if (eventSummary[1] === 0) {
@@ -237,64 +266,179 @@ class GetGoalDetails extends BindingClass {
 
         container.appendChild(table);
 
+
         return container.outerHTML; // Return the container element html string
     }
 
-    getHTMLForAllEntries(searchResults) {
-        // const entryList = searchResults.eventEntries;
-        // const unit = searchResults.currentGoalCriterion.unit;
+    
 
-        // // DIV
+    getHTMLForHistory(searchResults) {
         const container = document.createElement('div');
-        // const tableTitle = document.createElement('h4');
-        // tableTitle.textContent = 'All Entries';
-        // container.appendChild(tableTitle);
 
-        // // TABLE
-        // const table = document.createElement('table');
 
-        // // TABLE - HEADER
-        // const tableHeader = table.createTHead();
-        // const headerRow = tableHeader.insertRow();
+        //  S T R E A K   H I S T O R Y
+        const currentStreak = searchResults.streakData.currentStreak;
+        const longestStreak = searchResults.streakData.longestStreak;
+        const totalDaysInMomentum = searchResults.streakData.totalDaysInMomentum;
+        const percentString = searchResults.streakData.percentString;
 
-        // const dateHeader = document.createElement('th');
-        // dateHeader.textContent = 'Date';
-        // headerRow.appendChild(dateHeader);
+        const streakTitle = document.createElement('h4');
+        streakTitle.textContent = 'Streak History'
+        container.appendChild(streakTitle);
 
-        // const dailySumHeader = document.createElement('th');
-        // dailySumHeader.textContent = 'Measurement';
-        // headerRow.appendChild(dailySumHeader);
+        const currentStreakElement = document.createElement('p');
+        currentStreakElement.textContent = `Current Streak: ${currentStreak} days`;
+        container.appendChild(currentStreakElement);
 
-        // // TABLE BODY
-        // const tableBody = table.createTBody();
+        const longestStreakElement = document.createElement('p');
+        longestStreakElement.textContent = `Longest Streak: ${longestStreak} days`;
+        container.appendChild(longestStreakElement);
 
-        // // TABLE BODY DATA
-        // entryList.forEach((event, index) => {
-        //     const row = tableBody.insertRow();
-        //     const dateCell = row.insertCell(0);
-        //     dateCell.style.textAlign = "right";
-        //     const measurementCell = row.insertCell(1);
-        //     measurementCell.style.textAlign = "right";
+        const totalDaysInMomentumElement = document.createElement('p');
+        totalDaysInMomentumElement.textContent = `Total Days in Moment: ${totalDaysInMomentum} days`;
+        container.appendChild(totalDaysInMomentumElement);
 
-        //     const dayOfWeekStr = this.getDayOfWeek(dateArray);
-        //     const formattedDate = this.formatDate(dateArray);
+        const percentStringElement = document.createElement('p');
+        percentStringElement.textContent = `Percentage in Momentum: ${percentString} of days`;
+        container.appendChild(percentStringElement);
 
-        //     dateCell.textContent = `${dayOfWeekStr}, ${formattedDate}`;
-        //     measurementCell.textContent = `${event.measurement} ${unit}`;
-        // });
 
-        // container.appendChild(table);
+        //  E N T R I E S   H I S T O R Y
+        const hr = document.createElement('hr');
+        hr.style.borderTop = "2px solid gray"; 
+        hr.style.paddingBottom = "30px"; 
+        container.appendChild(hr);
+
+        const entryList = searchResults.eventEntries;
+        const unit = searchResults.currentGoalCriterion.units;
+
+        const tableTitle = document.createElement('h4');
+        tableTitle.textContent = 'All Entries';
+        container.appendChild(tableTitle);
+
+        //  T A B L E
+        const table = document.createElement('table');
+
+        // TABLE - HEADER
+        const tableHeader = table.createTHead();
+        const headerRow = tableHeader.insertRow();
+
+        const dateHeader = document.createElement('th');
+        dateHeader.textContent = 'Date';
+        headerRow.appendChild(dateHeader);
+
+        const dailySumHeader = document.createElement('th');
+        dailySumHeader.textContent = 'Measurement';
+        headerRow.appendChild(dailySumHeader);
+
+        // TABLE BODY
+        const tableBody = table.createTBody();
+
+        // TABLE BODY DATA
+        entryList.forEach((event, index) => {
+            const row = tableBody.insertRow();
+            const dateCell = row.insertCell(0);
+            dateCell.style.textAlign = "right";
+            const measurementCell = row.insertCell(1);
+            measurementCell.style.textAlign = "right";
+
+            const dayOfWeekStr = this.getDayOfWeek(event.dateOfEvent);
+            const formattedDate = this.formatDate(event.dateOfEvent);
+
+            dateCell.textContent = `${dayOfWeekStr}, ${formattedDate}`;
+            measurementCell.textContent = `${event.measurement} ${unit}`;
+        });
+
+        container.appendChild(table);
+
+
+        //  D A I L Y   E V E N T   S U M M A R I E S
+        const hr2 = document.createElement('hr');
+        hr2.style.borderTop = "2px solid gray"; 
+        hr2.style.paddingBottom = "30px"; 
+        container.appendChild(hr2);
+
+        const eventSummaryMap = Object.entries(searchResults.eventSummaryMap);
+        const criteriaStatusContainerMap = Object.entries(searchResults.criteriaStatusContainerMap);
+
+        const summaryHistory = document.createElement('h4');
+        summaryHistory.textContent = 'Daily Summary History'
+        container.appendChild(summaryHistory);
+    
+        //  T A B L E
+        const tableSummaryHistory = document.createElement('table');
+
+        // TABLE - HEADER
+        const tableHeaderSummaryHistory = tableSummaryHistory.createTHead();
+        const headerRowSummaryHistory = tableHeaderSummaryHistory.insertRow();
+
+        const dateHeaderSummaryHistory = document.createElement('th');
+        dateHeaderSummaryHistory.textContent = 'Date';
+        headerRowSummaryHistory.appendChild(dateHeaderSummaryHistory);
+
+        const dailySumHeaderSummaryHistory = document.createElement('th');
+        dailySumHeaderSummaryHistory.textContent = 'Measurement';
+        headerRowSummaryHistory.appendChild(dailySumHeaderSummaryHistory);
+
+        const goalCriteriaHeaderSummaryHistory = document.createElement('th');
+        goalCriteriaHeaderSummaryHistory.textContent = 'Target';
+        headerRowSummaryHistory.appendChild(goalCriteriaHeaderSummaryHistory);
+
+        const sumHeaderSummaryHistory = document.createElement('th');
+        sumHeaderSummaryHistory.textContent = 'Sum';
+        headerRowSummaryHistory.appendChild(sumHeaderSummaryHistory);
+
+        const momentumBoolHeaderSummaryHistory =  document.createElement('th');
+        momentumBoolHeaderSummaryHistory.textContent = 'In Momentum';
+        headerRowSummaryHistory.appendChild(momentumBoolHeaderSummaryHistory);
+
+
+        // TABLE BODY
+        const tableBodySummaryHistory = tableSummaryHistory.createTBody();
+
+        // TABLE BODY DATA
+        eventSummaryMap.forEach((event, index) => {
+            const critStatus = criteriaStatusContainerMap[index];
+
+            const rowSH = tableBodySummaryHistory.insertRow();
+            const dateCellSH = rowSH.insertCell(0);
+            dateCellSH.style.textAlign = "right";
+            const measurementCellSH = rowSH.insertCell(1);
+            measurementCellSH.style.textAlign = "right";
+            const critCellSH = rowSH.insertCell(2);
+            critCellSH.style.textAlign = "right";
+            const sumCellSH = rowSH.insertCell(3);
+            sumCellSH.style.textAlign = "right";
+            const momentumBoolCellSH = rowSH.insertCell(4);
+            momentumBoolCellSH.style.textAlign = "right";
+
+            const dateArray = this.convertToDateArray(event[0]);
+            const formattedDate = this.formatDate(dateArray);
+
+            dateCellSH.textContent = `${formattedDate}`;
+            measurementCellSH.textContent = `${event[1]} ${unit}`;
+            critCellSH.textContent = `${critStatus[1].goalCriteria.goalCriteriaMessage}`
+            sumCellSH.textContent = `${critStatus[1].sumNMeasurements}`
+            momentumBoolCellSH.textContent = `${critStatus[1].inMomentum}`
+
+        });
+
+        container.appendChild(tableSummaryHistory);
 
         return container.outerHTML; // Return the container element html string
     }
+
+    
+
 
     convertToDateArray(dateString) {
+        console.log(dateString + "!!!!!!!!!!!")
         const date = new Date(dateString);
     
         return [
             date.getFullYear(),
-            date.getMonth() + 1, // Month is zero-based, so add 1 to get the actual month (1-12).
-            date.getDate()
+            date.getMonth() + 1,
+            date.getDate() + 1
         ];
     }
 

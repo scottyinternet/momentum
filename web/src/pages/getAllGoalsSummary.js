@@ -55,6 +55,35 @@
             this.client = new MomentumClient();
 
             this.loadGoals();
+            
+            const newGoalForm = document.getElementById('new-goal-form');
+            newGoalForm.addEventListener('submit', (e) => {
+                e.preventDefault();                  
+                
+                // Get the values from the form fields
+                var goalName = document.getElementById('goalName').value;
+                var target = document.getElementById('target').value;
+                var units = document.getElementById('units').value;
+                var timePeriod = document.getElementById('timePeriod').value
+
+                // Calculate N Days ago
+                var today = new Date();
+                var nDaysAgo = new Date();
+                nDaysAgo.setDate(today.getDate() - (timePeriod+1)); 
+                const year = nDaysAgo.getFullYear();
+                const month = String(nDaysAgo.getMonth() + 1).padStart(2, '0'); // Ensure two digits for month
+                const day = String(nDaysAgo.getDate()).padStart(2, '0'); // Ensure two digits for day
+                const formattedDate = `${year}-${month}-${day}`;
+
+
+                this.client.createGoal(goalName, formattedDate, target, timePeriod, units, formattedDate, (error) => {
+                    console.log(error);
+                });
+    
+                modal.style.display = 'none';
+    
+            });
+
         }
 
          /**
@@ -62,7 +91,6 @@
          * playlist.
          */
         async loadGoals() {
-            console.log("inside loadGoals");
             const goalSummary = await this.client.getAllGoalsSummary();
             this.dataStore.setState({
                 [SEARCH_CRITERIA_KEY]: "goalSummaries",
@@ -117,9 +145,14 @@
                     currentStreakCell.textContent = `Streak: ${goalSummary.currentStreak} Days`;
                 } else if (goalSummary.currentStreak == 1) {
                     currentStreakCell.textContent = `Streak: 1 Day`;
-                } else if (goalSummary.percentOfTarget > 0) {
-                    currentStreakCell.textContent = `Progress: ${goalSummary.percentOfTarget}%`;
+                } else if (goalSummary.currentStreak < 0) {
+                    if (goalSummary.percentOfTarget === `0.0`) {
+                        currentStreakCell.textContent = `${-goalSummary.currentStreak} days since momentum`;
+                    } else {
+                        currentStreakCell.textContent = `Progress: ${goalSummary.percentOfTarget}%`;
+                    }
                 }       
+                // currentStreakCell.textContent = `${goalSummary.currentStreak}`;
                 row.appendChild(currentStreakCell);
 
 
