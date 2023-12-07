@@ -1,39 +1,38 @@
 package com.nashss.se.momentum.models;
 
-import com.nashss.se.momentum.utils.StatusEnum;
-
-import java.util.Objects;
-
 public class GoalSummary {
 
     private String goalName;
-
-    private String goalStatus;
+    private String status;
+    private String statusMessage;
+    private String currentStreak;
+    private String percentOfTarget;
+    public GoalSummary(GoalModel goal) {
+        this.goalName = goal.getGoalInfo().getGoalName();
+        this.status = goal.getStatus().getStatusEnum().toString();
+        this.statusMessage = goal.getStatus().getStatusMessage();
+        this.currentStreak = Integer.toString(goal.getStreakData().getCurrentStreak());
+        this.percentOfTarget = Double.toString(goal.getStatus().getTargetPercent());
+    }
 
 
     public String getGoalName() {
         return goalName;
     }
 
-    public String getGoalStatus() {
-        return goalStatus;
+    public String getStatus() {
+        return status;
     }
 
-    public GoalSummary(String goalName, StatusEnum goalStatus) {
-        this.goalName = goalName;
-        this.goalStatus = goalStatus.toString();
+    public String getStatusMessage() {
+        return statusMessage;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        GoalSummary that = (GoalSummary) o;
-        return Objects.equals(getGoalName(), that.getGoalName()) && Objects.equals(getGoalStatus(), that.getGoalStatus());
+    public String getCurrentStreak() {
+        return currentStreak;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(getGoalName(), getGoalStatus());
+    public String getPercentOfTarget() {
+        return percentOfTarget;
     }
 }

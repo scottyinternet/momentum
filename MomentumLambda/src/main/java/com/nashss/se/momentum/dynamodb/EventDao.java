@@ -10,6 +10,7 @@ import com.nashss.se.momentum.dynamodb.models.Goal;
 import com.nashss.se.momentum.exceptions.EventNotFoundException;
 import com.nashss.se.momentum.metrics.MetricsConstants;
 import com.nashss.se.momentum.metrics.MetricsPublisher;
+import com.nashss.se.momentum.dynamodb.models.GoalCriteria;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -17,7 +18,7 @@ import java.time.LocalDate;
 import java.util.*;
 
 /**
- * Accesses data for a events using {@link Event} to represent the model in DynamoDB.
+ * Accesses data for events using {@link Event} to represent the model in DynamoDB.
  */
 @Singleton
 public class EventDao {
@@ -46,9 +47,7 @@ public class EventDao {
 
         QueryResultPage<Event> eventQueryResultPage = this.dynamoDBMapper.queryPage(Event.class, dynamoDBQueryExpression);
 
-        List<Event> eventList = new ArrayList<>(eventQueryResultPage.getResults());
-
-        return eventList;
+        return new ArrayList<>(eventQueryResultPage.getResults());
     }
 
     public Event getEvent(String goalId, String eventId) {
@@ -82,12 +81,14 @@ public class EventDao {
     }
 
     /**
-     * @param goal
+     * @param goal relevant goal
      * @return List<Events>, if no data found, returns null
      */
     public List<Event> getEventsBetweenDates(Goal goal) {
         LocalDate today = LocalDate.now();
-        LocalDate startDate = today.minusDays(goal.getTimePeriod() + 1);
+        List<GoalCriteria> goalCriteriaList = goal.getGoalCriteriaList();
+        GoalCriteria currentGoalCriteria = goalCriteriaList.get(goalCriteriaList.size()-1);
+        LocalDate startDate = today.minusDays(currentGoalCriteria.getTimeFrame() + 1);
 
         //query GSI dates between today and start date... will return a list of Events
         Map<String, AttributeValue> valueMap = new HashMap<>();

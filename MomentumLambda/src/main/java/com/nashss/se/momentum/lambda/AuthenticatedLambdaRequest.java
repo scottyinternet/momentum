@@ -2,7 +2,6 @@ package com.nashss.se.momentum.lambda;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.nashss.se.momentum.activity.requests.AddSongToPlaylistRequest;
 
 import java.util.Base64;
 import java.util.HashMap;

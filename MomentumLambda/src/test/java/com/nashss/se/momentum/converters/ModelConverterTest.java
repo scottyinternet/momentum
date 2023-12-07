@@ -1,118 +1,36 @@
 package com.nashss.se.momentum.converters;
 
 
+import com.nashss.se.momentum.utils.TestDataProvider;
 import com.nashss.se.momentum.dynamodb.models.Goal;
-import com.nashss.se.momentum.models.GoalModel;
 import com.nashss.se.momentum.dynamodb.models.Event;
+import com.nashss.se.momentum.dynamodb.models.GoalCriteria;
 import com.nashss.se.momentum.models.EventModel;
 
-import com.nashss.se.momentum.models.PlaylistModel;
-import com.nashss.se.momentum.models.SongModel;
-import com.nashss.se.momentum.dynamodb.models.AlbumTrack;
-import com.nashss.se.momentum.dynamodb.models.Playlist;
-import com.nashss.se.momentum.test.helper.AlbumTrackTestHelper;
-
-import com.google.common.collect.Sets;
-import com.nashss.se.momentum.utils.UnitOfMeasurement;
+import com.nashss.se.momentum.models.GoalModel;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
-import java.util.LinkedList;
-import java.util.List;
 
-import static com.nashss.se.momentum.utils.CollectionUtils.copyToSet;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class ModelConverterTest {
+    TestDataProvider testDataProvider = new TestDataProvider();
     private ModelConverter modelConverter = new ModelConverter();
-
-    @Test
-    void toPlaylistModel_withTags_convertsPlaylist() {
-        Playlist playlist = new Playlist();
-        playlist.setId("id");
-        playlist.setName("name");
-        playlist.setCustomerId("customerId");
-        playlist.setSongCount(0);
-        playlist.setTags(Sets.newHashSet("tag"));
-
-        PlaylistModel playlistModel = modelConverter.toPlaylistModel(playlist);
-        assertEquals(playlist.getId(), playlistModel.getId());
-        assertEquals(playlist.getName(), playlistModel.getName());
-        assertEquals(playlist.getCustomerId(), playlistModel.getCustomerId());
-        assertEquals(playlist.getSongCount(), playlistModel.getSongCount());
-        assertEquals(playlist.getTags(), copyToSet(playlistModel.getTags()));
-    }
-
-    @Test
-    void toPlaylistModel_nullTags_convertsPlaylist() {
-        Playlist playlist = new Playlist();
-        playlist.setId("id");
-        playlist.setName("name");
-        playlist.setCustomerId("customerId");
-        playlist.setSongCount(0);
-        playlist.setTags(null);
-
-        PlaylistModel playlistModel = modelConverter.toPlaylistModel(playlist);
-        assertEquals(playlist.getId(), playlistModel.getId());
-        assertEquals(playlist.getName(), playlistModel.getName());
-        assertEquals(playlist.getCustomerId(), playlistModel.getCustomerId());
-        assertEquals(playlist.getSongCount(), playlistModel.getSongCount());
-        assertNull(playlistModel.getTags());
-    }
-
-    @Test
-    void toSongModel_withAlbumTrack_convertsToSongModel() {
-        // GIVEN
-        AlbumTrack albumTrack = AlbumTrackTestHelper.generateAlbumTrack(2);
-
-        // WHEN
-        SongModel result = modelConverter.toSongModel(albumTrack);
-
-        // THEN
-        AlbumTrackTestHelper.assertAlbumTrackEqualsSongModel(
-            albumTrack,
-            result,
-            String.format("Expected album track %s to match song model %s",
-                          albumTrack,
-                          result)
-        );
-    }
-
-    @Test
-    void toSongModelList_withAlbumTracks_convertsToSongModelList() {
-        // GIVEN
-        // list of AlbumTracks
-        int numTracks = 4;
-        List<AlbumTrack> albumTracks = new LinkedList<>();
-        for (int i = 0; i < numTracks; i++) {
-            albumTracks.add(AlbumTrackTestHelper.generateAlbumTrack(i));
-        }
-
-        // WHEN
-        List<SongModel> result = modelConverter.toSongModelList(albumTracks);
-
-        // THEN
-        AlbumTrackTestHelper.assertAlbumTracksEqualSongModels(albumTracks, result);
-    }
-
     @Test
     void toGoalModel_validInput_convertsToModel() {
-        Goal goal = new Goal();
-        goal.setGoalName("name");
-        goal.setUserId("userId");
-        goal.setGoalId(goal.getUserId() + goal.getGoalName());
-        goal.setTimePeriod(0);
-        goal.setTarget(0);
-        goal.setUnit("Hour");
+        Goal goal = testDataProvider.provideGoalWithFullDataAnd2GC();
 
         GoalModel goalModel = modelConverter.toGoalModel(goal);
-        assertEquals(goal.getGoalName(), goalModel.getGoalName());
-        assertEquals(goal.getUserId(), goalModel.getUserId());
-        assertEquals(goal.getGoalId(), goalModel.getGoalId());
-        assertEquals(goal.getTimePeriod(), goalModel.getTimePeriod());
-        assertEquals(goal.getTarget(), goalModel.getTarget());
-        assertEquals(goal.getUnit(), goalModel.getUnit());
+
+        assertEquals(goal.getGoalName(), goalModel.getGoalInfo().getGoalName());
+        assertEquals(goal.getUserId(), goalModel.getGoalInfo().getUserId());
+        assertEquals(goal.getGoalId(), goalModel.getGoalInfo().getGoalId());
+        GoalCriteria currentGoalCriteria = goal.getGoalCriteriaList().get(goal.getGoalCriteriaList().size()-1);
+        assertEquals(currentGoalCriteria.getTimeFrame(), goal.getGoalCriteriaList().get(goal.getGoalCriteriaList().size()-1).getTimeFrame(), goalModel.getCurrentGoalCriterion().getTimeFrame());
+        assertEquals(currentGoalCriteria.getTarget(), goalModel.getCurrentGoalCriterion().getTarget());
+        assertEquals(currentGoalCriteria.getUnits(), goalModel.getCurrentGoalCriterion().getUnits());
     }
 
     @Test

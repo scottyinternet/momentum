@@ -4,10 +4,10 @@
     --secondary-color: #ffffff;
     --tertiary-color: #100387;
     --error-color: #EE3A23;
-}
+} 
 
 .background {
-    background-color: #c0d2ee;
+    background-color: #f0f4fc;
     margin: 0;
     counter-reset: section;
     font-family: "Helvetica Neue",Helvetica,sans-serif;
@@ -147,4 +147,208 @@ a {
 .hide-zero {
     color: #ccc; /* Light gray color */
     font-weight: 300; /* Thin font weight */
+}
+
+
+//  TABLE STUFF
+
+/* Reset default table styles */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  font-family: Arial, sans-serif;
+  color: #333;
+}
+
+/* Table header */
+th {
+  background-color: #f8f8f8; /* Header background color */
+  color: #333;
+  font-weight: bold;
+  text-align: left;
+  padding: 12px;
+  border-bottom: 2px solid #ddd; /* Add a subtle border at the bottom */
+}
+
+/* Table rows */
+tr {
+  background-color: #f2f2f2; /* Alternate row background color */
+}
+
+/* Table cells */
+td {
+  padding: 10px;
+  border: 1px solid #ddd;
+}
+
+/* Add hover effect to rows */
+tr:hover {
+  background-color: #ddd;
+}
+tr {
+    background-color: #f2f2f2;
+    cursor: pointer; /* Change cursor to pointer on hover */
+  }
+
+/* Style buttons with a glassy appearance */
+.button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.3s, color 0.3s; /* Smooth transition for hover effect */
+}
+
+.button:hover {
+  background-color: #3498db; /* Slightly darker blue on hover */
+  color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Add shadow on hover */
+}
+
+/* Style progress bars */
+.progress-bar-container {
+  width: 100%;
+  height: 20px;
+  background-color: #eee; /* Progress bar container background */
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+}
+
+.progress-fill {
+  height: 100%;
+  background-color: #007bff; /* Progress fill color */
+  width: 0; /* Initial width is 0% */
+  transition: width 0.5s ease; /* Transition effect for smooth animation */
+}
+
+.progress-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white; /* Text color */
+}
+
+/* Add some spacing between rows */
+tr:not(:last-child) {
+  margin-bottom: 10px;
+}
+
+/* Style the table container */
+.table-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background-color: white;
+}
+
+/* Add your CSS styling here */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 1;
+    overflow: auto;
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 15% auto;
+    padding: 20px;
+    border-radius: 5px;
+    width: 50%;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+/* Form styling */
+.form-container {
+    max-width: 500px;
+    margin: 20px auto;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: var(--secondary-color);
+    color: var(--primary-color);
+}
+
+/* Add your CSS styling here */
+.form-field {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.form-label {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.form-input {
+    padding: 10px;
+    border: 1px solid var(--primary-color);
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.form-select {
+    padding: 10px;
+    border: 1px solid var(--primary-color);
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.form-button {
+    background-color: var(--tertiary-color);
+    color: var(--secondary-color);
+    border: none;
+    padding: 12px 20px;
+    text-align: center;
+    font-weight: bold;
+    text-decoration: none;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.form-button:hover {
+    background-color: #3498db; /* Slightly darker blue on hover */
+    color: var(--secondary-color);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Add shadow on hover */
+}
+
+.form-field-inline {
+    display: inline-block;
+    margin-right: 20px; /* Add some margin to separate the inputs */
+}
+
+label {
+    display: block; /* To ensure the labels are on top of the inputs */
 }

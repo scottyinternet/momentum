@@ -71,7 +71,7 @@ export default class MomentumClient extends BindingClass {
         return await this.authenticator.getUserToken();
     }
 
-    async createEvent(goalName, dateOfEvent, measurement, errorCallback){
+    async createEvent(goalName, dateOfEvent, measurement){
         try {
             const token = await this.getTokenOrThrow("Only authenticated users can create Events.");
             const response = await this.axiosClient.post(`events`, {
@@ -85,7 +85,7 @@ export default class MomentumClient extends BindingClass {
             });
             return response.data.event;
         } catch (error) {
-            this.handleError(error, errorCallback)
+            this.handleError(error, null)
         }
     }
 
@@ -103,14 +103,17 @@ export default class MomentumClient extends BindingClass {
         }
     }
 
-    async createGoal(unit, goalName, target, timePeriod, errorCallback){
+    async createGoal(goalName, startDate, goalCritTarget, goalCritTimeperiod, goalCritUnit, goalCritEffectiveDate, errorCallback){
             try {
                 const token = await this.getTokenOrThrow("Only authenticated users can create Goal.");
                 const response = await this.axiosClient.post(`goals`, {
-                    unit: unit,
-                    timePeriod: timePeriod,
-                    target: target,
-                    goalName:goalName
+                    goalName: goalName,
+                    startDate: startDate,
+                    goalCritTarget: goalCritTarget,
+                    goalCritTimeperiod: goalCritTimeperiod,
+                    goalCritUnit: goalCritUnit,
+                    goalCritEffectiveDate: goalCritEffectiveDate
+
                 }, {
                     headers: {
                        Authorization: `Bearer ${token}`
@@ -162,26 +165,26 @@ export default class MomentumClient extends BindingClass {
                    Authorization: `Bearer ${token}`
             }}
             );
-            return response.data.goalDetailsModel;
+            return response.data.goalModel;
         } catch (error) {
             this.handleError(error)
         }
     }
 
-        async getAllGoalsSummary(){
-                try {
-                    const token = await this.getTokenOrThrow("Only authenticated users can get Goal summaries.");
-                    const response = await this.axiosClient.get(`goals`, {
-                        headers: {
-                           Authorization: `Bearer ${token}`
-                        }}
-                        );
-                    return response.data.goalSummary;
-                } catch (error) {
-                    this.handleError(error)
-                }
-
+    async getAllGoalsSummary(){
+            try {
+                const token = await this.getTokenOrThrow("Only authenticated users can get Goal summaries.");
+                const response = await this.axiosClient.get(`goals`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }}
+                    );
+                return response.data.goalSummaryList;
+            } catch (error) {
+                this.handleError(error)
             }
+
+        }
       /**
        * Helper method to log the error and run any error functions.
        * @param error The error received from the server.

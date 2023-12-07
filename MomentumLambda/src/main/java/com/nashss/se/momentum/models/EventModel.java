@@ -6,10 +6,10 @@ import java.util.Objects;
 
 public class EventModel {
 
-    private String goalId;
-    private String eventId;
-    private LocalDate dateOfEvent;
-    private Double measurement;
+    private final String goalId;
+    private final String eventId;
+    private final LocalDate dateOfEvent;
+    private final Double measurement;
 
     private EventModel(String goalId, String eventId, LocalDate dateOfEvent, Double measurement){
         this.goalId = goalId;

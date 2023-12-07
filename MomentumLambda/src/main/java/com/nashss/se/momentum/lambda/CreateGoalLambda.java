@@ -17,10 +17,12 @@ public class CreateGoalLambda
                     return input.fromUserClaims(claims ->
                             CreateGoalRequest.builder()
                                     .withGoalName(unauthenticatedRequest.getGoalName())
-                                    .withTarget(unauthenticatedRequest.getTarget())
-                                    .withTimePeriod(unauthenticatedRequest.getTimePeriod())
-                                    .withUnit(unauthenticatedRequest.getUnit())
                                     .withUserId(claims.get("email"))
+                                    .withStartDate(unauthenticatedRequest.getStartDate())
+                                    .withGoalCritTarget(unauthenticatedRequest.getGoalCritTarget())
+                                    .withGoalCritTimeperiod(unauthenticatedRequest.getGoalCritTimeperiod())
+                                    .withGoalCritUnit(unauthenticatedRequest.getGoalCritUnit())
+                                    .withGoalCritEffectiveDate(unauthenticatedRequest.getGoalCritEffectiveDate())
                                     .build());
                 },
                 (request, serviceComponent) ->

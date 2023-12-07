@@ -1,10 +1,6 @@
 package com.nashss.se.momentum.activity;
 
-
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
-import com.nashss.se.momentum.activity.requests.DeleteEventRequest;
 import com.nashss.se.momentum.activity.requests.GetAllGoalsSummaryRequest;
-import com.nashss.se.momentum.activity.results.DeleteEventResult;
 import com.nashss.se.momentum.activity.results.GetAllGoalsSummaryResult;
 import com.nashss.se.momentum.converters.ModelConverter;
 import com.nashss.se.momentum.dynamodb.EventDao;
@@ -14,15 +10,12 @@ import com.nashss.se.momentum.dynamodb.models.Goal;
 import com.nashss.se.momentum.models.EventModel;
 import com.nashss.se.momentum.models.GoalModel;
 import com.nashss.se.momentum.models.GoalSummary;
-import com.nashss.se.momentum.models.Status;
-import com.nashss.se.momentum.utils.StatusCalculator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Queue;
 
 /**
  * Implementation of the GetAllGoalsSummaryActivity for Momentum's GetAllGoalsSummary API.
@@ -61,21 +54,22 @@ public class GetAllGoalsSummaryActivity {
 
         List<Goal> goalsList = goalDao.getGoals(getAllGoalsSummaryRequest.getUserId());
 
-        List<GoalSummary> goalSummaryList = new ArrayList<>();
+        List<GoalSummary> goalSummaries = new ArrayList<>();
 
         for(Goal goal: goalsList){
-            List<Event> eventList = eventDao.getEventsBetweenDates(goal);
+            List<Event> eventList = eventDao.getEvents(goal.getGoalId());
             ModelConverter modelConverter = new ModelConverter();
             List<EventModel> eventModels = new ArrayList<>();
             for (Event event : eventList) {
                 eventModels.add(modelConverter.toEventModel(event));
             }
-            Status status = StatusCalculator.calculateStatus(goal, eventModels);
-            goalSummaryList.add(new GoalSummary(goal.getGoalName(),status.getStatusEnum()));
+            GoalModel goalModel = new GoalModel(goal, eventModels);
+
+            goalSummaries.add(modelConverter.toGoalSummary(goalModel));
         }
 
         return GetAllGoalsSummaryResult.builder()
-                .withGoalSummaryList(goalSummaryList)
+                .withGoalSummaryList(goalSummaries)
                 .build();
     }
 }

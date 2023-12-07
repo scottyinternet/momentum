@@ -33,9 +33,33 @@
 <div class="card">
   <h2>Goal Details</h2>
   <p class="button-group">
-    <a href="createEvent.html" class="button" id="create-event-button">add entry</a>
-    <button class="button" id="view-events-button" style="text-align: left;">view all entries</button>
+    <button class="button" id="openModalBtn">Add Entry</button>
+    <button class="button" id="view-events-button" style="text-align: left;">History</button>
   </p>
+
+    <!-- The Create New Goal Modal -->
+    <div id="new-entry-modal" class="modal">
+      <div class="modal-content">
+          <span class="close" id="closeModalBtn">&times;</span>
+          <h2>Create New Entry</h2>
+          <form id="myForm"> <!-- Wrap your content in a form element -->
+
+            <div class="form-container">
+
+                <p class="form-field-inline">
+                    <label class="form-label" for="goalName">Date</label>
+                    <input type="date" id="datePicker" name="datePicker" value="<%= new Date().toISOString().substr(0, 10) %>">
+                </p>
+                <p class="form-field-inline">
+                    <label class="form-label" for="target">Measurement</label>
+                    <input class="form-input" type="number" required class="validated-field" id="measurement" placeholder="'45'" autofocus min="1" max="10000">
+                </p>
+                <button type="submit" class="button" id="addEntry">Submit</button>
+              </div>
+            </form>
+      </div>
+  </div>
+  
 </div>
 <div class="card hidden" id='search-results-container'>
   <h3>Goal: <span id="search-criteria-display"></span></h3>

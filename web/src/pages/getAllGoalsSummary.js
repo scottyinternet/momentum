@@ -16,7 +16,7 @@
     class GetAllGoalsSummary extends BindingClass {
         constructor() {
             super();
-            this.bindClassMethods(['mount', 'loadGoals', 'displayGoalSummary', 'addHTMLRowsToTable', 'toggleHide', 'submit'], this);
+            this.bindClassMethods(['mount', 'loadGoals', 'displayGoalSummary', 'addHTMLRowsToTable', 'submit'], this);
             this.dataStore = new DataStore(EMPTY_DATASTORE_STATE);
             this.header = new Header(this.dataStore);
             this.displayGoalSummary = this.displayGoalSummary.bind(this);
@@ -28,9 +28,25 @@
          * Add the header to the page and load the MomentumClient.
          */
         mount() {
-            document.getElementById('createGoalForm').addEventListener('click', this.toggleHide);
+                const openModalButton = document.getElementById('openModalBtn');
+                const closeModalButton = document.getElementById('closeModalBtn');
+                const modal = document.getElementById('myModal');
+            
+                openModalButton.addEventListener('click', () => {
+                    modal.style.display = 'block';
+                });
+            
+                closeModalButton.addEventListener('click', () => {
+                    modal.style.display = 'none';
+                });
+            
+                // Close the modal if the user clicks outside of it
+                window.addEventListener('click', (event) => {
+                    if (event.target === modal) {
+                        modal.style.display = 'none';
+                    }
+                });
 
-            document.getElementById('createGoal').addEventListener('click', this.submit);
 
             this.dataStore.addChangeListener(this.displayGoalSummary);
 
@@ -39,6 +55,35 @@
             this.client = new MomentumClient();
 
             this.loadGoals();
+            
+            const newGoalForm = document.getElementById('new-goal-form');
+            newGoalForm.addEventListener('submit', (e) => {
+                e.preventDefault();                  
+                
+                // Get the values from the form fields
+                var goalName = document.getElementById('goalName').value;
+                var target = document.getElementById('target').value;
+                var units = document.getElementById('units').value;
+                var timePeriod = document.getElementById('timePeriod').value
+
+                // Calculate N Days ago
+                var today = new Date();
+                var nDaysAgo = new Date();
+                nDaysAgo.setDate(today.getDate() - (timePeriod+1)); 
+                const year = nDaysAgo.getFullYear();
+                const month = String(nDaysAgo.getMonth() + 1).padStart(2, '0'); // Ensure two digits for month
+                const day = String(nDaysAgo.getDate()).padStart(2, '0'); // Ensure two digits for day
+                const formattedDate = `${year}-${month}-${day}`;
+
+
+                this.client.createGoal(goalName, formattedDate, target, timePeriod, units, formattedDate, (error) => {
+                    console.log(error);
+                });
+    
+                modal.style.display = 'none';
+    
+            });
+
         }
 
          /**
@@ -46,7 +91,6 @@
          * playlist.
          */
         async loadGoals() {
-            console.log("inside loadGoals");
             const goalSummary = await this.client.getAllGoalsSummary();
             this.dataStore.setState({
                 [SEARCH_CRITERIA_KEY]: "goalSummaries",
@@ -67,29 +111,50 @@
         }
 
         addHTMLRowsToTable(goalList, goalSummaryTableHTML) {
+            const headers = ['Goal', 'Status', 'Message', 'Progress','',''];
 
-            for (const goal of goalList) {
+            // Create a table row for headers
+            const headerRow = document.createElement('tr');
+            for (const headerText of headers) {
+              const headerCell = document.createElement('th');
+              headerCell.textContent = headerText;
+              headerRow.appendChild(headerCell);
+            }
+          
+            // Append the header row to the table
+            goalSummaryTableHTML.appendChild(headerRow);
+
+            for (const goalSummary of goalList) {
                 const row = document.createElement('tr');
 
                 const goalNameCell = document.createElement('td');
-                const goalName = `${goal.goalName}`;
+                const goalName = `${goalSummary.goalName}`;
                 goalNameCell.textContent = goalName;
                 row.appendChild(goalNameCell);
 
                 const goalStatusCell = document.createElement('td');
-                goalStatusCell.textContent = `${goal.goalStatus}`;
+                goalStatusCell.textContent = `${goalSummary.status}`;
                 row.appendChild(goalStatusCell);
 
-                const detailButtonCell = document.createElement('td');
-                const detailsButton = document.createElement('button');
+                const statusMessageCell = document.createElement('td');
+                statusMessageCell.textContent = `${goalSummary.statusMessage}`;
+                row.appendChild(statusMessageCell);
 
-                detailsButton.textContent = 'Details';
-                detailsButton.className = 'button';
-                detailsButton.addEventListener('click', () => {
-                    window.location.href = '/details.html?goalName=' + goalName;
-                });
-                detailButtonCell.appendChild(detailsButton);
-                row.appendChild(detailButtonCell);
+                const currentStreakCell = document.createElement('td');
+                if (goalSummary.currentStreak > 1) {
+                    currentStreakCell.textContent = `Streak: ${goalSummary.currentStreak} Days`;
+                } else if (goalSummary.currentStreak == 1) {
+                    currentStreakCell.textContent = `Streak: 1 Day`;
+                } else if (goalSummary.currentStreak < 0) {
+                    if (goalSummary.percentOfTarget === `0.0`) {
+                        currentStreakCell.textContent = `${-goalSummary.currentStreak} days since momentum`;
+                    } else {
+                        currentStreakCell.textContent = `Progress: ${goalSummary.percentOfTarget}%`;
+                    }
+                }       
+                // currentStreakCell.textContent = `${goalSummary.currentStreak}`;
+                row.appendChild(currentStreakCell);
+
 
                 const updateButtonCell = document.createElement('td');
                 const updateButton = document.createElement('button');
@@ -117,7 +182,10 @@
                 deleteButtonCell.appendChild(deleteButton);
                 row.appendChild(deleteButtonCell);
 
-
+                row.addEventListener('click', () => {
+                    // Trigger the update action when the row is clicked
+                    window.location.href = '/details.html?goalName=' + goalName;
+                  });
 
                 goalSummaryTableHTML.appendChild(row);
             }
@@ -138,16 +206,6 @@
 
             window.location.href='index.html';
         }
-
-        toggleHide() {
-            const form = document.getElementById("create-goal-form");
-            if (form.style.display === "block") {
-                form.style.display = "none";
-            } else {
-                form.style.display = "block";
-            }
-        }
-
     }
 
 
@@ -157,3 +215,16 @@
     };
 
     window.addEventListener('DOMContentLoaded', main);
+
+    /*
+    {
+        "goalSummaryList": [
+            {
+                "goalName": "Cardio",
+                "status": "Gaining Momentum",
+                "statusMessage": "Add 90 more minutes to be in momentum.",
+                "currentStreak": "-35"
+            }
+        ]
+    }
+    */ 
