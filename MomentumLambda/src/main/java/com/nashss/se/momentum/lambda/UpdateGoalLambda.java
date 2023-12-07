@@ -10,7 +10,7 @@ public class UpdateGoalLambda extends LambdaActivityRunner<UpdateGoalRequest, Up
     @Override
     public LambdaResponse handleRequest(AuthenticatedLambdaRequest<UpdateGoalRequest> input, Context context) {
         return super.runActivity(
-                () -> {UpdateGoalRequest unauthenticatedRequest = input.fromBody(UpdateGoalRequest.class);
+                () -> {UpdateGoalRequest unauthenticatedRequest = input.fromp(UpdateGoalRequest.class);
                     return input.fromUserClaims(claims ->
                             UpdateGoalRequest.builder()
                                     .withGoalName(unauthenticatedRequest.getGoalName())
