@@ -51,8 +51,6 @@ public class GetAllGoalsSummaryActivity {
      */
 
     public GetAllGoalsSummaryResult handleRequest(final GetAllGoalsSummaryRequest getAllGoalsSummaryRequest) {
-        log.info("Received GetAllGoalsSummaryRequest {}", getAllGoalsSummaryRequest);
-
         List<Goal> goalsList = goalDao.getGoals(getAllGoalsSummaryRequest.getUserId());
 
         List<GoalSummary> goalSummaries = new ArrayList<>();
@@ -64,7 +62,7 @@ public class GetAllGoalsSummaryActivity {
             for (Event event : eventList) {
                 eventModels.add(modelConverter.toEventModel(event));
             }
-            GoalModel goalModel = new GoalModel(goal, eventModels, LocalDate.now().toString());
+            GoalModel goalModel = new GoalModel(goal, eventModels, getAllGoalsSummaryRequest.getDate());
 
             goalSummaries.add(modelConverter.toGoalSummary(goalModel));
         }
