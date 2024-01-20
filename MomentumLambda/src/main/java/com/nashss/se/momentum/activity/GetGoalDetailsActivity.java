@@ -26,6 +26,8 @@ public class GetGoalDetailsActivity {
     }
 
     public GetGoalDetailsResult handleRequest(final GetGoalDetailsRequest getGoalDetailsRequest) {
+        System.out.println(getGoalDetailsRequest);
+
         String requestedUserId = getGoalDetailsRequest.getUserId();
         String requestedGoalName = getGoalDetailsRequest.getGoalName();
         Goal goal = goalDao.getGoal(requestedUserId, requestedGoalName);
@@ -38,7 +40,9 @@ public class GetGoalDetailsActivity {
             eventModels.add(modelConverter.toEventModel(event));
         }
 
-        GoalModel goalModel = new GoalModel(goal, eventModels);
+        System.out.println(" - - - - - - - - - - - ");
+        System.out.println(getGoalDetailsRequest.getDate());
+        GoalModel goalModel = new GoalModel(goal, eventModels, getGoalDetailsRequest.getDate());
         return GetGoalDetailsResult.builder()
                 .withGoalDetailModel(goalModel)
                 .build();

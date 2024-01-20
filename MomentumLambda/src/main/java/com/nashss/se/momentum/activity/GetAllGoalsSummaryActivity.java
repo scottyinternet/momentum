@@ -14,6 +14,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.inject.Inject;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,8 +51,6 @@ public class GetAllGoalsSummaryActivity {
      */
 
     public GetAllGoalsSummaryResult handleRequest(final GetAllGoalsSummaryRequest getAllGoalsSummaryRequest) {
-        log.info("Received GetAllGoalsSummaryRequest {}", getAllGoalsSummaryRequest);
-
         List<Goal> goalsList = goalDao.getGoals(getAllGoalsSummaryRequest.getUserId());
 
         List<GoalSummary> goalSummaries = new ArrayList<>();
@@ -63,7 +62,7 @@ public class GetAllGoalsSummaryActivity {
             for (Event event : eventList) {
                 eventModels.add(modelConverter.toEventModel(event));
             }
-            GoalModel goalModel = new GoalModel(goal, eventModels);
+            GoalModel goalModel = new GoalModel(goal, eventModels, getAllGoalsSummaryRequest.getDate());
 
             goalSummaries.add(modelConverter.toGoalSummary(goalModel));
         }

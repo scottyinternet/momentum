@@ -11,10 +11,15 @@ public class GetAllGoalsSummaryLambda
 
     @Override
     public LambdaResponse handleRequest(AuthenticatedLambdaRequest<GetAllGoalsSummaryRequest> input, Context context) {
+        GetAllGoalsSummaryRequest queryParamsRequest = input.fromQuery(query -> GetAllGoalsSummaryRequest.builder()
+                    .withDate(query.get("date"))
+                    .build()
+        );
         return super.runActivity(
                 () -> input.fromUserClaims(claims ->
                         GetAllGoalsSummaryRequest.builder()
                                 .withUserId(claims.get("email"))
+                                .withDate(queryParamsRequest.getDate())
                                 .build()),
                 (request, serviceComponent) ->
                         serviceComponent.provideGetAllGoalsSummaryActivity().handleRequest(request)

@@ -3,7 +3,6 @@ package com.nashss.se.momentum.models;
 import java.time.LocalDate;
 
 import com.nashss.se.momentum.utils.TestDataProvider;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -13,15 +12,39 @@ import java.util.Map;
 class GoalModelTest {
     TestDataProvider testDataProvider = new TestDataProvider();
 
-    @BeforeEach
-    void setup() {
-
-    }
-
-
     @Test
     void happyPath() {
         GoalModel goal = new GoalModel(testDataProvider.provideGoalWithFullDataAnd2GC(), testDataProvider.provideEventList5Events());
+        printAllGoalInfo(goal);
+    }
+
+    @Test
+    void mimickData() {
+        EventModel event1 = EventModel.builder()
+                .withGoalId("griffin.scott88@gmail.comCardio")
+                .withDateOfEvent(LocalDate.now())
+                .withEventId("0001")
+                .withMeasurement(100.0)
+                .build();
+        EventModel event2 = EventModel.builder()
+                .withGoalId("griffin.scott88@gmail.comCardio")
+                .withDateOfEvent(LocalDate.now().minusDays(7))
+                .withEventId("0002")
+                .withMeasurement(150.0)
+                .build();
+        EventModel event3 = EventModel.builder()
+                .withGoalId("griffin.scott88@gmail.comCardio")
+                .withDateOfEvent(LocalDate.now().minusDays(6))
+                .withEventId("0003")
+                .withMeasurement(110.0)
+                .build();
+        List<EventModel> eventModelList = new ArrayList<>();
+        eventModelList.add(event1);
+        eventModelList.add(event2);
+        eventModelList.add(event3);
+
+
+        GoalModel goal = new GoalModel(testDataProvider.provideGoalWithFullDataAnd2GC(), eventModelList, LocalDate.now().toString());
         printAllGoalInfo(goal);
     }
 

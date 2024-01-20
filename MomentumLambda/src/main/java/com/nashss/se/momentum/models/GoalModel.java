@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 
 public class GoalModel {
 
+    private final LocalDate dateFromRequest;
     private final GoalInfo goalInfo;
     private final List<GoalCriteriaModel> goalCriteriaList;
     private List<EventModel> eventEntries;
@@ -20,8 +21,12 @@ public class GoalModel {
     private Status status;
     private final StreakData streakData;
 
-
     public GoalModel(Goal goal, List<EventModel> eventEntries) {
+        this(goal, eventEntries, LocalDate.now().toString());
+    }
+
+    public GoalModel(Goal goal, List<EventModel> eventEntries, String date) {
+        this.dateFromRequest = LocalDate.parse(date);
         goalInfo = new GoalInfo(
                 goal.getGoalName(),
                 goal.getUserId(),
@@ -41,7 +46,7 @@ public class GoalModel {
         createEventSummaryMap();
         this.criteriaStatusContainerMap = new TreeMap<>(Collections.reverseOrder());
         makeCriteriaStatusContainerMap();
-        status = new Status(this, LocalDate.now());
+        status = new Status(this, dateFromRequest);
         this.streakData = calculateStreakData();
     }
 
@@ -49,18 +54,18 @@ public class GoalModel {
         if (eventEntries.size() == 0) {
             return new StreakData();
         } else {
-            return new StreakData(criteriaStatusContainerMap);
+            return new StreakData(criteriaStatusContainerMap, dateFromRequest);
         }
     }
     //  C A L C U L A T E D   A T T R I B U T E   M E T H O D S
     private void sortEventEntries() {
         eventEntries = eventEntries.stream()
-                .sorted(Comparator.comparing(EventModel::getDateOfEvent))
+                .sorted(Comparator.comparing(EventModel::getDateOfEvent).reversed())
                 .collect(Collectors.toList());
     }
 
     private void createEventSummaryMap() {
-        LocalDate date = LocalDate.now();
+        LocalDate date = dateFromRequest;
         while(date.isAfter(goalInfo.getStartDate().minusDays(1))) {
             double sum = 0;
             for (EventModel event : eventEntries) {
@@ -76,7 +81,7 @@ public class GoalModel {
     private void makeCriteriaStatusContainerMap() {
         LocalDate date = goalInfo.getStartDate();
         int currentIndex = 0;
-        while(date.isBefore(LocalDate.now().plusDays(1))) {
+        while(date.isBefore(dateFromRequest.plusDays(1))) {
             if (currentIndex + 1 < goalCriteriaList.size()
                     && goalCriteriaList.get(currentIndex+1).getEffectiveDate().isEqual(date)) {
                 currentIndex++;
