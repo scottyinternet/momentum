@@ -69,11 +69,8 @@ class GetGoalDetails extends BindingClass {
      * @param evt The "event" object representing the user-initiated event that triggered this method.
      */
     async getGoalDetails(goalName) {
-        console.log(" - - - - GET GOAL DETAILS - - - - ")
         const results = await this.client.getGoalDetails(goalName);
-        console.log(results);
         this.dataStore.set(goalName, results);
-        console.log(this.dataStore);
     }
 
     /**
@@ -228,8 +225,6 @@ class GetGoalDetails extends BindingClass {
             const dateArray = this.convertToDateArray(eventSummary[0]);
             const dayOfWeekStr = this.getDayOfWeek(dateArray);
             const formattedDate = this.formatDate(dateArray);
-            console.log(dateArray + " - dateArray");
-            console.log(formattedDate + "- formatted Date");
 
             dateCell.textContent = `${dayOfWeekStr}, ${formattedDate}`;
             if (eventSummary[1] === 0) {
@@ -406,7 +401,6 @@ class GetGoalDetails extends BindingClass {
     }
 
     convertToDateArray(dateString) {
-        console.log(dateString + "!!!!!!!!!!!")
         const date = new Date(dateString);
     
         return [
