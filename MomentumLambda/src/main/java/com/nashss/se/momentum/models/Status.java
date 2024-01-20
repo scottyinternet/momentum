@@ -1,5 +1,6 @@
 package com.nashss.se.momentum.models;
 
+import com.nashss.se.momentum.dynamodb.models.Goal;
 import com.nashss.se.momentum.utils.StatusEnum;
 
 import java.text.DecimalFormat;
@@ -14,7 +15,7 @@ public class Status {
     private String statusMessage;
     private double sum;
     private double target;
-    private double targetPercent;
+    private int targetPercent;
     private Map<LocalDate, Double> statusEventSummaries;
 
     // for calculated values
@@ -24,6 +25,9 @@ public class Status {
     SortedMap<LocalDate, Double> eventSummaryMap;
     GoalCriteriaModel currentGoalCriterion;
 
+    public Status(GoalModel goal) {
+        this(goal, LocalDate.now());
+    }
 
     public Status(GoalModel goal, LocalDate date) {
         this.goal = goal;
@@ -33,13 +37,15 @@ public class Status {
         this.eventSummaryMap = goal.getEventSummaryMap();
         this.currentGoalCriterion = goal.getCurrentGoalCriterion();
 
-        calculateStatus(date);
+        calculateStatus();
         calculateTargetPercent();
     }
 
     //  S T A T U S   M E T H O D S
-    private void calculateStatus(LocalDate date) {
+    private void calculateStatus() {
         CriteriaStatusContainer container = criteriaStatusContainerMap.get(date);
+        System.out.println(" - - - A  - - - ");
+        System.out.println(date);
         int timeFrame = container.getGoalCriteria().getTimeFrame();
         sum = container.getSumNMeasurements();
         boolean yesterdayInMomentumBool = criteriaStatusContainerMap.get(date.minusDays(1)).getInMomentum();
@@ -157,7 +163,7 @@ public class Status {
     }
 
     private void calculateTargetPercent() {
-        targetPercent = sum/currentGoalCriterion.getTarget()*100;
+        targetPercent = (int) Math.round(sum/currentGoalCriterion.getTarget()*100);
     }
 
     public StatusEnum getStatusEnum() {
@@ -186,6 +192,10 @@ public class Status {
 
     public String getStatusString() {
         return statusString;
+    }
+
+    public String getDate() {
+        return date.toString();
     }
 }
 

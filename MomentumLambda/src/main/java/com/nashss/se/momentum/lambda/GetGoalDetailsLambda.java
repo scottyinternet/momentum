@@ -13,13 +13,15 @@ public class GetGoalDetailsLambda
     public LambdaResponse handleRequest(AuthenticatedLambdaRequest<GetGoalDetailsRequest> input, Context context) {
         return super.runActivity(
                 () -> {
-                    GetGoalDetailsRequest unauthenticatedRequest = input.fromPath(path -> GetGoalDetailsRequest.builder()
+                    GetGoalDetailsRequest unauthenticatedRequest = input.fromPathAndQuery((path, query) -> GetGoalDetailsRequest.builder()
                             .withGoalName(path.get("goalName"))
+                            .withDate(query.get("date"))
                             .build());
 
                     return input.fromUserClaims(claims ->
                             GetGoalDetailsRequest.builder()
                                     .withGoalName(unauthenticatedRequest.getGoalName())
+                                    .withDate(unauthenticatedRequest.getDate())
                                     .withUserId(claims.get("email"))
                                     .build());
                 },

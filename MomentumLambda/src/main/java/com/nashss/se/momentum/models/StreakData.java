@@ -14,9 +14,15 @@ public class StreakData {
     private int totalDays;
     private double percentInMomentum;
     private String streakMessage;
+    private LocalDate date;
 
     public StreakData(Map<LocalDate, CriteriaStatusContainer> criteriaStatusContainerMap) {
+        this(criteriaStatusContainerMap, LocalDate.now());
+    }
+
+    public StreakData(Map<LocalDate, CriteriaStatusContainer> criteriaStatusContainerMap, LocalDate date) {
         this.criteriaStatusContainerMap = criteriaStatusContainerMap;
+        this.date = date;
         calculateCurrentStreak();
         calculateLongestStreak();
         countDaysInMomentum();
@@ -41,7 +47,6 @@ public class StreakData {
      * negative if currently not In Momentum - represents days since In Momentum
      */
     private void calculateCurrentStreak() {
-        LocalDate date = LocalDate.now();
         currentStreak = 0;
         final boolean currentStatus = criteriaStatusContainerMap.get(date).getInMomentum();
         while(criteriaStatusContainerMap.get(date) != null

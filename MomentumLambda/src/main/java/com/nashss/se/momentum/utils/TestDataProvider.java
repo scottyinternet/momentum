@@ -23,19 +23,19 @@ public class TestDataProvider {
     LocalDate todays = LocalDate.now();
     List<EventModel> rawEvents = new ArrayList<>();
     GoalCriteria goalCriteria1 = new GoalCriteria(150,"minutes", 7, todayMinus30);
-    GoalCriteria goalCriteria2 = new GoalCriteria(30, "minutes", 7, todayMinus5);
+    GoalCriteria goalCriteria2 = new GoalCriteria(210, "minutes", 7, todayMinus5);
 
     EventModel event1 = EventModel.builder()
             .withGoalId(goalId1)
             .withDateOfEvent(todayMinus7)
             .withEventId("0001")
-            .withMeasurement(130.0)
+            .withMeasurement(10.0)
             .build();
     EventModel event2 = EventModel.builder()
             .withGoalId(goalId1)
             .withDateOfEvent(todayMinus3)
             .withEventId("0002")
-            .withMeasurement(110.0)
+            .withMeasurement(10.0)
             .build();
     EventModel event3 = EventModel.builder()
             .withGoalId(goalId1)
@@ -47,13 +47,13 @@ public class TestDataProvider {
             .withGoalId(goalId1)
             .withDateOfEvent(LocalDate.now().minusDays(20))
             .withEventId("0004")
-            .withMeasurement(200.0)
+            .withMeasurement(20.0)
             .build();
     EventModel event5 = EventModel.builder()
             .withGoalId(goalId1)
             .withDateOfEvent(LocalDate.now().minusDays(15))
             .withEventId("0005")
-            .withMeasurement(150.0)
+            .withMeasurement(10.0)
             .build();
 
     public Goal provideGoalWithFullDataAnd2GC() {

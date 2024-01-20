@@ -14,6 +14,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.inject.Inject;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,7 +64,7 @@ public class GetAllGoalsSummaryActivity {
             for (Event event : eventList) {
                 eventModels.add(modelConverter.toEventModel(event));
             }
-            GoalModel goalModel = new GoalModel(goal, eventModels);
+            GoalModel goalModel = new GoalModel(goal, eventModels, LocalDate.now().toString());
 
             goalSummaries.add(modelConverter.toGoalSummary(goalModel));
         }

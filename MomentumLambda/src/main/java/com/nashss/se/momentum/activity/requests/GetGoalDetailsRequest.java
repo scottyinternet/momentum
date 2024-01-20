@@ -4,11 +4,12 @@ public class GetGoalDetailsRequest {
 
     private String userId;
     private String goalName;
+    private String date;
 
-
-    private GetGoalDetailsRequest(String userId, String goalName) {
+    private GetGoalDetailsRequest(String userId, String goalName, String date) {
         this.userId = userId;
         this.goalName = goalName;
+        this.date = date;
     }
 
     public String getUserId() {
@@ -19,11 +20,16 @@ public class GetGoalDetailsRequest {
         return goalName;
     }
 
+    public String getDate() {
+        return date;
+    }
+
     @Override
-    public String  toString() {
+    public String toString() {
         return "GetGoalDetailsRequest{" +
                 "userId='" + userId + '\'' +
                 ", goalName='" + goalName + '\'' +
+                ", date='" + date + '\'' +
                 '}';
     }
 
@@ -34,6 +40,7 @@ public class GetGoalDetailsRequest {
     public static class Builder {
         private String userId;
         private String goalName;
+        private String date;
 
 
         public Builder withUserId(String userId) {
@@ -46,8 +53,13 @@ public class GetGoalDetailsRequest {
             return this;
         }
 
+        public Builder withDate(String date) {
+            this.date = date;
+            return this;
+        }
+
         public GetGoalDetailsRequest build() {
-            return new GetGoalDetailsRequest(userId, goalName);
+            return new GetGoalDetailsRequest(userId, goalName, date);
         }
     }
 }

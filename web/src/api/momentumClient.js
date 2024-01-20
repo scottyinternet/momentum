@@ -15,7 +15,17 @@ export default class MomentumClient extends BindingClass {
     constructor(props = {}) {
         super();
 
-        const methodsToBind = ['clientLoaded', 'getIdentity', 'login', 'logout', 'createEvent','createGoal','deleteEvent', 'getAllGoalsSummary', 'deleteGoal'];
+        const methodsToBind = ['clientLoaded',
+            'getIdentity',
+            'login',
+            'logout',
+            'createEvent',
+            'createGoal',
+            'deleteEvent',
+            'getAllGoalsSummary',
+            'deleteGoal',
+            'getToday'
+        ];
         this.bindClassMethods(methodsToBind, this);
 
         this.authenticator = new Authenticator();;
@@ -26,9 +36,9 @@ export default class MomentumClient extends BindingClass {
         this.clientLoaded();
     }
 
-     /**
-     * Run any functions that are supposed to be called once the client has loaded successfully.
-     */
+    /**
+    * Run any functions that are supposed to be called once the client has loaded successfully.
+    */
     clientLoaded() {
         if (this.props.hasOwnProperty("onReady")) {
             this.props.onReady(this);
@@ -45,10 +55,10 @@ export default class MomentumClient extends BindingClass {
             const isLoggedIn = await this.authenticator.isUserLoggedIn();
 
             if (!isLoggedIn) {
-                 return undefined;
+                return undefined;
             }
 
-             return await this.authenticator.getCurrentUserInfo();
+            return await this.authenticator.getCurrentUserInfo();
         } catch (error) {
             this.handleError(error)
         }
@@ -56,7 +66,7 @@ export default class MomentumClient extends BindingClass {
 
     async login() {
         this.authenticator.login();
-     }
+    }
 
     async logout() {
         this.authenticator.logout();
@@ -65,13 +75,13 @@ export default class MomentumClient extends BindingClass {
     async getTokenOrThrow(unauthenticatedErrorMessage) {
         const isLoggedIn = await this.authenticator.isUserLoggedIn();
         if (!isLoggedIn) {
-          throw new Error(unauthenticatedErrorMessage);
+            throw new Error(unauthenticatedErrorMessage);
         }
 
         return await this.authenticator.getUserToken();
     }
 
-    async createEvent(goalName, dateOfEvent, measurement){
+    async createEvent(goalName, dateOfEvent, measurement) {
         try {
             const token = await this.getTokenOrThrow("Only authenticated users can create Events.");
             const response = await this.axiosClient.post(`events`, {
@@ -80,7 +90,7 @@ export default class MomentumClient extends BindingClass {
                 measurement: measurement
             }, {
                 headers: {
-                   Authorization: `Bearer ${token}`
+                    Authorization: `Bearer ${token}`
                 }
             });
             return response.data.event;
@@ -94,8 +104,9 @@ export default class MomentumClient extends BindingClass {
             const token = await this.getTokenOrThrow("Only authenticated users can delete Events.");
             const response = await this.axiosClient.delete(`events/${goalId}/${eventId}`, {
                 headers: {
-                   Authorization: `Bearer ${token}`
-            }}
+                    Authorization: `Bearer ${token}`
+                }
+            }
             );
             return response.data.event;
         } catch (error) {
@@ -103,53 +114,54 @@ export default class MomentumClient extends BindingClass {
         }
     }
 
-    async createGoal(goalName, startDate, goalCritTarget, goalCritTimeperiod, goalCritUnit, goalCritEffectiveDate, errorCallback){
-            try {
-                const token = await this.getTokenOrThrow("Only authenticated users can create Goal.");
-                const response = await this.axiosClient.post(`goals`, {
-                    goalName: goalName,
-                    startDate: startDate,
-                    goalCritTarget: goalCritTarget,
-                    goalCritTimeperiod: goalCritTimeperiod,
-                    goalCritUnit: goalCritUnit,
-                    goalCritEffectiveDate: goalCritEffectiveDate
+    async createGoal(goalName, startDate, goalCritTarget, goalCritTimeperiod, goalCritUnit, goalCritEffectiveDate, errorCallback) {
+        try {
+            const token = await this.getTokenOrThrow("Only authenticated users can create Goal.");
+            const response = await this.axiosClient.post(`goals`, {
+                goalName: goalName,
+                startDate: startDate,
+                goalCritTarget: goalCritTarget,
+                goalCritTimeperiod: goalCritTimeperiod,
+                goalCritUnit: goalCritUnit,
+                goalCritEffectiveDate: goalCritEffectiveDate
 
-                }, {
-                    headers: {
-                       Authorization: `Bearer ${token}`
-                    }
-                });
-                return response.data.goal;
-            } catch (error) {
-                this.handleError(error)
-            }
+            }, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            return response.data.goal;
+        } catch (error) {
+            this.handleError(error)
+        }
     }
 
-    async updateGoal(goalName, target, timePeriod, errorCallback){
-                try {
-                    const token = await this.getTokenOrThrow("Only authenticated users can update Goal.");
-                    const response = await this.axiosClient.put(`goals`, {
-                        timePeriod: timePeriod,
-                        target: target,
-                        goalName:goalName
-                    }, {
-                        headers: {
-                           Authorization: `Bearer ${token}`
-                        }
-                    });
-                    return response.data.goal;
-                } catch (error) {
-                    this.handleError(error)
+    async updateGoal(goalName, target, timePeriod, errorCallback) {
+        try {
+            const token = await this.getTokenOrThrow("Only authenticated users can update Goal.");
+            const response = await this.axiosClient.put(`goals`, {
+                timePeriod: timePeriod,
+                target: target,
+                goalName: goalName
+            }, {
+                headers: {
+                    Authorization: `Bearer ${token}`
                 }
+            });
+            return response.data.goal;
+        } catch (error) {
+            this.handleError(error)
         }
-   
+    }
+
     async deleteGoal(goalName) {
         try {
             const token = await this.getTokenOrThrow("Only authenticated users can delete Goals.");
             const response = await this.axiosClient.delete(`goals/${goalName}`, {
                 headers: {
-                   Authorization: `Bearer ${token}`
-            }}
+                    Authorization: `Bearer ${token}`
+                }
+            }
             );
             return response.data.goal;
         } catch (error) {
@@ -157,13 +169,15 @@ export default class MomentumClient extends BindingClass {
         }
     }
 
-    async getGoalDetails(goalName) {
+    async getGoalDetails(goalName, date = this.getToday()) {
         try {
             const token = await this.getTokenOrThrow("Only authenticated users can get goal details.");
-            const response = await this.axiosClient.get(`goals/${goalName}`, {
+            const response = await this.axiosClient.get(`goals/${goalName}?date=${date}`, {
+
                 headers: {
-                   Authorization: `Bearer ${token}`
-            }}
+                    Authorization: `Bearer ${token}`
+                }
+            }
             );
             return response.data.goalModel;
         } catch (error) {
@@ -171,36 +185,44 @@ export default class MomentumClient extends BindingClass {
         }
     }
 
-    async getAllGoalsSummary(){
-            try {
-                const token = await this.getTokenOrThrow("Only authenticated users can get Goal summaries.");
-                const response = await this.axiosClient.get(`goals`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }}
-                    );
-                return response.data.goalSummaryList;
-            } catch (error) {
-                this.handleError(error)
+    async getAllGoalsSummary(date = this.getToday()) {
+        try {
+            const token = await this.getTokenOrThrow("Only authenticated users can get Goal summaries.");
+            const response = await this.axiosClient.get(`goals?date=${date}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
             }
-
+            );
+            return response.data.goalSummaryList;
+        } catch (error) {
+            this.handleError(error)
         }
-      /**
-       * Helper method to log the error and run any error functions.
-       * @param error The error received from the server.
-       * @param errorCallback (Optional) A function to execute if the call fails.
-       */
+    }
+
+    getToday() {
+        const today = new Date();
+        return today.getFullYear() + '-' +
+            String(today.getMonth() + 1).padStart(2, '0') + '-' +
+            String(today.getDate()).padStart(2, '0');
+    }
+
+    /**
+     * Helper method to log the error and run any error functions.
+     * @param error The error received from the server.
+     * @param errorCallback (Optional) A function to execute if the call fails.
+     */
     handleError(error, errorCallback) {
         console.error(error);
 
         const errorFromApi = error?.response?.data?.error_message;
         if (errorFromApi) {
-          console.error(errorFromApi)
-          error.message = errorFromApi;
+            console.error(errorFromApi)
+            error.message = errorFromApi;
         }
 
         if (errorCallback) {
-          errorCallback(error);
+            errorCallback(error);
         }
     }
 }
