@@ -401,22 +401,27 @@ class GetGoalDetails extends BindingClass {
     }
 
     convertToDateArray(dateString) {
-        const date = new Date(dateString);
+        const parts = dateString.split('-'); 
+        const year = parseInt(parts[0], 10);
+        const month = parseInt(parts[1], 10) - 1; 
+        const day = parseInt(parts[2], 10);
     
+        const date = new Date(year, month, day);
+
         return [
             date.getFullYear(),
-            date.getMonth() + 1,
-            date.getDate() + 1
+            date.getMonth(),
+            date.getDate()
         ];
     }
 
     formatDate(dateArray) {
         const yearFormat = dateArray[0].toString().slice(2);
-        return `${dateArray[1]}/${dateArray[2]}/${yearFormat}`;
+        return `${dateArray[1]+1}/${dateArray[2]}/${yearFormat}`;
     }
     getDayOfWeek(dateArray) {
         const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-        const dateObject = new Date(dateArray[0], dateArray[1] - 1, dateArray[2]);
+        const dateObject = new Date(dateArray[0], dateArray[1], dateArray[2]);
         const dayOfWeekNum = dateObject.getDay();
         return daysOfWeek[dayOfWeekNum];
     }
