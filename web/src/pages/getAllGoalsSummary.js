@@ -101,6 +101,11 @@
         displayGoalSummary() {
             const goalList = this.dataStore.get(SEARCH_RESULTS_KEY);
 
+            if (goalList === null || goalList === undefined || goalList.length === 0) {
+                console.error("goallist emtpy when 'displayGoalSummary()' called");
+                return;
+            }   
+            
             const allGoalsContainer = document.getElementById('all-goals-container');
             const allGoalsDisplay = document.getElementById('all-goals-display');
 
@@ -123,6 +128,11 @@
           
             // Append the header row to the table
             goalSummaryTableHTML.appendChild(headerRow);
+
+            if(!Array.isArray(goalList)) {
+                console.log("Array is not array before goalList for loop")
+                return;
+            }
 
             for (const goalSummary of goalList) {
                 const row = document.createElement('tr');

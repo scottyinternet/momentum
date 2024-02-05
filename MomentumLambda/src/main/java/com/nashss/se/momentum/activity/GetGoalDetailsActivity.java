@@ -40,8 +40,6 @@ public class GetGoalDetailsActivity {
             eventModels.add(modelConverter.toEventModel(event));
         }
 
-        System.out.println(" - - - - - - - - - - - ");
-        System.out.println(getGoalDetailsRequest.getDate());
         GoalModel goalModel = new GoalModel(goal, eventModels, getGoalDetailsRequest.getDate());
         return GetGoalDetailsResult.builder()
                 .withGoalDetailModel(goalModel)

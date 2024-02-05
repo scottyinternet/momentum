@@ -1,5 +1,7 @@
 package com.nashss.se.momentum.activity.requests;
 
+import java.time.LocalDate;
+
 public class GetAllGoalsSummaryRequest {
 
     private String userId;
@@ -45,7 +47,8 @@ public class GetAllGoalsSummaryRequest {
         }
 
         public GetAllGoalsSummaryRequest build() {
-            return new GetAllGoalsSummaryRequest(userId, date);
+            String nullCheckDate = date != null ? date : LocalDate.now().toString();
+            return new GetAllGoalsSummaryRequest(userId, nullCheckDate);
         }
     }
 }

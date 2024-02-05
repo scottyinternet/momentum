@@ -33,7 +33,7 @@ Globals:
   Api:
     Cors:
       AllowMethods: "'GET,POST,PUT,DELETE,OPTIONS'"
-      AllowHeaders: "'content-type,authorization'"
+      AllowHeaders: "'*'"
       AllowOrigin: "'*'"
     Auth:
       DefaultAuthorizer: CognitoAuthorizer
@@ -43,6 +43,64 @@ Globals:
           UserPoolArn: !GetAtt UserPool.Arn
 
 Resources:
+#
+#  #-----------------------------------------------------
+#  # VPC
+#  #-----------------------------------------------------
+#
+#  VPC:
+#    Type: 'AWS::EC2::VPC'
+#    Properties:
+#      CidrBlock: 10.0.0.0/16
+#      EnableDnsSupport: true
+#      EnableDnsHostnames: true
+#
+#  SubnetA:
+#    Type: 'AWS::EC2::Subnet'
+#    Properties:
+#      VpcId: !Ref VPC
+#      CidrBlock: 10.0.1.0/24
+#      AvailabilityZone: !Select [0, !GetAZs '']
+#
+#  SubnetB:
+#    Type: 'AWS::EC2::Subnet'
+#    Properties:
+#      VpcId: !Ref VPC
+#      CidrBlock: 10.0.2.0/24
+#      AvailabilityZone: !Select [1, !GetAZs '']
+#
+#  #-----------------------------------------------------
+#  # ElastiCache
+#  #-----------------------------------------------------
+#
+#  LambdaElastiCacheSecurityGroup:
+#    Type: 'AWS::EC2::SecurityGroup'
+#    Properties:
+#      GroupDescription: Allow Lambda to ElastiCache access
+#      VpcId: !Ref VPC
+#      SecurityGroupIngress:
+#        - IpProtocol: tcp
+#          FromPort: 6379 # Default Redis port
+#          ToPort: 6379
+#          CidrIp: 10.0.0.0/16
+#
+#  ElastiCacheCluster:
+#    Type: 'AWS::ElastiCache::CacheCluster'
+#    Properties:
+#      CacheNodeType: cache.t2.micro # Example type
+#      Engine: redis
+#      NumCacheNodes: 1
+#      VpcSecurityGroupIds:
+#        - !GetAtt LambdaElastiCacheSecurityGroup.GroupId
+#      CacheSubnetGroupName: !Ref ElastiCacheSubnetGroup
+#
+#  ElastiCacheSubnetGroup:
+#    Type: 'AWS::ElastiCache::SubnetGroup'
+#    Properties:
+#      Description: ElastiCache subnet group
+#      SubnetIds:
+#        - !Ref SubnetA
+#        - !Ref SubnetB
 
   #-----------------------------------------------------
   # Cognito Configuration for user management
@@ -178,6 +236,7 @@ Resources:
     Properties:
       ManagedPolicyArns:
         - 'arn:aws:iam::aws:policy/service-role/AWSLambdaRole'
+        - 'arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole'
         - 'arn:aws:iam::aws:policy/AWSLambdaExecute'
       AssumeRolePolicyDocument:
         Version: "2012-10-17"
@@ -264,6 +323,12 @@ Resources:
           Properties:
             Path: /goals
             Method: get
+#      VpcConfig:
+#        SubnetIds:
+#          - !Ref SubnetA
+#          - !Ref SubnetB
+#        SecurityGroupIds:
+#          - !GetAtt LambdaElastiCacheSecurityGroup.GroupId
 
   GetGoalDetailsLambda:
     Type: AWS::Serverless::Function

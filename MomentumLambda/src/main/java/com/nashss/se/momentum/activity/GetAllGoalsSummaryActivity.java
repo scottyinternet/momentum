@@ -2,7 +2,9 @@ package com.nashss.se.momentum.activity;
 
 import com.nashss.se.momentum.activity.requests.GetAllGoalsSummaryRequest;
 import com.nashss.se.momentum.activity.results.GetAllGoalsSummaryResult;
+import com.nashss.se.momentum.cache.CacheClient;
 import com.nashss.se.momentum.converters.ModelConverter;
+import com.nashss.se.momentum.converters.RedisConverters;
 import com.nashss.se.momentum.dynamodb.EventDao;
 import com.nashss.se.momentum.dynamodb.GoalDao;
 import com.nashss.se.momentum.dynamodb.models.Event;
@@ -10,13 +12,14 @@ import com.nashss.se.momentum.dynamodb.models.Goal;
 import com.nashss.se.momentum.models.EventModel;
 import com.nashss.se.momentum.models.GoalModel;
 import com.nashss.se.momentum.models.GoalSummary;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import javax.inject.Inject;
-import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Implementation of the GetAllGoalsSummaryActivity for Momentum's GetAllGoalsSummary API.
@@ -25,9 +28,10 @@ import java.util.List;
  */
 public class GetAllGoalsSummaryActivity {
 
-    private final Logger log = LogManager.getLogger();
     private final GoalDao goalDao;
     private final EventDao eventDao;
+    //private final CacheClient cache;
+    private final RedisConverters redisConverters;
 
     /**
      * Instantiates a new GetAllGoalsSummaryActivity object.
@@ -36,10 +40,12 @@ public class GetAllGoalsSummaryActivity {
      * @param eventDao EventDao to access the events table.
      */
     @Inject
-    public GetAllGoalsSummaryActivity(GoalDao goalDao, EventDao eventDao) {
+    public GetAllGoalsSummaryActivity(GoalDao goalDao, EventDao eventDao) { //, CacheClient cache
         this.goalDao = goalDao;
         this.eventDao = eventDao;
-    }
+//        this.cache = cache;
+        this.redisConverters = new RedisConverters();
+            }
 
     /**
      * This method handles the incoming request by retrieivng the necessary information to construct GoalSummary objects
@@ -51,6 +57,22 @@ public class GetAllGoalsSummaryActivity {
      */
 
     public GetAllGoalsSummaryResult handleRequest(final GetAllGoalsSummaryRequest getAllGoalsSummaryRequest) {
+
+        // check cache
+//        String allGoalsJsonString = cache.getValue("AllGoals::"+getAllGoalsSummaryRequest.getUserId());
+//
+//        // if found in cache, return
+//        if (allGoalsJsonString != null) {
+//
+//            System.out.println(" - - cache path - - ");
+//
+//            return GetAllGoalsSummaryResult.builder()
+//                    .withGoalSummaryList(redisConverters.unConvertGoalSummaryListToJson(allGoalsJsonString))
+//                    .build();
+//        }
+
+        System.out.println(" x x NOT cache path x x ");
+
         List<Goal> goalsList = goalDao.getGoals(getAllGoalsSummaryRequest.getUserId());
 
         List<GoalSummary> goalSummaries = new ArrayList<>();
@@ -66,6 +88,10 @@ public class GetAllGoalsSummaryActivity {
 
             goalSummaries.add(modelConverter.toGoalSummary(goalModel));
         }
+
+//        // add to cache
+//        cache.setValueWithDefaultExpiration("AllGoals::"+getAllGoalsSummaryRequest.getUserId(),
+//                redisConverters.convertGoalSummaryListToJson(goalSummaries));
 
         return GetAllGoalsSummaryResult.builder()
                 .withGoalSummaryList(goalSummaries)

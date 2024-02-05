@@ -4,12 +4,13 @@ import com.nashss.se.momentum.converters.ModelConverter;
 import com.nashss.se.momentum.dynamodb.models.Goal;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class GoalModel {
 
-    private final LocalDate dateFromRequest;
+    private LocalDate dateFromRequest;
     private final GoalInfo goalInfo;
     private final List<GoalCriteriaModel> goalCriteriaList;
     private List<EventModel> eventEntries;
@@ -26,7 +27,13 @@ public class GoalModel {
     }
 
     public GoalModel(Goal goal, List<EventModel> eventEntries, String date) {
-        this.dateFromRequest = LocalDate.parse(date);
+        try {
+            this.dateFromRequest = LocalDate.parse(date);
+        } catch (DateTimeParseException e) {
+            System.out.println(e);
+            this.dateFromRequest = LocalDate.now();
+        }
+
         goalInfo = new GoalInfo(
                 goal.getGoalName(),
                 goal.getUserId(),

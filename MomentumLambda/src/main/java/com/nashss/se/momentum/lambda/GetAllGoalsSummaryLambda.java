@@ -14,7 +14,7 @@ public class GetAllGoalsSummaryLambda
         GetAllGoalsSummaryRequest queryParamsRequest = input.fromQuery(query -> GetAllGoalsSummaryRequest.builder()
                     .withDate(query.get("date"))
                     .build()
-        );
+      );
         return super.runActivity(
                 () -> input.fromUserClaims(claims ->
                         GetAllGoalsSummaryRequest.builder()

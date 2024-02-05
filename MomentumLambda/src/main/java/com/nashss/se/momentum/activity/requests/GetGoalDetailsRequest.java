@@ -1,5 +1,7 @@
 package com.nashss.se.momentum.activity.requests;
 
+import java.time.LocalDate;
+
 public class GetGoalDetailsRequest {
 
     private String userId;
@@ -55,11 +57,12 @@ public class GetGoalDetailsRequest {
 
         public Builder withDate(String date) {
             this.date = date;
+            System.out.println(this.date);
             return this;
         }
 
         public GetGoalDetailsRequest build() {
-            return new GetGoalDetailsRequest(userId, goalName, date);
+            return new GetGoalDetailsRequest(userId, goalName, "2024-02-04");
         }
     }
 }

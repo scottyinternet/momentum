@@ -4,6 +4,7 @@ import com.nashss.se.momentum.activity.requests.GetAllGoalsSummaryRequest;
 import com.nashss.se.momentum.activity.requests.GetGoalDetailsRequest;
 import com.nashss.se.momentum.activity.results.GetAllGoalsSummaryResult;
 import com.nashss.se.momentum.activity.results.GetGoalDetailsResult;
+import com.nashss.se.momentum.cache.CacheClient;
 import com.nashss.se.momentum.dynamodb.EventDao;
 import com.nashss.se.momentum.dynamodb.GoalDao;
 import com.nashss.se.momentum.dynamodb.models.Event;
@@ -28,14 +29,19 @@ class GetAllGoalsSummaryActivityTest {
 
     @Mock
     private GoalDao goalDao;
+
     @Mock
     private EventDao eventDao;
+
+//    @Mock
+//    private CacheClient cache;
+
     private GetAllGoalsSummaryActivity getAllGoalsSummaryActivity;
 
     @BeforeEach
     public void setup() {
         openMocks(this);
-        getAllGoalsSummaryActivity = new GetAllGoalsSummaryActivity(goalDao, eventDao);
+        getAllGoalsSummaryActivity = new GetAllGoalsSummaryActivity(goalDao, eventDao); //, cache
     }
 /*
     @Test
