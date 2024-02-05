@@ -22,6 +22,7 @@ public class CacheClient {
 	}
 
 	public void setValueWithDefaultExpiration(String key, String val) {
+		System.out.println("REDIS - setValueWithDefaultExp::Key="+key+"Value="+val);
 		try (Jedis jedis = jedisPool.getResource()) {
 			System.out.println("CACHE::setValueWithDefaultExpiration::" + val);
 			jedis.setex(key, defaultOrEndOfDay(), val);

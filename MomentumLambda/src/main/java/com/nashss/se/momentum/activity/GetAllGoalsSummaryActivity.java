@@ -30,7 +30,7 @@ public class GetAllGoalsSummaryActivity {
 
     private final GoalDao goalDao;
     private final EventDao eventDao;
-    //private final CacheClient cache;
+    private final CacheClient cache;
     private final RedisConverters redisConverters;
 
     /**
@@ -40,10 +40,10 @@ public class GetAllGoalsSummaryActivity {
      * @param eventDao EventDao to access the events table.
      */
     @Inject
-    public GetAllGoalsSummaryActivity(GoalDao goalDao, EventDao eventDao) { //, CacheClient cache
+    public GetAllGoalsSummaryActivity(GoalDao goalDao, EventDao eventDao, CacheClient cache) { //,
         this.goalDao = goalDao;
         this.eventDao = eventDao;
-//        this.cache = cache;
+        this.cache = cache;
         this.redisConverters = new RedisConverters();
             }
 
@@ -58,6 +58,7 @@ public class GetAllGoalsSummaryActivity {
 
     public GetAllGoalsSummaryResult handleRequest(final GetAllGoalsSummaryRequest getAllGoalsSummaryRequest) {
 
+        // - - - - - REDIS START - - - - - - -
         // check cache
 //        String allGoalsJsonString = cache.getValue("AllGoals::"+getAllGoalsSummaryRequest.getUserId());
 //
@@ -70,6 +71,9 @@ public class GetAllGoalsSummaryActivity {
 //                    .withGoalSummaryList(redisConverters.unConvertGoalSummaryListToJson(allGoalsJsonString))
 //                    .build();
 //        }
+
+        // - - - - - REDIS END - - - - - - -
+
 
         System.out.println(" x x NOT cache path x x ");
 
@@ -89,9 +93,13 @@ public class GetAllGoalsSummaryActivity {
             goalSummaries.add(modelConverter.toGoalSummary(goalModel));
         }
 
-//        // add to cache
+        // - - - - - REDIS START - - - - - - -
+
+        // add to cache
 //        cache.setValueWithDefaultExpiration("AllGoals::"+getAllGoalsSummaryRequest.getUserId(),
 //                redisConverters.convertGoalSummaryListToJson(goalSummaries));
+        // - - - - - REDIS END - - - - - - -
+
 
         return GetAllGoalsSummaryResult.builder()
                 .withGoalSummaryList(goalSummaries)

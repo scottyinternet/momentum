@@ -33,15 +33,15 @@ class GetAllGoalsSummaryActivityTest {
     @Mock
     private EventDao eventDao;
 
-//    @Mock
-//    private CacheClient cache;
+    @Mock
+    private CacheClient cache;
 
     private GetAllGoalsSummaryActivity getAllGoalsSummaryActivity;
 
     @BeforeEach
     public void setup() {
         openMocks(this);
-        getAllGoalsSummaryActivity = new GetAllGoalsSummaryActivity(goalDao, eventDao); //, cache
+        getAllGoalsSummaryActivity = new GetAllGoalsSummaryActivity(goalDao, eventDao, cache); //, cache
     }
 /*
     @Test
